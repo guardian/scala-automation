@@ -3,13 +3,17 @@
 ================================
 
 - Use this project as a base for your project
+- Create a file named "project.sbt" in your project root with the following content (keep new lines, replace name):
+name := "My project tests"
+
+version := "1.0"
+
+- Define your dependencies in project.sbt (like in build.sbt)
 - All project source code have to be under src/test
 Tests:    src/test/scala/com/gu/{project}/test
 Steps:    src/test/scala/com/gu/{project}/step
 PageObj:  src/test/scala/com/gu/{project}/page
 Config:   src/test/resources/config.json
-- Project dependencies should be declared in:
-[project root]/project.sbt
 
 ================================
 
