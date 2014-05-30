@@ -2,15 +2,17 @@
   Scala Automation Core Module
 ================================
 
-How to extend?
 - Use this project as a base for your project
-- All project code have to be under src/test
+- All project source code have to be under src/test
 Tests:    src/test/scala/com/gu/{project}/test
 Steps:    src/test/scala/com/gu/{project}/step
 PageObj:  src/test/scala/com/gu/{project}/page
 Config:   src/test/resources/config.json
+- Project dependencies should be declared in:
+[project root]/project.sbt
 
 ================================
+
 EXAMPLES:
 
 - TEST:
@@ -40,9 +42,9 @@ trait ExampleSteps extends BaseSteps {
     new LoginPage(driver).login("it_is_me", "let_me_in")
   }
 
-  def whenIGoToTheEventsPage() { ... }
+  def whenIGoToTheEventsPage() { }
 
-  def thenISeeAListOfEvents() { ... }
+  def thenISeeAListOfEvents() { }
 }
 
 - PAGE:
