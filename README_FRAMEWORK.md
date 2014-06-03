@@ -13,8 +13,23 @@ version := "1.0"
 Tests:    src/test/scala/com/gu/{project}/test
 Steps:    src/test/scala/com/gu/{project}/step
 PageObj:  src/test/scala/com/gu/{project}/page
-Config:   src/test/resources/config.json
-
+- Test configurations:
+A default configuration is suppiled in: src/main/resources.conf
+Define your testing configurations in: src/test/resources/applications.conf
+Everything you define there overrides the defaults.
+In addition, all environment configs are applied over the default configuration.
+System properties override everything.
+  An example application.conf:
+"environment": "local"
+"local": {
+    "browser"               : "firefox"
+    "testBaseUrl"           : "http://localhost:8080"
+}
+"integration": {
+    "browser"               : "chrome"
+    "webDriverRemoteUrl"    : "http://remotehub:4444/wd/hub"
+    "testBaseUrl"           : "http://www.theguardian.com"
+}
 ================================
 
 EXAMPLES:

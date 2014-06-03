@@ -1,6 +1,0 @@
-{
-  "local": {
-    "selenium"   : "http://localhost:4444/wd/hub",
-    "browser"    : "chrome"
-  }
-}

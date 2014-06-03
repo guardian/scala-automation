@@ -1,18 +1,30 @@
 package com.gu.support
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.scala.experimental.ScalaObjectMapper
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import scala.io.Source
+import com.typesafe.config.{Config, ConfigFactory}
 
-class ConfigLoader {
+object ConfigLoader {
 
-  val config = {
-    val config = loadConfigFile
-    val mapper = new ObjectMapper() with ScalaObjectMapper
-    mapper.registerModule(DefaultScalaModule)
-    mapper.readValue[Map[String, Object]](config)
+  private val config: Config = {
+    val conf = ConfigFactory.load()
+    val envConf = conf.getObject(conf.getString("environment")).withFallback(conf).toConfig()
+//    println(envConf.root().render())
+    envConf
   }
 
-  private def loadConfigFile: String = Source.fromFile("default_config.json").getLines().mkString
+  protected def getConfigValue(key: String) = {
+    config.getString(key)
+  }
+
+  def getBrowser(): String = {
+    config.getString("browser")
+  }
+
+  def getWebDriverRemoteUrl(): String = {
+    config.getString("webDriverRemoteUrl")
+  }
+
+  def getTestBaseUrl(): String = {
+    config.getString("testBaseUrl")
+  }
+
 }

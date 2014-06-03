@@ -7,32 +7,36 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import com.gu.test.{DriverEventListener, TestLogger}
 import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.ie.InternetExplorerDriver
 
-trait WebDriverManagement {
+object WebDriverManagement {
 
-  val browser: String
-  val hub: String
+  val browser: String = ConfigLoader.getBrowser()
+  val webDriverRemoteUrl: String = ConfigLoader.getWebDriverRemoteUrl()
 
   def startWebDriver(logger: TestLogger): WebDriver = {
-    val caps = startBrowser()
-//    val driver =
-//      new EventFiringWebDriver(new Augmenter().augment(new RemoteWebDriver(new URL(hub), caps)))
-//        .register(new DriverEventListener(logger))
-//    driver.manage.timeouts.implicitlyWait(30, TimeUnit.SECONDS)
-//    val userAgent = driver.executeScript("return navigator.userAgent")
-//    logger.addMessage("Started browser: " + userAgent)
-//    driver
-    new FirefoxDriver()
+    if (webDriverRemoteUrl == "") {
+      return getLocalWebDriver()
+    } else {
+      val caps = getCapabilities()
+      val driver = new EventFiringWebDriver(new Augmenter().augment(new RemoteWebDriver(new URL(webDriverRemoteUrl), caps)))
+          .register(new DriverEventListener(logger))
+      driver.manage.timeouts.implicitlyWait(30, TimeUnit.SECONDS)
+      val userAgent = driver.executeScript("return navigator.userAgent")
+      logger.addMessage("Started browser: " + userAgent)
+      return driver
+    }
   }
 
-  private def startBrowser(): DesiredCapabilities = browser match {
-      case "chrome" => DesiredCapabilities.chrome()
-      case "firefox" => DesiredCapabilities.firefox()
-      case "ie" => DesiredCapabilities.internetExplorer()
+  private def getLocalWebDriver(): WebDriver = browser match {
+    case "firefox" => new FirefoxDriver()
+    case "chrome" => new ChromeDriver()
+    case "ie" => new InternetExplorerDriver()
   }
-}
-
-object WebDriverManagement extends WebDriverManagement {
-  override val browser = "chrome" // TODO get config here
-  override val hub = "http://localhost:4444/wd/hub" // TODO add url from config here
+  private def getCapabilities(): DesiredCapabilities = browser match {
+    case "chrome" => DesiredCapabilities.chrome()
+    case "firefox" => DesiredCapabilities.firefox()
+    case "ie" => DesiredCapabilities.internetExplorer()
+  }
 }
