@@ -15,11 +15,11 @@ Steps:    src/test/scala/com/gu/{project}/step
 PageObj:  src/test/scala/com/gu/{project}/page
 - Test configurations:
 A default configuration is suppiled in: src/main/resources.conf
-Define your testing configurations in: src/test/resources/applications.conf
+Define your testing configurations in: src/test/resources/environment.conf
 Everything you define there overrides the defaults.
 In addition, all environment configs are applied over the default configuration.
 System properties override everything.
-  An example application.conf:
+  An example environment.conf:
 "environment": "local"
 "local": {
     "browser"               : "firefox"

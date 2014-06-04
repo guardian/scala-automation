@@ -5,7 +5,7 @@ import com.typesafe.config.{Config, ConfigFactory}
 object ConfigLoader {
 
   private val config: Config = {
-    val conf = ConfigFactory.load()
+    val conf = ConfigFactory.load("environment")
     val envConf = conf.getObject(conf.getString("environment")).withFallback(conf).toConfig()
 //    println(envConf.root().render())
     envConf
