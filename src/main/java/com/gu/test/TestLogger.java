@@ -7,13 +7,10 @@ public class TestLogger {
 
     private List<String> messages = new ArrayList<String>();
     private String name;
+    private String phase;
 
     public TestLogger(String name) {
         this.name = name;
-    }
-
-    public void addMessage(String message) {
-        messages.add(System.currentTimeMillis() + ": " + message);
     }
 
     public void dumpMessages() {
@@ -23,16 +20,13 @@ public class TestLogger {
        }
     }
 
-    public void given(String str) {
-        addMessage("Given " + str);
+    public void setPhase(String phase) {
+        this.phase = phase;
     }
 
-    public void when(String str) {
-        addMessage("When " + str);
-    }
-
-    public void then(String str) {
-        addMessage("Then " + str);
+    public void log(String str) {
+        addMessage(phase + " " + str);
+        setPhase("AND");
     }
 
     public void assertion(String msg) {
@@ -46,4 +40,9 @@ public class TestLogger {
     public void driver(String msg) {
         addMessage("Driver: " + msg);
     }
+
+    public void addMessage(String message) {
+        messages.add(System.currentTimeMillis() + ": " + message);
+    }
+
 }

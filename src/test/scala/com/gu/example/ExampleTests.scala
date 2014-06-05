@@ -1,8 +1,7 @@
 package com.gu.example
 
 import com.gu.support.BaseTest
-import com.gu.support.ConfigLoader
-import com.typesafe.config.{ConfigFactory, Config}
+import com.typesafe.config.ConfigFactory
 
 /**
  * Created by ipamer on 02/06/2014.
@@ -15,14 +14,17 @@ class ExampleTests extends BaseTest with ExampleSteps {
 
     scenarioWeb("My first test") {
 
-      println(ConfigLoader.getBrowser())
-      println(ConfigLoader.getWebDriverRemoteUrl() == "")
-      println("ASDASDASD")
+      given
+      loggedIn
 
-      //      givenIAmLoggedIn
-//      whenIGoToTheEventsPage
-//      thenISeeAListOfEvents
+      when
+      goToTheEventsPage
+      
+      then
+      seeAListOfEvents
+
     }
 
   }
+
 }

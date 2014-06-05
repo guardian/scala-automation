@@ -7,6 +7,18 @@ import com.gu.test.TestLogger
 
 abstract class BaseTest extends fixture.FeatureSpec with BaseSteps with ParallelTestExecution with TestRetries with fixture.TestDataFixture {
 
+  def given() {
+    logger.setPhase("GIVEN")
+  }
+
+  def when() {
+    logger.setPhase("WHEN")
+  }
+
+  def then() {
+    logger.setPhase("THEN")
+  }
+
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
     scenario(specText, testTags:_*)({ td =>
       withWebDriver(td.name, { (driver, logger) =>

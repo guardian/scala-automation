@@ -7,13 +7,18 @@ import com.gu.support.BaseSteps
  */
 trait ExampleSteps extends BaseSteps {
 
-  def givenIAmLoggedIn() {
-    given(logger, "I am logged in")
-    driver.get("http://www.theguardian.com/")
-    new LoginPage(driver).login("it_is_me", "let_me_in")
+  def loggedIn() {
+    logger.log("I am logged in")
+//    driver.get("http://www.theguardian.com/")
+//    new LoginPage(driver).login("it_is_me", "let_me_in")
   }
 
-  def whenIGoToTheEventsPage() { }
+  def goToTheEventsPage() {
+    logger.log("I go to events page")
+  }
 
-  def thenISeeAListOfEvents() { }
+  def seeAListOfEvents() {
+    logger.log("I see a list of events")
+  }
+
 }
