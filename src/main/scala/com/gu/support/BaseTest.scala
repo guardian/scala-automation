@@ -3,20 +3,29 @@ package com.gu.support
 import org.scalatest._
 import scala.language.experimental.macros
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
-import com.gu.test.TestLogger
 
-abstract class BaseTest extends fixture.FeatureSpec with BaseSteps with ParallelTestExecution with TestRetries with fixture.TestDataFixture {
+abstract class BaseTest extends fixture.FeatureSpec with ParallelTestExecution with TestRetries with fixture.TestDataFixture {
 
-  def given() {
+  implicit var driver: WebDriver = null
+  implicit var logger: TestLogger = null
+
+  def given[A](body: => A) = {
     logger.setPhase("GIVEN")
+    new WhenOrThen(body)
   }
 
-  def when() {
-    logger.setPhase("WHEN")
-  }
+  class WhenOrThen[A](val input: A) {
 
-  def then() {
-    logger.setPhase("THEN")
+    def when[B](body: A => B): WhenOrThen[B] = {
+      logger.setPhase("WHEN")
+      new WhenOrThen(body(input))
+    }
+
+    def then[B](body: A => B): WhenOrThen[B] = {
+      logger.setPhase("THEN")
+      new WhenOrThen(body(input))
+    }
+
   }
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {

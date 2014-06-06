@@ -2,13 +2,8 @@ package com.gu.support
 
 import org.scalatest._
 import scala.language.experimental.macros
-import org.openqa.selenium.WebDriver
-import com.gu.test.TestLogger
 
-trait BaseSteps extends Matchers {
-
-  var driver: WebDriver = null
-  var logger: TestLogger = null
+class BaseSteps(val logger: TestLogger) extends Matchers {
 
   def assert[A](foundValue: A, expectedValue: A, message: String = "") {
     logger.assertion("Expecting '" + foundValue + "' to be '" + expectedValue + "' " + message)
