@@ -6,7 +6,7 @@ import com.gu.support.BasePage
 /**
  * Created by ipamer on 02/06/2014.
  */
-class LoginPage(driver: WebDriver) extends BasePage(driver) {
+case class LoginPage(implicit override val driver: WebDriver) extends BasePage() {
 
   private def userTextbox = driver.findElement(By.id("user"))
   private def passwordTextbox = driver.findElement(By.id("password"))
@@ -18,4 +18,5 @@ class LoginPage(driver: WebDriver) extends BasePage(driver) {
     submitButton.click()
     this
   }
+
 }
