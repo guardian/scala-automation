@@ -38,13 +38,13 @@ abstract class BaseTest extends fixture.FeatureSpec with ParallelTestExecution w
     })
   }
 
-  protected def getDriver(): WebDriver = {
+  protected def startDriver(): WebDriver = {
     WebDriverManagement.startWebDriver(logger)
   }
 
   private def withWebDriver(testName: String, testFun: (WebDriver, TestLogger) => Unit) = {
     val logger = new TestLogger(testName)
-    val driver = getDriver()
+    val driver = startDriver()
     try {
       testFun(driver, logger)
     } catch {
