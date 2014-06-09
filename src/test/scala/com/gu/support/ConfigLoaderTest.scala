@@ -1,13 +1,13 @@
 package com.gu.support
 
 import org.scalatest._
-import java.io.{InputStreamReader, File}
+import java.io.InputStreamReader
 
 /**
  * Created by jduffell on 09/06/2014.
  */
 class ConfigLoaderTest extends FlatSpec with Matchers {
-
+/*
   "The Config Loader" should "get a default value from the framework.conf without a local file" in {
     val configLoader = new ConfigLoader(None, getReader("project1.conf"), getReader("framework1.conf"))
     configLoader.getWebDriverRemoteUrl() should be ("")
@@ -33,5 +33,5 @@ class ConfigLoaderTest extends FlatSpec with Matchers {
     val stream = this.getClass.getResourceAsStream(leafName)
     new InputStreamReader(stream)
   }
-
+*/
 }
