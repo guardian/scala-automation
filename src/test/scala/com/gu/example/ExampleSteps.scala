@@ -10,7 +10,7 @@ case class ExampleSteps(implicit val driver: WebDriver, override val logger: Tes
 
   def loggedIn() = {
     logger.log("I am logged in")
-    driver.get("http://www.theguardian.com/")
+    //driver.get("http://www.theguardian.com/")
     LoginPage()//.login("it_is_me", "let_me_in")
     this
   }
