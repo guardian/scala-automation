@@ -1,14 +1,17 @@
 package com.gu.support
 
 import com.typesafe.config.{Config, ConfigFactory}
+import java.io.{FileReader, InputStreamReader, Reader, File}
 
-object ConfigLoader {
+class ConfigLoader(localFile: Option[Reader], projectFile: Reader, frameworkFile: Reader) {
 
-  private val config: Config = {
-    val conf = ConfigFactory.load("environment")
-    val envConf = conf.getObject(conf.getString("environment")).withFallback(conf).toConfig()
-//    println(envConf.root().render())
-    envConf
+  private lazy val config: Config = {
+    val conf = ConfigFactory.parseReader(projectFile).withFallback(ConfigFactory.parseReader(frameworkFile))
+    val withLocalOverrides = localFile match {
+      case Some(localReader) => ConfigFactory.parseReader(localReader).withFallback(conf)
+      case None => conf
+    }
+    withLocalOverrides.getObject(withLocalOverrides.getString("environment")).withFallback(withLocalOverrides).toConfig()
   }
 
   protected def getConfigValue(key: String) = {
@@ -16,15 +19,38 @@ object ConfigLoader {
   }
 
   def getBrowser(): String = {
-    config.getString("browser")
+    getConfigValue("browser")
   }
 
   def getWebDriverRemoteUrl(): String = {
-    config.getString("webDriverRemoteUrl")
+    getConfigValue("webDriverRemoteUrl")
   }
 
   def getTestBaseUrl(): String = {
-    config.getString("testBaseUrl")
+    getConfigValue("testBaseUrl")
   }
+
+}
+
+object ConfigLoader {
+
+  def getDefaultInject = {
+    val local = new File("local.conf")
+    val localOption =
+      if (local.exists) Some(new FileReader("local.conf"))
+      else None
+    (localOption, getReader("project.conf"), getReader("framework.conf"))
+  }
+
+  // helper method
+  def getReader(leafName: String) =
+    new InputStreamReader(this.getClass.getClassLoader.getResourceAsStream(leafName))
+
+  lazy val defaultLoader: ConfigLoader = {
+    val readers = getDefaultInject
+    new ConfigLoader(readers._1, readers._2, readers._3)
+  }
+
+  def apply() = defaultLoader
 
 }
