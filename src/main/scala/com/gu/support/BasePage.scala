@@ -4,7 +4,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.PageFactory
 
-abstract class BasePage(implicit createdDriver: WebDriver) {
+abstract class BasePage(createdDriver: WebDriver) {
 
   val driverWait = new WebDriverWait(createdDriver, 30)
   val driver = createdDriver
