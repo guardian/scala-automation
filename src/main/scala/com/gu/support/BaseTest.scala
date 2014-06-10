@@ -38,7 +38,7 @@ abstract class BaseTest extends fixture.FeatureSpec with ParallelTestExecution w
     })
   }
 
-  protected def startDriver(): WebDriver = {
+  protected def startDriver[T >: WebDriver](): T = {
     WebDriverManagement.startWebDriver(logger)
   }
 
