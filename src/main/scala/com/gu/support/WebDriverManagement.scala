@@ -11,8 +11,8 @@ import org.openqa.selenium.ie.InternetExplorerDriver
 
 object WebDriverManagement {
 
-  val browser: String = ConfigLoader().getBrowser()
-  val webDriverRemoteUrl: String = ConfigLoader().getWebDriverRemoteUrl()
+  val browser: String = Config().getBrowser()
+  val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
 
   def startWebDriver(logger: TestLogger): WebDriver = {
     if (webDriverRemoteUrl == "") {

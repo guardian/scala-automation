@@ -3,7 +3,7 @@ package com.gu.support
 import com.typesafe.config.{Config, ConfigFactory}
 import java.io.{FileReader, InputStreamReader, Reader, File}
 
-class ConfigLoader(localFile: Option[Reader], projectFile: Reader, frameworkFile: Reader) {
+class Config(localFile: Option[Reader], projectFile: Reader, frameworkFile: Reader) {
 
   private val config: Config = {
     val conf = ConfigFactory.parseReader(projectFile).withFallback(ConfigFactory.parseReader(frameworkFile))
@@ -32,7 +32,7 @@ class ConfigLoader(localFile: Option[Reader], projectFile: Reader, frameworkFile
 
 }
 
-object ConfigLoader {
+object Config {
 
   def getDefaultInject = {
     val local = new File("local.conf")
@@ -46,9 +46,9 @@ object ConfigLoader {
   def getReader(leafName: String) =
     new InputStreamReader(this.getClass.getClassLoader.getResourceAsStream(leafName))
 
-  lazy val defaultLoader: ConfigLoader = {
+  lazy val defaultLoader: Config = {
     val readers = getDefaultInject
-    new ConfigLoader(readers._1, readers._2, readers._3)
+    new Config(readers._1, readers._2, readers._3)
   }
 
   def apply() = defaultLoader
