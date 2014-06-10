@@ -33,8 +33,16 @@ class ConfigTest extends FlatSpec with Matchers {
     configLoader.getUserValue("cheese") should be ("hello")
   }
 
-  it should "use the local config before the project and framework" in {
+  it should "use the project config before the framework" in {
     val configLoader = new Config(None, getReader("precedenceProject.conf"), getReader("precedenceFramework.conf"))
+    configLoader.getUserValue("first") should be ("ProjectEnv")
+    configLoader.getUserValue("second") should be ("ProjectGlobal")
+    configLoader.getUserValue("third") should be ("FrameworkEnv")
+    configLoader.getUserValue("fourth") should be ("FrameworkGlobal")
+  }
+
+  it should "use the local config before the project and framework" in {
+    val configLoader = new Config(Some(getReader("precedenceProject.conf")), getReader("precedenceFramework.conf"), getReader("precedenceFramework.conf"))
     configLoader.getUserValue("first") should be ("ProjectEnv")
     configLoader.getUserValue("second") should be ("ProjectGlobal")
     configLoader.getUserValue("third") should be ("FrameworkEnv")
