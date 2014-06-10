@@ -33,6 +33,14 @@ class ConfigTest extends FlatSpec with Matchers {
     configLoader.getUserValue("cheese") should be ("hello")
   }
 
+  it should "use the local config before the project and framework" in {
+    val configLoader = new Config(None, getReader("precedenceProject.conf"), getReader("precedenceFramework.conf"))
+    configLoader.getUserValue("first") should be ("ProjectEnv")
+    configLoader.getUserValue("second") should be ("ProjectGlobal")
+    configLoader.getUserValue("third") should be ("FrameworkEnv")
+    configLoader.getUserValue("fourth") should be ("FrameworkGlobal")
+  }
+
   // helper method
   def getReader(leafName: String) = {
     val stream = this.getClass.getResourceAsStream(leafName)

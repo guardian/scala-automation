@@ -2,16 +2,32 @@ package com.gu.support
 
 import com.typesafe.config.ConfigFactory
 import java.io.{FileReader, InputStreamReader, Reader, File}
+import com.typesafe.config
 
 class Config(localFile: Option[Reader], projectFile: Reader, frameworkFile: Reader) {
 
   private val config: com.typesafe.config.Config = {
-    val conf = ConfigFactory.parseReader(projectFile).withFallback(ConfigFactory.parseReader(frameworkFile))
-    val withLocalOverrides = localFile match {
-      case Some(localReader) => ConfigFactory.parseReader(localReader).withFallback(conf)
-      case None => conf
+
+    def inFileFallback(environment: String)(conf: com.typesafe.config.Config) = {
+      if (conf.hasPath(environment)) conf.getObject(environment).withFallback(conf).toConfig()
+      else conf
     }
-    withLocalOverrides.getObject(withLocalOverrides.getString("environment")).withFallback(withLocalOverrides).toConfig()
+
+    val frameworkConfig = ConfigFactory.parseReader(frameworkFile)
+    val projectConf = ConfigFactory.parseReader(projectFile)
+    val localConf = localFile.map(ConfigFactory.parseReader(_))
+    val projWithFallback = projectConf.withFallback(frameworkConfig)
+    val environment = (localConf match {
+      case Some(conf) => conf.withFallback(projWithFallback)
+      case None => projWithFallback
+    }).getString("environment")
+
+    val specificEnvFallback = inFileFallback(environment)_
+    val projWithFallback2 = specificEnvFallback(projectConf).withFallback(specificEnvFallback(frameworkConfig))
+    localConf match {
+      case Some(conf) => specificEnvFallback(conf).withFallback(projWithFallback2)
+      case None => projWithFallback2
+    }
   }
 
   protected def getConfigValue(key: String) = {
