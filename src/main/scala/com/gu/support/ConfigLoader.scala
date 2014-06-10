@@ -5,7 +5,7 @@ import java.io.{FileReader, InputStreamReader, Reader, File}
 
 class ConfigLoader(localFile: Option[Reader], projectFile: Reader, frameworkFile: Reader) {
 
-  private lazy val config: Config = {
+  private val config: Config = {
     val conf = ConfigFactory.parseReader(projectFile).withFallback(ConfigFactory.parseReader(frameworkFile))
     val withLocalOverrides = localFile match {
       case Some(localReader) => ConfigFactory.parseReader(localReader).withFallback(conf)
@@ -37,7 +37,7 @@ object ConfigLoader {
   def getDefaultInject = {
     val local = new File("local.conf")
     val localOption =
-      if (local.exists) Some(new FileReader("local.conf"))
+      if (local.exists) Some(new FileReader(local))
       else None
     (localOption, getReader("project.conf"), getReader("framework.conf"))
   }
