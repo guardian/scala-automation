@@ -1,11 +1,11 @@
 package com.gu.support
 
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.ConfigFactory
 import java.io.{FileReader, InputStreamReader, Reader, File}
 
 class Config(localFile: Option[Reader], projectFile: Reader, frameworkFile: Reader) {
 
-  private val config: Config = {
+  private val config: com.typesafe.config.Config = {
     val conf = ConfigFactory.parseReader(projectFile).withFallback(ConfigFactory.parseReader(frameworkFile))
     val withLocalOverrides = localFile match {
       case Some(localReader) => ConfigFactory.parseReader(localReader).withFallback(conf)
@@ -28,6 +28,10 @@ class Config(localFile: Option[Reader], projectFile: Reader, frameworkFile: Read
 
   def getTestBaseUrl(): String = {
     getConfigValue("testBaseUrl")
+  }
+
+  def getUserValue(key: String): String = {
+    config.getConfig("user").getString(key)
   }
 
 }
