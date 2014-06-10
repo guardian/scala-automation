@@ -12,21 +12,24 @@ class Config(localFile: Option[Reader], projectFile: Reader, frameworkFile: Read
       else conf
     }
 
+    def crossFileFallback(localConf: Option[com.typesafe.config.Config], projectConf: com.typesafe.config.Config, frameworkConfig: com.typesafe.config.Config) = {
+      val projWithFallback = projectConf.withFallback(frameworkConfig)
+      localConf match {
+        case Some(conf) => conf.withFallback(projWithFallback)
+        case None => projWithFallback
+      }
+    }
+
     val frameworkConfig = ConfigFactory.parseReader(frameworkFile)
     val projectConf = ConfigFactory.parseReader(projectFile)
     val localConf = localFile.map(ConfigFactory.parseReader(_))
-    val projWithFallback = projectConf.withFallback(frameworkConfig)
-    val environment = (localConf match {
-      case Some(conf) => conf.withFallback(projWithFallback)
-      case None => projWithFallback
-    }).getString("environment")
+
+    val environment = crossFileFallback(localConf, projectConf, frameworkConfig).getString("environment")
 
     val specificEnvFallback = inFileFallback(environment)_
-    val projWithFallback2 = specificEnvFallback(projectConf).withFallback(specificEnvFallback(frameworkConfig))
-    localConf match {
-      case Some(conf) => specificEnvFallback(conf).withFallback(projWithFallback2)
-      case None => projWithFallback2
-    }
+
+    crossFileFallback(localConf.map(specificEnvFallback(_)), specificEnvFallback(projectConf), specificEnvFallback(frameworkConfig))
+
   }
 
   protected def getConfigValue(key: String) = {
