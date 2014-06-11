@@ -4,9 +4,9 @@ import org.scalatest._
 import scala.language.experimental.macros
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
 
-abstract class BaseTest extends fixture.FeatureSpec with ParallelTestExecution with TestRetries with fixture.TestDataFixture {
+abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with TestRetries with fixture.TestDataFixture {
 
-  implicit var driver: WebDriver = null
+  implicit var driver: T
   implicit var logger: TestLogger = null
 
   def given[A](body: => A) = {
@@ -38,11 +38,9 @@ abstract class BaseTest extends fixture.FeatureSpec with ParallelTestExecution w
     })
   }
 
-  protected def startDriver[T >: WebDriver](): T = {
-    WebDriverManagement.startWebDriver(logger)
-  }
+  protected def startDriver(): T
 
-  private def withWebDriver(testName: String, testFun: (WebDriver, TestLogger) => Unit) = {
+  private def withWebDriver(testName: String, testFun: (T, TestLogger) => Unit) = {
     val logger = new TestLogger(testName)
     val driver = startDriver()
     try {
