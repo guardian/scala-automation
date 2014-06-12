@@ -4,7 +4,7 @@ import org.scalatest._
 import scala.language.experimental.macros
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
 
-abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with TestRetries with fixture.TestDataFixture {
+abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with fixture.TestDataFixture {
 
   implicit var driver: T
   implicit var logger: TestLogger = null
