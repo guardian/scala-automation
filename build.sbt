@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0",
   "org.seleniumhq.selenium" % "selenium-java" % "2.42.0",
   "com.fasterxml.jackson.module" % "jackson-module-scala_2.10" % "2.4.0-rc2",
-  "com.typesafe" % "config" % "1.2.1"
+  "com.typesafe" % "config" % "1.2.1",
+  "net.databinder.dispatch" %% "dispatch-core" % "0.11.1"
 )
 
 releaseSettings
