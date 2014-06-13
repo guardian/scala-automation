@@ -7,9 +7,7 @@ import org.openqa.selenium.WebDriver
  */
 class WebBaseTest extends BaseTest[WebDriver] {
 
-  override implicit var driver: WebDriver = null
-
-  protected def startDriver(): WebDriver = {
+  protected def startDriver(logger: TestLogger): WebDriver = {
     WebDriverManagement.startWebDriver(logger)
   }
 
