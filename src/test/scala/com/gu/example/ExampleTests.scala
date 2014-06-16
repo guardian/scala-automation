@@ -11,10 +11,10 @@ class ExampleTests extends WebBaseTest {
 
   feature("My example feature") {
 
-    scenarioWeb("My first test", ExampleSteps()) {
+    scenarioWeb("My first test") {
 
-      _.given {
-        _.loggedIn()
+      given {
+        ExampleSteps().loggedIn()
       }
       .when {
         _.goToTheEventsPage()

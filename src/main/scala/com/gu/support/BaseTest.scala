@@ -6,48 +6,43 @@ import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
 
 abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with fixture.TestDataFixture {
 
-  class Loggable(logger: TestLogger) {
+  implicit var driver: T
+  implicit var logger: TestLogger = null
 
-    class Given[S <: BaseSteps](steps: S) {
+  def given[A](body: => A) = {
+    logger.setPhase("GIVEN")
+    new WhenOrThen(body)
+  }
 
-      def given[A](body: S => A) = {
-        logger.setPhase("GIVEN")
-        new WhenOrThen(body(steps))
-      }
+  class WhenOrThen[A](val input: A) {
 
+    def when[B](body: A => B): WhenOrThen[B] = {
+      logger.setPhase("WHEN")
+      new WhenOrThen(body(input))
     }
 
-    class WhenOrThen[A](input: A) {
-
-      def when[B](body: A => B): WhenOrThen[B] = {
-        logger.setPhase("WHEN")
-        new WhenOrThen(body(input))
-      }
-
-      def then[B](body: A => B): WhenOrThen[B] = {
-        logger.setPhase("THEN")
-        new WhenOrThen(body(input))
-      }
-
+    def then[B](body: A => B): WhenOrThen[B] = {
+      logger.setPhase("THEN")
+      new WhenOrThen(body(input))
     }
 
   }
 
-  protected def scenarioWeb[S <: BaseSteps](specText: String, steps: (WebDriver, TestLogger) => S, testTags: Tag*)(testFun: Loggable#Given[S] => Any) {
+  protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
     scenario(specText, testTags:_*)({ td =>
       withWebDriver(td.name, { (driver, logger) =>
-        val loggable = new Loggable(logger)
-        val given = new loggable.Given(steps(driver, logger))
-        testFun(given)
+        this.driver = driver
+        this.logger = logger
+        testFun
       })
     })
   }
 
-  protected def startDriver(logger: TestLogger): T
+  protected def startDriver(): T
 
   private def withWebDriver(testName: String, testFun: (T, TestLogger) => Unit) = {
     val logger = new TestLogger(testName)
-    val driver = startDriver(logger)
+    val driver = startDriver()
     try {
       testFun(driver, logger)
     } catch {
