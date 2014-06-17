@@ -1,3 +1,11 @@
+import _root_.sbtrelease.ReleasePlugin.ReleaseKeys
+import _root_.sbtrelease.ReleasePlugin._
+import _root_.sbtrelease.ReleaseStateTransformations
+import _root_.sbtrelease.ReleaseStateTransformations._
+import _root_.sbtrelease.ReleaseStep
+import _root_.xerial.sbt.Sonatype.SonatypeKeys
+import _root_.xerial.sbt.Sonatype._
+import com.typesafe.sbt.SbtPgp._
 import sbt.Keys._
 import sbtrelease._
 import ReleaseStateTransformations._
@@ -14,8 +22,7 @@ resolvers ++= Seq(
 
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0",
-  "net.databinder.dispatch" % "dispatch-core" % "0.11.1",
-  "net.liftweb" % "lift-json" % "2.0"
+  "com.stackmob" %% "newman" % "1.3.5"
 )
 
 releaseSettings
