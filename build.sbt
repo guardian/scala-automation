@@ -15,9 +15,7 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0",
   "org.seleniumhq.selenium" % "selenium-java" % "2.42.0",
-  "com.fasterxml.jackson.module" % "jackson-module-scala_2.10" % "2.4.0-rc2",
-  "com.typesafe" % "config" % "1.2.1",
-  "net.databinder.dispatch" %% "dispatch-core" % "0.11.1"
+  "com.typesafe" % "config" % "1.2.1"
 )
 
 releaseSettings
@@ -49,17 +47,17 @@ ReleaseKeys.crossBuild := true
 ReleaseKeys.releaseProcess := Seq[ReleaseStep](
   checkSnapshotDependencies,
   inquireVersions,
-  runClean,
+  runClean,// new
   runTest,
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  ReleaseStep(
+  ReleaseStep( // instead of publishArtifacts
     action = state => Project.extract(state).runTask(PgpKeys.publishSigned, state)._1,
     enableCrossBuild = true
   ),
   setNextVersion,
   commitNextVersion,
-  ReleaseStep(state => Project.extract(state).runTask(SonatypeKeys.sonatypeReleaseAll, state)._1),
+  ReleaseStep(state => Project.extract(state).runTask(SonatypeKeys.sonatypeReleaseAll, state)._1),// new
   pushChanges
 )

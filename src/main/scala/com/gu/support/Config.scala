@@ -3,7 +3,7 @@ package com.gu.support
 import com.typesafe.config.ConfigFactory
 import java.io.{FileReader, InputStreamReader, Reader, File}
 
-class Config(localFile: Option[Reader], projectFile: Reader, frameworkFile: Reader) {
+class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
   private val config: com.typesafe.config.Config = {
 
@@ -12,23 +12,19 @@ class Config(localFile: Option[Reader], projectFile: Reader, frameworkFile: Read
       else conf
     }
 
-    def crossFileFallback(localConf: Option[com.typesafe.config.Config], projectConf: com.typesafe.config.Config, frameworkConfig: com.typesafe.config.Config) = {
-      val projWithFallback = projectConf.withFallback(frameworkConfig)
-      localConf match {
-        case Some(conf) => conf.withFallback(projWithFallback)
-        case None => projWithFallback
-      }
+    def crossFileFallback(localConf: com.typesafe.config.Config, projectConf: com.typesafe.config.Config, frameworkConfig: com.typesafe.config.Config) = {
+      localConf.withFallback(projectConf.withFallback(frameworkConfig))
     }
 
-    val frameworkConfig = ConfigFactory.parseReader(frameworkFile)
-    val projectConf = ConfigFactory.parseReader(projectFile)
-    val localConf = localFile.map(ConfigFactory.parseReader(_))
+    val frameworkConfig = frameworkFile.map(ConfigFactory.parseReader(_)).getOrElse(ConfigFactory.empty())
+    val projectConf = projectFile.map(ConfigFactory.parseReader(_)).getOrElse(ConfigFactory.empty())
+    val localConf = localFile.map(ConfigFactory.parseReader(_)).getOrElse(ConfigFactory.empty())
 
     val environment = crossFileFallback(localConf, projectConf, frameworkConfig).getString("environment")
 
     val specificEnvFallback = inFileFallback(environment)_
 
-    crossFileFallback(localConf.map(specificEnvFallback(_)), specificEnvFallback(projectConf), specificEnvFallback(frameworkConfig))
+    crossFileFallback(specificEnvFallback(localConf), specificEnvFallback(projectConf), specificEnvFallback(frameworkConfig))
 
   }
 
@@ -65,8 +61,11 @@ object Config {
   }
 
   // helper method
-  def getReader(leafName: String) =
-    new InputStreamReader(this.getClass.getClassLoader.getResourceAsStream(leafName))
+  def getReader(leafName: String) = {
+    val resource = this.getClass.getClassLoader.getResourceAsStream(leafName)
+    if (resource == null) None
+    else Some(new InputStreamReader(resource))
+  }
 
   lazy val defaultLoader: Config = {
     val readers = getDefaultInject
