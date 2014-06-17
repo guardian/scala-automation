@@ -1,6 +1,6 @@
 package com.gu.example
 
-import com.gu.support.{WebBaseTest, BaseTest}
+import com.gu.support.WebBaseTest
 
 /**
  * Created by ipamer on 02/06/2014.

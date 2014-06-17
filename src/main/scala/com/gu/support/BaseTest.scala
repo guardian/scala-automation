@@ -1,8 +1,12 @@
 package com.gu.support
 
-import org.scalatest._
-import scala.language.experimental.macros
+import java.io._
+
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
+import org.scalatest._
+
+import scala.language.experimental.macros
+
 
 abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with fixture.TestDataFixture {
 
@@ -46,22 +50,32 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
     try {
       testFun(driver, logger)
     } catch {
-      case e: Exception => failWithScreenshot(driver, logger, e)
+      case e: Exception => failWithScreenshot(testName, driver, logger, e)
     } finally {
       driver.quit()
       logger.dumpMessages()
     }
   }
 
-  private def failWithScreenshot(driver: WebDriver, logger: TestLogger, e: Exception) = {
-    val screenshotFile = driver match {
-      case ts: TakesScreenshot => {
+  private def failWithScreenshot(testName: String, driver: WebDriver, logger: TestLogger, e: Exception) = {
+    logger.failure("Test failed")
+    try {
+      val screenshotFile = driver match {
+        case ts: TakesScreenshot => {
           logger.failure("Test failed")
-          ts.getScreenshotAs(OutputType.FILE)
+          ts.getScreenshotAs(OutputType.BYTES)
         }
-      case _ => throw new RuntimeException("Error getting screenshot")
+        case _ => throw new RuntimeException("Error getting screenshot")
       }
-      throw e
+
+      new File("target/test-reports").mkdirs()
+      val file = new FileOutputStream(s"target/test-reports/${testName}.png")
+      file.write(screenshotFile)
+      file.close
+    } catch {
+      case e: Exception => logger.log("Error taking screenshot.")
     }
+    throw e
+  }
 
 }

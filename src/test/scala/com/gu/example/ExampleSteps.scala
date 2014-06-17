@@ -1,12 +1,12 @@
 package com.gu.example
 
-import com.gu.support.{TestLogger, BaseSteps}
+import com.gu.support.TestLogger
 import org.openqa.selenium.WebDriver
 
 /**
  * Created by ipamer on 02/06/2014.
  */
-case class ExampleSteps(implicit val driver: WebDriver, override val logger: TestLogger) extends BaseSteps(logger) {
+case class ExampleSteps(implicit driver: WebDriver, logger: TestLogger) {
 
   def loggedIn() = {
     logger.log("I am logged in")
