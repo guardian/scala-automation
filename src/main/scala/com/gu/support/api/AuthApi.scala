@@ -1,6 +1,8 @@
 package com.gu.support.api
 
-import dispatch._, Defaults._
+import dispatch.Defaults._
+import dispatch._
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 

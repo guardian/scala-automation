@@ -1,6 +1,6 @@
 package com.gu.support
 
-import org.scalatest.{fixture, Outcome, Retries}
+import org.scalatest.{Outcome, Retries, fixture}
 
 trait TestRetries extends fixture.FeatureSpec with Retries {
 

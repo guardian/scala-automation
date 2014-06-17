@@ -1,7 +1,8 @@
 package com.gu.support
 
+import java.io.{File, FileReader, InputStreamReader, Reader}
+
 import com.typesafe.config.ConfigFactory
-import java.io.{FileReader, InputStreamReader, Reader, File}
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
