@@ -6,17 +6,11 @@ import org.openqa.selenium.support.events.WebDriverEventListener
 /**
  * Created by jao on 23/05/2014.
  */
-class DriverEventListener extends WebDriverEventListener {
+class DriverEventListener(logger: TestLogger) extends WebDriverEventListener {
 
-  private var logger: TestLogger = null
   private var commandStart: Long = 0L
   private var originalValue: String = null
   private var previousBy: By = null
-
-  def this(logger: TestLogger) {
-    this()
-    this.logger = logger
-  }
 
   private def end: Long = {
     return System.currentTimeMillis - commandStart

@@ -34,9 +34,7 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
     scenario(specText, testTags:_*)({ td =>
-      withWebDriver(td.name, { (driver, logger) =>
-        this.driver = driver
-        this.logger = logger
+      withWebDriver(td.name, {
         testFun
       })
     })
@@ -44,11 +42,11 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
 
   protected def startDriver(): T
 
-  private def withWebDriver(testName: String, testFun: (T, TestLogger) => Unit) = {
-    val logger = new TestLogger(testName)
-    val driver = startDriver()
+  private def withWebDriver(testName: String, testFun: => Unit) = {
+    logger = new TestLogger(testName)
+    driver = startDriver()
     try {
-      testFun(driver, logger)
+      testFun
     } catch {
       case e: Exception => failWithScreenshot(testName, driver, logger, e)
     } finally {
