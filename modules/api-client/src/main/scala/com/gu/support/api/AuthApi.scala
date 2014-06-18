@@ -1,26 +1,22 @@
 package com.gu.automation.api
 
-import java.net.URL
+import com.ning.http.client.AsyncHttpClientConfig
+import play.api.libs.ws._
+import play.api.libs.ws.ning._
 
-import com.stackmob.newman._
-import com.stackmob.newman.dsl._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
  * Created by jduffell on 12/06/2014.
  */
 object AuthApi {
 
-  //
-  // X-GU-ID-Client-Access-Token: Bearer frontend-code-client-token
-
   def getCookie(email: String, password: String) = {
     val authUrl = s"https://idapi.code.dev-theguardian.com/auth?email=$email&password=$password"
-    implicit val httpClient = new ApacheHttpClient
-    //execute a GET request
-    val url = new URL("http://google.com")
-    val rawFuture = GET(url).addHeaders(("X-GU-ID-Client-Access-Token", "Bearer frontend-code-client-token")).apply
-
-    // todo turn raw future into JSON and get the cookie out to return
+    val config = new AsyncHttpClientConfig.Builder().build();
+    val client: WSClient = new NingWSClient(config)
+    val response = client.url(authUrl).withHeaders("X-GU-ID-Client-Access-Token" -> "Bearer frontend-code-client-token").post("")
+    response.map{ resp => (resp.json \ "accessToken" \ "accessToken").as[String] }
   }
 
 }

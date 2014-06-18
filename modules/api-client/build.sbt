@@ -1,28 +1,24 @@
-import _root_.sbtrelease.ReleasePlugin.ReleaseKeys
 import _root_.sbtrelease.ReleasePlugin._
-import _root_.sbtrelease.ReleaseStateTransformations
-import _root_.sbtrelease.ReleaseStateTransformations._
-import _root_.sbtrelease.ReleaseStep
-import _root_.xerial.sbt.Sonatype.SonatypeKeys
 import _root_.xerial.sbt.Sonatype._
 import com.typesafe.sbt.SbtPgp._
 import sbt.Keys._
+import sbtrelease.ReleaseStateTransformations._
 import sbtrelease._
-import ReleaseStateTransformations._
 
 name := "web-automation-core-scala-api"
 
 organization := "com.gu"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.4"
 
 resolvers ++= Seq(
-  "Guardian GitHub Releases" at "http://guardian.github.io/maven/repo-releases"
+  "Guardian GitHub Releases" at "http://guardian.github.io/maven/repo-releases",
+  "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
 )
 
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0",
-  "com.stackmob" %% "newman" % "1.3.5"
+  "com.typesafe.play" %% "play-ws" % "2.3.0"
 )
 
 releaseSettings
@@ -39,6 +35,11 @@ scmInfo := Some(ScmInfo(
 pomExtra := (
   <url>https://github.com/guardian/scala-automation</url>
     <developers>
+      <developer>
+        <id>johnduffell</id>
+        <name>John Duffell</name>
+        <url>https://github.com/johnduffell</url>
+      </developer>
       <developer>
         <id>istvanpamer</id>
         <name>Istvan Pamer</name>

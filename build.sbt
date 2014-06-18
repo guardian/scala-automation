@@ -34,6 +34,11 @@ pomExtra := (
   <url>https://github.com/guardian/scala-automation</url>
     <developers>
       <developer>
+        <id>johnduffell</id>
+        <name>John Duffell</name>
+        <url>https://github.com/johnduffell</url>
+      </developer>
+      <developer>
         <id>istvanpamer</id>
         <name>Istvan Pamer</name>
         <url>https://github.com/istvanpamer</url>
