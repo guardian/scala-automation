@@ -1,12 +1,9 @@
 package com.gu.automation.api
 
-import dispatch._
-import dispatch.liftjson.Js._
+import java.net.URL
+
 import com.stackmob.newman._
 import com.stackmob.newman.dsl._
-import scala.concurrent._
-import scala.concurrent.duration._
-import java.net.URL
 
 /**
  * Created by jduffell on 12/06/2014.
