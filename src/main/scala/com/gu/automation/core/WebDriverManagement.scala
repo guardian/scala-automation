@@ -1,8 +1,9 @@
-package com.gu.support
+package com.gu.automation.core
 
 import java.net.URL
 import java.util.concurrent.TimeUnit
 
+import com.gu.automation.support.{Config, TestLogger}
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver

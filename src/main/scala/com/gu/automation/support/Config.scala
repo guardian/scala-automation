@@ -1,4 +1,4 @@
-package com.gu.support
+package com.gu.automation.support
 
 import java.io.{File, FileReader, InputStreamReader, Reader}
 
@@ -53,7 +53,14 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 
 object Config {
 
-  def getDefaultInject = {
+  def apply() = defaultLoader
+
+  private lazy val defaultLoader: Config = {
+    val readers = getDefaultInject
+    new Config(readers._1, readers._2, readers._3)
+  }
+
+  private def getDefaultInject = {
     val local = new File("local.conf")
     val localOption =
       if (local.exists) Some(new FileReader(local))
@@ -61,18 +68,10 @@ object Config {
     (localOption, getReader("project.conf"), getReader("framework.conf"))
   }
 
-  // helper method
-  def getReader(leafName: String) = {
+  private def getReader(leafName: String) = {
     val resource = this.getClass.getClassLoader.getResourceAsStream(leafName)
     if (resource == null) None
     else Some(new InputStreamReader(resource))
   }
-
-  lazy val defaultLoader: Config = {
-    val readers = getDefaultInject
-    new Config(readers._1, readers._2, readers._3)
-  }
-
-  def apply() = defaultLoader
 
 }

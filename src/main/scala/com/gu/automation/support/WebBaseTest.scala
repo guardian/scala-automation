@@ -1,5 +1,6 @@
-package com.gu.support
+package com.gu.automation.support
 
+import com.gu.automation.core.{BaseTest, WebDriverManagement}
 import org.openqa.selenium.WebDriver
 
 /**

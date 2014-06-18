@@ -1,7 +1,8 @@
-package com.gu.support
+package com.gu.automation.core
 
 import java.io._
 
+import com.gu.automation.support.TestLogger
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
 import org.scalatest._
 

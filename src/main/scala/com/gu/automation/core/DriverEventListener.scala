@@ -1,7 +1,8 @@
-package com.gu.support
+package com.gu.automation.core
 
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import com.gu.automation.support.TestLogger
 import org.openqa.selenium.support.events.WebDriverEventListener
+import org.openqa.selenium.{By, WebDriver, WebElement}
 
 /**
  * Created by jao on 23/05/2014.

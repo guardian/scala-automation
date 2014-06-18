@@ -1,5 +1,6 @@
-package com.gu.support
+package com.gu.automation
 
+import com.gu.automation.support.Config
 import org.scalatest._
 import java.io.InputStreamReader
 

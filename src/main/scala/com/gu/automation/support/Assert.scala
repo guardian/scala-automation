@@ -1,4 +1,4 @@
-package com.gu.support
+package com.gu.automation.support
 
 import org.scalatest.Matchers
 

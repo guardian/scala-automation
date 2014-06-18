@@ -1,4 +1,4 @@
-package com.gu.support.api
+package com.gu.automation.api
 
 import dispatch._
 import dispatch.liftjson.Js._

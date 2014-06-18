@@ -1,6 +1,6 @@
 package com.gu.example
 
-import com.gu.support.TestLogger
+import com.gu.automation.support.TestLogger
 import org.openqa.selenium.WebDriver
 
 /**
