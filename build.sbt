@@ -15,7 +15,8 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0",
   "org.seleniumhq.selenium" % "selenium-java" % "2.42.0",
-  "com.typesafe" % "config" % "1.2.1"
+  "com.typesafe" % "config" % "1.2.1",
+  "com.google.code.findbugs" % "jsr305" % "1.3.+" // workaround for a Scala compiler bug
 )
 
 releaseSettings

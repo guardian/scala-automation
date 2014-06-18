@@ -1,4 +1,4 @@
-package com.gu.automation.support.page
+package com.gu.automation.support
 
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.WebDriverWait
