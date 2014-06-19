@@ -1,12 +1,12 @@
 package com.gu.example
 
-import com.gu.automation.support.TestLogger
+import com.gu.automation.support.{LogMatchers, TestLogger}
 import org.openqa.selenium.WebDriver
 
 /**
  * Created by ipamer on 02/06/2014.
  */
-case class ExampleSteps(implicit driver: WebDriver, logger: TestLogger) {
+case class ExampleSteps(implicit driver: WebDriver, logger: TestLogger) extends LogMatchers {
 
   def loggedIn() = {
     logger.log("I am logged in")
@@ -22,6 +22,9 @@ case class ExampleSteps(implicit driver: WebDriver, logger: TestLogger) {
 
   def seeAListOfEvents() = {
     logger.log("I see a list of events")
+
+    "hello" lshould be("hello")
+
     this
   }
 
