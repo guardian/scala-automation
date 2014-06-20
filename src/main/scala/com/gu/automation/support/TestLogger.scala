@@ -29,7 +29,7 @@ class TestLogger(val logger: Logger) extends com.typesafe.scalalogging.Logger {
   }
 
   def driver(msg: String) {
-    info("Driver: " + msg)
+    info("DRIVER: " + msg)
   }
 
   // Standard log interface
