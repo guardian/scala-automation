@@ -2,17 +2,16 @@ package com.gu.automation.core
 
 import java.io._
 
-import com.gu.automation.support.TestLogger
+import com.gu.automation.support.TestLogging
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
 import org.scalatest._
 
 import scala.language.experimental.macros
 
 
-abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with fixture.TestDataFixture {
+abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with fixture.TestDataFixture with TestLogging {
 
   implicit var driver: T
-  implicit var logger: TestLogger = null
 
   def given[A](body: => A) = {
     logger.setPhase("GIVEN")
@@ -35,22 +34,21 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
     scenario(specText, testTags:_*)({ td =>
-      logger = new TestLogger(td.name)
+      logger.info(td.name)
       driver = startDriver()
       try {
         testFun
       } catch {
-        case e: Exception => failWithScreenshot(td.name, driver, logger, e)
+        case e: Exception => failWithScreenshot(td.name, driver, e)
       } finally {
         driver.quit()
-        logger.dumpMessages()
       }
     })
   }
 
   protected def startDriver(): T
 
-  private def failWithScreenshot(testName: String, driver: WebDriver, logger: TestLogger, e: Exception) = {
+  private def failWithScreenshot(testName: String, driver: WebDriver, e: Exception) = {
     logger.failure("Test failed")
     try {
       val screenshotFile = driver match {
@@ -66,7 +64,7 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
       file.write(screenshotFile)
       file.close
     } catch {
-      case e: Exception => logger.log("Error taking screenshot.")
+      case e: Exception => logger.step("Error taking screenshot.")
     }
     throw e
   }

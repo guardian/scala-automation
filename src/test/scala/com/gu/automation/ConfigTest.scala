@@ -1,8 +1,9 @@
 package com.gu.automation
 
+import java.io.InputStreamReader
+
 import com.gu.automation.support.Config
 import org.scalatest._
-import java.io.InputStreamReader
 
 /**
  * Created by jduffell on 09/06/2014.

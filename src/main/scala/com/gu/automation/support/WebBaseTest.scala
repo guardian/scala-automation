@@ -11,7 +11,7 @@ class WebBaseTest extends BaseTest[WebDriver] {
   override implicit var driver: WebDriver = null
 
   protected def startDriver(): WebDriver = {
-    WebDriverManagement.startWebDriver(logger)
+    WebDriverManagement.startWebDriver()
   }
 
 }

@@ -1,13 +1,13 @@
 package com.gu.automation.core
 
-import com.gu.automation.support.TestLogger
+import com.gu.automation.support.TestLogging
 import org.openqa.selenium.support.events.WebDriverEventListener
 import org.openqa.selenium.{By, WebDriver, WebElement}
 
 /**
  * Created by jao on 23/05/2014.
  */
-class DriverEventListener(logger: TestLogger) extends WebDriverEventListener {
+class DriverEventListener() extends WebDriverEventListener with TestLogging {
 
   private var commandStart: Long = 0L
   private var originalValue: String = null

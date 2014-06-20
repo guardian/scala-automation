@@ -5,14 +5,14 @@ import org.scalatest.Matchers
 /**
  * Created by ipamer on 17/06/2014.
  */
-object Assert extends Matchers {
+object Assert extends Matchers with TestLogging {
 
-  def assert[A](foundValue: A, expectedValue: A, message: String = "")(implicit logger: TestLogger) {
+  def assert[A](foundValue: A, expectedValue: A, message: String = "") {
     logger.assertion("Expecting '" + foundValue + "' to be '" + expectedValue + "' " + message)
     foundValue should be(expectedValue)
   }
 
-  def assertNotEmpty[A](value: Seq[A], message: String = "")(implicit logger: TestLogger) {
+  def assertNotEmpty[A](value: Seq[A], message: String = "") {
     logger.assertion("Expecting '" + value + "' to not be empty " + message)
     value should not be(empty)
   }
