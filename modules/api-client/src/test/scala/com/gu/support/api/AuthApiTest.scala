@@ -11,11 +11,11 @@ import scala.concurrent.duration._
 class AuthApiTest extends FlatSpec with Matchers {
 
   "The auth api" should "let us log in as a valid user" in {
-    val future = AuthApi.getCookie("johnduffell@guardian.co.uk", "qwerty")
+    val future = AuthApi.authenticate("johnduffell@guardian.co.uk", "qwerty")
 
-    val cookie = Await.result(future, 30.seconds)
-    println(s"cookie: $cookie")
-    cookie should not be empty
+    val accessToken = Await.result(future, 30.seconds)
+    println(s"accessToken: $accessToken")
+    accessToken should not be empty
   }
 
 }
