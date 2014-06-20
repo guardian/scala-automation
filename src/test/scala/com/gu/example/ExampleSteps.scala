@@ -10,19 +10,19 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging {
 
   def loggedIn() = {
     logger.step("I am logged in")
-    logger.info("I am logged in")
-    //driver.get("http://www.theguardian.com/")
     LoginPage()//.login("it_is_me", "let_me_in")
     this
   }
 
   def goToTheEventsPage() = {
-//    logger.log("I go to events page")
     this
   }
 
   def seeAListOfEvents() = {
-//    logger.log("I see a list of events")
+    logger.step("I see a list of events")
+
+//    "hello" should be("hello")
+
     this
   }
 
