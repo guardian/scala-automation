@@ -49,7 +49,7 @@ trait LogMatchers extends Matchers {
 
     def lshould(inv: TripleEqualsInvocationOnSpread[T])(implicit ev: Numeric[T]): Unit = log(inv)(super.should(_))
 
-    def lshould(beWord: BeWord): Matchers.ResultOfBeWordForAny[T] = log(beWord)(super.should(_))
+    def lshould(beWord: BeWord): ResultOfBeWordForAny[T] = log(beWord)(super.should(_))
 
     def lshouldBe(right: Any): Unit = log(right)(super.shouldBe(_))
 
@@ -79,15 +79,15 @@ trait LogMatchers extends Matchers {
 
     def lshouldBe(right: DefinedWord)(implicit definition: Definition[T]): Unit = log(right)(super.shouldBe(_))
 
-    def lshouldNot(beWord: BeWord): Matchers.ResultOfBeWordForAny[T] = log(beWord)(super.shouldNot(_))
+    def lshouldNot(beWord: BeWord): ResultOfBeWordForAny[T] = log(beWord)(super.shouldNot(_))
 
     def lshouldNot(rightMatcherX1: Matcher[T]): Unit = log(rightMatcherX1)(super.shouldNot(_))
 
     def lshouldNot[TYPECLASS1[_]](rightMatcherFactory1: MatcherFactory1[T, TYPECLASS1])(implicit typeClass1: TYPECLASS1[T]): Unit = log(rightMatcherFactory1)(super.shouldNot(_))
 
-    def lshouldNot(haveWord: HaveWord): Matchers.ResultOfHaveWordForExtent[T] = log(haveWord)(super.shouldNot(_))
+    def lshouldNot(haveWord: HaveWord): ResultOfHaveWordForExtent[T] = log(haveWord)(super.shouldNot(_))
 
-    def lshould(haveWord: HaveWord): Matchers.ResultOfHaveWordForExtent[T] = log(haveWord)(super.should(_))
+    def lshould(haveWord: HaveWord): ResultOfHaveWordForExtent[T] = log(haveWord)(super.should(_))
 
     def lshouldBe(right: Null)(implicit ev: <:<[T, AnyRef]): Unit = log(right)(super.shouldBe(_))
 
@@ -260,13 +260,13 @@ trait LogMatchers extends Matchers {
    * Implicitly converts an object of type <code>T</code> to a <code>AnyShouldWrapper[T]</code>,
    * to enable <code>should</code> methods to be invokable on that object.
 //   */
-  implicit def convertToAnyShouldWrapper[T](o: T): AnyShouldWrapper[T] = new LoggingAnyShouldWrapper(o)
+  override implicit def convertToAnyShouldWrapper[T](o: T): AnyShouldWrapper[T] = new LoggingAnyShouldWrapper(o)
 
   /**
    * Implicitly converts an object of type <code>java.lang.String</code> to a <code>StringShouldWrapper</code>,
    * to enable <code>should</code> methods to be invokable on that object.
    */
-  implicit def convertToStringShouldWrapper(o: String): LoggingStringShouldWrapper = new LoggingStringShouldWrapper(o)
+  implicit def lconvertToStringShouldWrapper(o: String): LoggingStringShouldWrapper = new LoggingStringShouldWrapper(o)
 
 }
 
