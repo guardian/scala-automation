@@ -60,7 +60,7 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
       }
 
       new File("target/test-reports").mkdirs()
-      val file = new FileOutputStream(s"target/test-reports/${testName}.png")
+      val file = new FileOutputStream(s"logs/screenshots/${testName}.png")
       file.write(screenshotFile)
       file.close
     } catch {
