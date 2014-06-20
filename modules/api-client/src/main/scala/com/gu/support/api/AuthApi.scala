@@ -12,11 +12,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 object AuthApi {
 
   def authenticate(email: String, password: String) = {
-    val authUrl = s"https://idapi.code.dev-theguardian.com/auth?email=$email&password=$password"
+    val authUrl = s"https://idapi.code.dev-theguardian.com/auth?email=$email&password=$password&format=cookies"
     val config = new AsyncHttpClientConfig.Builder().build()
     val client: WSClient = new NingWSClient(config)
     val response = client.url(authUrl).withHeaders("X-GU-ID-Client-Access-Token" -> "Bearer frontend-code-client-token").post("")
-    response.map{ resp => (resp.json \ "accessToken" \ "accessToken").as[String] }
+    response.map{ resp => (resp.json \ "cookies" \ "values" \ "value").as[String] }
   }
 
 }
