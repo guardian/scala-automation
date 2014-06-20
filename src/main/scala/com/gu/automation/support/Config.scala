@@ -60,7 +60,7 @@ object Config {
     new Config(readers._1, readers._2, readers._3)
   }
 
-  private def getDefaultInject = {
+  def getDefaultInject = {
     val local = new File("local.conf")
     val localOption =
       if (local.exists) Some(new FileReader(local))
