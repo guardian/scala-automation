@@ -59,7 +59,7 @@ ReleaseKeys.releaseProcess := Seq[ReleaseStep](
   runTest,
   setReleaseVersion,
   commitReleaseVersion,
-  tagRelease,
+//  tagRelease,
   ReleaseStep( // instead of publishArtifacts
     action = state => Project.extract(state).runTask(PgpKeys.publishSigned, state)._1,
     enableCrossBuild = true
