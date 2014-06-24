@@ -1,6 +1,6 @@
 package com.gu.example
 
-import com.gu.automation.support.Wait
+import com.gu.automation.support.{Config, Wait}
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.{By, WebDriver}
 
@@ -12,6 +12,8 @@ case class LoginPage(implicit driver: WebDriver) {
   private def userTextbox = driver.findElement(By.id("user"))
   private def passwordTextbox = driver.findElement(By.id("password"))
   private def submitButton = driver.findElement(By.cssSelector(".form-field > button"))
+
+  def goto = driver.get(Config().getTestBaseUrl())
 
   def login(user: String, password: String): LoginPage = {
     Wait().until(ExpectedConditions.elementToBeClickable(userTextbox))

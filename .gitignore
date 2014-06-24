@@ -1,6 +1,7 @@
 *.class
 *.log
 logs/
+local.*
 
 # IntelliJ
 .idea/
