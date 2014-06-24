@@ -1,6 +1,4 @@
-================================
-  Scala Automation Core Module
-================================
+#  Scala Automation Core Module
 
 ## Creating a new Test project
 - Create a new folder for your project so you can add it to github
@@ -37,6 +35,7 @@ loginPassword : "asdf"
 idApiRoot: "https://idapi.code.dev-theguardian.com"
 ```
 ### Complex
+```
 "environment": "local"
 "local": {
     "browser"               : "firefox"
