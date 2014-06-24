@@ -1,6 +1,6 @@
 package com.gu.example
 
-import com.gu.automation.support.{Config, LoggingIn, TestLogging}
+import com.gu.automation.support.{LoggingIn, TestLogging}
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers._
 
@@ -15,13 +15,11 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging with Log
     We use the API to log in and put the cookies into the browser
     your local.conf needs to contain something like:
 
-      user: {
-        username : "test.user@guardian.co.uk"
-        password : "asdf"
-      }
+      loginEmail : "test.user@guardian.co.uk"
+      loginPassword : "asdf"
 
      */
-    val loginPage = logInToPage(LoginPage.goto, Config().getUserValue("username"), Config().getUserValue("password"))
+    val loginPage = logInToGUPage(LoginPage.goto)
     loginPage//.doSomethingElse("asdf")
     this
   }

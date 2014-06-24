@@ -45,6 +45,14 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("testBaseUrl")
   }
 
+  def getLoginEmail(): String = {
+    getConfigValue("loginEmail")
+  }
+
+  def getLoginPassword(): String = {
+    getConfigValue("loginPassword")
+  }
+
   def getUserValue(key: String): String = {
     config.getConfig("user").getString(key)
   }
