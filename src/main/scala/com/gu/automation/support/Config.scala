@@ -53,6 +53,10 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("loginPassword")
   }
 
+  def getIdApiRoot(): String = {
+    getConfigValue("idApiRoot")
+  }
+
   def getUserValue(key: String): String = {
     config.getConfig("user").getString(key)
   }

@@ -12,7 +12,7 @@ import scala.concurrent.Await
 trait LoggingIn {
 
   def addGULoginCookies(email: String = Config().getLoginEmail(), password: String = Config().getLoginPassword())(implicit driver: WebDriver) = {
-    val future = AuthApi.authenticate(email, password)
+    val future = AuthApi(Config().getIdApiRoot()).authenticate(email, password)
 
     val accessToken = Await.result(future, 30.seconds)
     val cookies = accessToken match { case Right(cookies) => cookies }

@@ -9,10 +9,10 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /**
  * Created by jduffell on 12/06/2014.
  */
-object AuthApi {
+case class AuthApi(apiRoot: String) {
 
   def authenticate(email: String, password: String) = {
-    val authUrl = s"https://idapi.code.dev-theguardian.com/auth?email=$email&password=$password&format=cookies"
+    val authUrl = apiRoot + s"/auth?email=$email&password=$password&format=cookies"
     val config = new AsyncHttpClientConfig.Builder().build()
     val client: NingWSClient = new NingWSClient(config)
     val response = client.url(authUrl).withHeaders("X-GU-ID-Client-Access-Token" -> "Bearer frontend-code-client-token").post("")

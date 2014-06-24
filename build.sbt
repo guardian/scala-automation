@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "com.google.code.findbugs" % "jsr305" % "1.3.+", // workaround for a Scala compiler bug, triggered by guava
   "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
   "ch.qos.logback" % "logback-classic" % "1.1.2",
-  "com.gu" %% "web-automation-core-scala-api" % "1.1"
+  "com.gu" %% "web-automation-core-scala-api" % "1.2"
 )
 
 releaseSettings

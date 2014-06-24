@@ -10,8 +10,10 @@ import scala.concurrent.duration._
  */
 class AuthApiTest extends FlatSpec with Matchers {
 
+  val apiRoot = "https://idapi.code.dev-theguardian.com"
+
   "The auth api" should "let us log in as a valid user" in {
-    val future = AuthApi.authenticate("johnduffell@guardian.co.uk", "qwerty")
+    val future = AuthApi(apiRoot).authenticate("johnduffell@guardian.co.uk", "qwerty")
 
     val accessToken = Await.result(future, 30.seconds) match {
       case Right(token) => token.toMap
@@ -23,7 +25,7 @@ class AuthApiTest extends FlatSpec with Matchers {
   }
 
   "The auth api" should "return 403 for an invalid user" in {
-    val future = AuthApi.authenticate("johnduffell@guardian.co.uk", "qwersty")
+    val future = AuthApi(apiRoot).authenticate("johnduffell@guardian.co.uk", "qwersty")
 
     val errorCode = Await.result(future, 30.seconds) match {
       case Right(token) => fail(token.toString)
