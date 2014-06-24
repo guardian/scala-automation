@@ -25,7 +25,9 @@ The default configuration is supplied in: src/main/framework.conf
 If you need to override anything for your tests or add new defaults, add: src/test/resources/project.conf
 If you need some personal settings add local.conf.  This will be ignored by git so ideal for storing usernames and passwords.
 System properties override everything.
+
 ## Examples
+
 ### Simple
 ```
 "testBaseUrl"           : "http://m.code.dev-theguardian.com/uk"
