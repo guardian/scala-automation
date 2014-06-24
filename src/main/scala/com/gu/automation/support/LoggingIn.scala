@@ -11,7 +11,7 @@ import scala.concurrent.Await
  */
 trait LoggingIn {
 
-  def logIn(email: String, password: String, domain: String = null)(implicit driver: WebDriver) = {
+  def logIn(email: String, password: String)(implicit driver: WebDriver) = {
     val future = AuthApi.authenticate(email, password)
 
     val accessToken = Await.result(future, 30.seconds)
@@ -19,9 +19,15 @@ trait LoggingIn {
     cookies.foreach {
       case (key, value) =>
         val isSecure = key.startsWith("SC_")
-        val cookie = new Cookie(key, value, domain, "/", null, isSecure, isSecure)
+        val cookie = new Cookie(key, value, null, "/", null, isSecure, isSecure)
         driver.manage().addCookie(cookie)
     }
+  }
+
+  def logInToPage[P](goto: () => P, email: String, password: String)(implicit driver: WebDriver): P = {
+    goto()
+    logIn(email, password)
+    goto()
   }
 
 }

@@ -11,10 +11,8 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging with Log
 
   def loggedIn() = {
     logger.step("I am logged in")
-    // need to go to a page before we can inject the cookies
-    LoginPage().goto
     /*
-    Now we use the API to log in and put the cookies into a file
+    We use the API to log in and put the cookies into the browser
     your local.conf needs to contain something like:
 
       user: {
@@ -23,9 +21,8 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging with Log
       }
 
      */
-    logIn(Config().getUserValue("username"), Config().getUserValue("password"))
-    // need to refresh the page to send the cookies
-    LoginPage().goto
+    val loginPage = logInToPage(LoginPage.goto, Config().getUserValue("username"), Config().getUserValue("password"))
+    loginPage//.doSomethingElse("asdf")
     this
   }
 

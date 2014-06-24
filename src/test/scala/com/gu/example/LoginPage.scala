@@ -13,14 +13,21 @@ case class LoginPage(implicit driver: WebDriver) {
   private def passwordTextbox = driver.findElement(By.id("password"))
   private def submitButton = driver.findElement(By.cssSelector(".form-field > button"))
 
-  def goto = driver.get(Config().getTestBaseUrl())
-
   def login(user: String, password: String): LoginPage = {
     Wait().until(ExpectedConditions.elementToBeClickable(userTextbox))
     userTextbox.sendKeys(user)
     passwordTextbox.sendKeys(password)
     submitButton.click()
     this
+  }
+
+}
+
+object LoginPage {
+
+  def goto()(implicit driver: WebDriver) = {
+    driver.get(Config().getTestBaseUrl())
+    LoginPage()
   }
 
 }
