@@ -31,10 +31,10 @@ class TstashAppender extends UnsynchronizedAppenderBase[ILoggingEvent] {
     val asyncHttpClient = new AsyncHttpClient()
     val websocket: WebSocket = asyncHttpClient.prepareGet("ws://10.252.93.148:8081/report")
 //    val websocket: WebSocket = asyncHttpClient.prepareGet("ws://localhost:9000/report")
-      .addQueryParameter("testname", eventObject.getMDCPropertyMap.get("testname"))
-      .addQueryParameter("testdate", eventObject.getMDCPropertyMap.get("testdate"))
-      .addQueryParameter("setname", eventObject.getMDCPropertyMap.get("setname"))
-      .addQueryParameter("setdate", eventObject.getMDCPropertyMap.get("setdate"))
+      .addQueryParameter("testName", eventObject.getMDCPropertyMap.get("testName"))
+      .addQueryParameter("testDate", eventObject.getMDCPropertyMap.get("testDate"))
+      .addQueryParameter("setName", eventObject.getMDCPropertyMap.get("setName"))
+      .addQueryParameter("setDate", eventObject.getMDCPropertyMap.get("setDate"))
       .execute(new WebSocketUpgradeHandler.Builder().addWebSocketListener(
       new WebSocketTextListener() {
         override def onMessage(message: String): Unit = { println(message) }
@@ -45,7 +45,7 @@ class TstashAppender extends UnsynchronizedAppenderBase[ILoggingEvent] {
       }).build()).get()
 
     if (websocket == null) {
-      println("Failed to create connection to Test-Stash for test: " + eventObject.getMDCPropertyMap.get("testname"))
+      println("Failed to create connection to Test-Stash for test: " + eventObject.getMDCPropertyMap.get("testName"))
       return None
     } else {
       return Some(websocket)

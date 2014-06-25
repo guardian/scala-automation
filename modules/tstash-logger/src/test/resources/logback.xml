@@ -5,9 +5,6 @@
         </layout>
     </appender>
     <appender name="TSTASH" class="com.gu.automation.api.TstashAppender">
-        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
-            <!--<Pattern>%d %p %t %c - %m%n</Pattern>-->
-        <!--</layout>-->
     </appender>
 
     <root level="info">

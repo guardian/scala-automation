@@ -1,10 +1,13 @@
 package com.gu.automation.core
 
 import java.io._
+import java.util.UUID
 
-import com.gu.automation.support.TestLogging
+import com.gu.automation.support.{Config, TestLogging}
+import org.joda.time.DateTime
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
 import org.scalatest._
+import org.slf4j.MDC
 
 import scala.language.experimental.macros
 
@@ -34,13 +37,21 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
     scenario(specText, testTags:_*)({ td =>
-      logger.info(td.name)
+      logger.info("[TEST START]")
+      logger.info("Test Name: " + td.name)
+      MDC.put("ID", UUID.randomUUID().toString)
+      MDC.put("setName", Config().getProjectName())
+      MDC.put("setDate", Config().getTestSetStartTime().toString)
+      MDC.put("testName", td.name)
+      MDC.put("testDate", DateTime.now.toString)
+
       driver = startDriver()
       try {
         testFun
       } catch {
         case e: Exception => failWithScreenshot(td.name, driver, e)
       } finally {
+        logger.info("[TEST END]")
         driver.quit()
       }
     })
