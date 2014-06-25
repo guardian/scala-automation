@@ -1,13 +1,11 @@
 *.class
 *.log
-logs/
-local.*
 
 # IntelliJ
 .idea/
-.idea_modules/
 
 # sbt specific
+secret.sbt
 .cache/
 .history/
 .lib/

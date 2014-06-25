@@ -37,7 +37,8 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
     scenario(specText, testTags:_*)({ td =>
-      logger.info("[TEST START]")
+      sys.props.put("teststash.url", "ws://10.252.93.148:8081/report")
+      logger.info("[TEST START]") // starts websocket to T-Stash
       logger.info("Test Name: " + td.name)
       MDC.put("ID", UUID.randomUUID().toString)
       MDC.put("setName", Config().getProjectName())
@@ -51,7 +52,7 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
       } catch {
         case e: Exception => failWithScreenshot(td.name, driver, e)
       } finally {
-        logger.info("[TEST END]")
+        logger.info("[TEST END]") // closes websocket to T-Stash
         driver.quit()
       }
     })

@@ -23,16 +23,16 @@ object MessageController extends Controller {
             (JsPath \ "error").readNullable[String]
         )(TestInfo.apply _)
 
-    def report(testname: String, testdate: String, setname: String, setdate: String) = WebSocket.using[JsValue] { request =>
+    def report(testName: String, testDate: String, setName: String, setDate: String) = WebSocket.using[JsValue] { request =>
 //        Logger.info(s"wsEcho, client connected.")
 //        var channel: Option[Concurrent.Channel[JsValue]] = None
 //        val out: Enumerator[String] = Concurrent.unicast(c => channel = Some(c))
         val out = Enumerator(Json.parse("""{"message":"OK"}"""))
 //        val out = Enumerator("OK")
 
-        val in = Iteratee.foreach[JsValue](receivedString => {
+        val in = Iteratee.foreach[JsValue](it => {
             // send string back
-            println(s"wsEcho, received: ${receivedString}")
+            println(s"wsEcho, received: ${it}")
 //            channel.foreach(_.push(receivedString))
         })
 

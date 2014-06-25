@@ -29,17 +29,18 @@ class TstashAppender extends UnsynchronizedAppenderBase[ILoggingEvent] {
 
   private def createWebSocket(eventObject: ILoggingEvent): Option[WebSocket] = {
     val asyncHttpClient = new AsyncHttpClient()
-    val websocket: WebSocket = asyncHttpClient.prepareGet("ws://10.252.93.148:8081/report")
-//    val websocket: WebSocket = asyncHttpClient.prepareGet("ws://localhost:9000/report")
+    val url = sys.props.get("teststash.url").getOrElse("")
+    if (url == "") return None
+    val websocket: WebSocket = asyncHttpClient.prepareGet(url)
       .addQueryParameter("testName", eventObject.getMDCPropertyMap.get("testName"))
       .addQueryParameter("testDate", eventObject.getMDCPropertyMap.get("testDate"))
       .addQueryParameter("setName", eventObject.getMDCPropertyMap.get("setName"))
       .addQueryParameter("setDate", eventObject.getMDCPropertyMap.get("setDate"))
       .execute(new WebSocketUpgradeHandler.Builder().addWebSocketListener(
       new WebSocketTextListener() {
-        override def onMessage(message: String): Unit = { println(message) }
-        override def onFragment(fragment: String, last: Boolean): Unit = { println(fragment) }
-        override def onError(t: Throwable): Unit = { println(t.getMessage) }
+        override def onMessage(message: String): Unit = {} //println("[T-Stash ws message] " + message) }
+        override def onFragment(fragment: String, last: Boolean): Unit = {} //println("[T-Stash ws fragment] " + fragment) }
+        override def onError(t: Throwable): Unit = {} //println("[T-Stash ws error] " + t.getMessage) }
         override def onClose(websocket: WebSocket): Unit = {}
         override def onOpen(websocket: WebSocket): Unit = {}
       }).build()).get()
