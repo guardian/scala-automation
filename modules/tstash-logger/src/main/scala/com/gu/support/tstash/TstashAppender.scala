@@ -19,7 +19,11 @@ class TstashAppender extends UnsynchronizedAppenderBase[ILoggingEvent] {
     } else if("[TEST END]" == eventObject.getMessage) {
       TstashAppender.sockets.get(eventObject.getMDCPropertyMap.get("ID")).map(_.close())
     } else {
-      TstashAppender.sockets.get(eventObject.getMDCPropertyMap.get("ID")).map(_.sendTextMessage(s"""{"message":"${eventObject.getFormattedMessage}"}"""))
+      TstashAppender.sockets.get(eventObject.getMDCPropertyMap.get("ID")).map(_.sendTextMessage(
+        s"""{
+           |"message":"${eventObject.getFormattedMessage}",
+           |"timeStamp":"${eventObject.getTimeStamp}"
+           |}""".stripMargin))
     }
   }
 
