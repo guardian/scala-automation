@@ -20,8 +20,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" % "scalatest_2.10" % "2.0",
   "com.typesafe.play" %% "play-ws" % "2.3.0",
   "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
-  "ch.qos.logback" % "logback-classic" % "1.1.2",
-  "org.jfarcand" % "wcs" % "1.3"
+  "ch.qos.logback" % "logback-classic" % "1.1.2"
 )
 
 releaseSettings
