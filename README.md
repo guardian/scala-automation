@@ -23,6 +23,21 @@ The default configuration is supplied in: src/main/framework.conf
 If you need to override anything for your tests or add new defaults, add: src/test/resources/project.conf
 If you need some personal settings add local.conf.  This will be ignored by git so ideal for storing usernames and passwords.
 System properties override everything.
+- Logging:
+In your resources folder create a file named: logback.xml
+Put this content in the file (and edit it for your project needs):
+```
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d [%thread] %level %logger - %m%n</Pattern>
+        </layout>
+    </appender>
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
+```
 
 ## Examples
 
