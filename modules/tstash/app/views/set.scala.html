@@ -1,0 +1,11 @@
+@(testList: scala.collection.mutable.MutableList[model.TestInfo])
+
+@main("Test Stash - Test Set") {
+
+    <ul>
+    @for(testInfo <- testList) {
+        <li><a href="test?testName=@testInfo.testName&testDate=@testInfo.testDate&setName=@testInfo.setName&setDate=@testInfo.setDate">@testInfo.testName</a> | @testInfo.testResult</li>
+    }
+    </ul>
+
+}

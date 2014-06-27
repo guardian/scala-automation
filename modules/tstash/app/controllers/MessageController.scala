@@ -1,62 +1,43 @@
 package controllers
 
-import play.api.libs.iteratee.{Concurrent, Enumerator, Iteratee}
-import util.EnumUtils
-import play.api.mvc._
+import model.{TestInfo, TestResult}
+import play.api.libs.iteratee.{Enumerator, Iteratee}
 import play.api.libs.json._
-import play.api.libs.functional.syntax._
+import play.api.mvc._
 import service.DbService
-import model.TestInfo
-import model.TestResult.TestResult
-import model.TestResult
+
+import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 
 
 object MessageController extends Controller {
 
-    implicit val testResultReads: Reads[TestResult] = EnumUtils.enumReads(TestResult)
-    val testInfoReads: Reads[TestInfo] = (
-            (JsPath \ "testName").read[String] and
-            (JsPath \ "testSet").read[String] and
-            (JsPath \ "testDuration").read[String] and
-            (JsPath \ "testResult").read[TestResult] and
-            (JsPath \ "error").readNullable[String]
-        )(TestInfo.apply _)
+  def report(testName: String, testDate: String, setName: String, setDate: String) = WebSocket.using[JsValue] { request =>
+    val out = Enumerator(Json.parse( """{"message":"OK"}"""))
 
-    def report(testName: String, testDate: String, setName: String, setDate: String) = WebSocket.using[JsValue] { request =>
-//        Logger.info(s"wsEcho, client connected.")
-//        var channel: Option[Concurrent.Channel[JsValue]] = None
-//        val out: Enumerator[String] = Concurrent.unicast(c => channel = Some(c))
-        val out = Enumerator(Json.parse("""{"message":"OK"}"""))
-//        val out = Enumerator("OK")
+    val in = Iteratee.foreach[JsValue](json => {
+      println(s"received: ($testName, $testDate, $setName, $setDate) ${json}")
+      val message = (json \ "message").toString()
+      //      println((json \ "timeStamp"))
+      DbService.insertTestInfo(TestInfo(testName, testDate, setName, setDate, TestResult.PASSED, None, new mutable.MutableList[String]().+=:(message)))
+    })
 
-        val in = Iteratee.foreach[JsValue](it => {
-            // send string back
-            println(s"wsEcho, received: ${it}")
-//            channel.foreach(_.push(receivedString))
-        })
+    (in, out)
+  }
 
-        (in, out)
-    }
+  //  implicit val testResultReads: Reads[TestResult] = EnumUtils.enumReads(TestResult)
+//  val testInfoReads: Reads[TestInfo] = (
+//    (JsPath \ "testName").read[String] and
+//      (JsPath \ "testSet").read[String] and
+//      (JsPath \ "testDuration").read[String] and
+//      (JsPath \ "testResult").read[TestResult] and
+//      (JsPath \ "error").readNullable[String]
+//    )(TestInfo.apply _)
 
-//    def report = Action(parse.json) { request =>
-//        val testInfoResult = request.body.validate[TestInfo](testInfoReads)
-//        testInfoResult.fold(
-//            errors => {
-//                BadRequest(Json.obj("status" ->"KO", "message" -> JsError.toFlatJson(errors)))
-//            },
-//            testInfo => {
-//                println("report received: " + testInfo)
-//                DbService.insertTestInfo(testInfo)
-//                Ok(Json.obj("status" -> "OK", "message" -> ("Report received.") ))
-//            }
-//        )
-//    }
-
-    //    def javascriptRoutes = Action { implicit request =>
-    // this tracks back the javascript method call on server side.
-    // E.g. index.js: jsRoutes.controllers.MessageController.getMessage().ajax({
-    //        Ok(Routes.javascriptRouter("jsRoutes")(routes.javascript.MessageController.getMessage)).as(JAVASCRIPT)
-    //    }
+  //    def javascriptRoutes = Action { implicit request =>
+  // this tracks back the javascript method call on server side.
+  // E.g. index.js: jsRoutes.controllers.MessageController.getMessage().ajax({
+  //        Ok(Routes.javascriptRouter("jsRoutes")(routes.javascript.MessageController.getMessage)).as(JAVASCRIPT)
+  //    }
 
 }

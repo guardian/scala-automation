@@ -21,9 +21,10 @@ class TstashAppenderTest extends FlatSpec with Matchers with LazyLogging {
     sys.props.put("teststash.url", "ws://10.252.93.148:8081/report")
     MDC.put("ID", UUID.randomUUID().toString)
     MDC.put("testName", "test name 1")
-    MDC.put("testDate", DateTime.now.toString)
+    MDC.put("testDate", DateTime.now.getMillis.toString)
     MDC.put("setName", "set name 1")
-    MDC.put("setDate", DateTime.now.toString)
+    MDC.put("setDate", SetTime.time.getMillis.toString)
+    println("setDate: " + SetTime.time.getMillis.toString)
 
     logger.info("[TEST START]")
     logger.info("Test message 1.")
@@ -38,9 +39,10 @@ class TstashAppenderTest extends FlatSpec with Matchers with LazyLogging {
     sys.props.put("teststash.url", "ws://10.252.93.148:8081/report")
     MDC.put("ID", UUID.randomUUID().toString)
     MDC.put("testName", "test name 2")
-    MDC.put("testDate", DateTime.now.toString)
+    MDC.put("testDate", DateTime.now.getMillis.toString)
     MDC.put("setName", "set name 1")
-    MDC.put("setDate", DateTime.now.toString)
+    MDC.put("setDate", SetTime.time.getMillis.toString)
+    println("setDate: " + SetTime.time.getMillis.toString)
 
     logger.info("[TEST START]")
     logger.info("Test message 1111.")
@@ -49,4 +51,8 @@ class TstashAppenderTest extends FlatSpec with Matchers with LazyLogging {
 
   }
 
+}
+
+object SetTime {
+  val time = DateTime.now
 }

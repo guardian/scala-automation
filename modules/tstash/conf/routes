@@ -3,6 +3,8 @@
 # ~~~~
 
 GET         /                                 controllers.MainController.index()
+GET         /set                              controllers.MainController.set(setName, setDate)
+GET         /test                             controllers.MainController.test(testName, testDate, setName, setDate)
 GET         /report                           controllers.MessageController.report(testName, testDate, setName, setDate)
 #GET         /assets/javascripts/routes        controllers.MessageController.javascriptRoutes()
 

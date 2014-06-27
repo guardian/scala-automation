@@ -1,0 +1,11 @@
+@(testInfo: model.TestInfo)
+
+@main("Test Stash - Test Log") {
+
+    <ul>
+    @for(message <- testInfo.messages) {
+        <li>@message</li>
+    }
+    </ul>
+
+}

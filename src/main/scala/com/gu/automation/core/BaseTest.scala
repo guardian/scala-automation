@@ -42,9 +42,9 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
       logger.info("Test Name: " + td.name)
       MDC.put("ID", UUID.randomUUID().toString)
       MDC.put("setName", Config().getProjectName())
-      MDC.put("setDate", Config().getTestSetStartTime().toString)
+      MDC.put("setDate", Config().getTestSetStartTime().getMillis.toString)
       MDC.put("testName", td.name)
-      MDC.put("testDate", DateTime.now.toString)
+      MDC.put("testDate", DateTime.now.getMillis.toString)
 
       driver = startDriver()
       try {
