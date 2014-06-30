@@ -51,7 +51,8 @@ add the following trait(s) to your class:
 
 ## Examples
 
-### Simple
+### Test Environment Configuration
+- Simple:
 ```
 "testBaseUrl"           : "http://m.code.dev-theguardian.com/uk"
 "browser"               : "chrome" // firefox, chrome, ie
@@ -59,7 +60,7 @@ loginEmail : "test.user@guardian.co.uk"
 loginPassword : "asdf"
 idApiRoot: "https://idapi.code.dev-theguardian.com"
 ```
-### Complex
+- With Environments:
 ```
 "environment": "local"
 "local": {
