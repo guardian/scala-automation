@@ -4,7 +4,7 @@ import com.typesafe.scalalogging.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 trait TestLogging {
-  protected lazy val logger: TestLogger = new TestLogger(Logger(LoggerFactory getLogger getClass.getName))
+  protected implicit lazy val logger: TestLogger = new TestLogger(Logger(LoggerFactory getLogger getClass.getName))
 }
 
 class TestLogger(val logger: Logger) extends com.typesafe.scalalogging.Logger {

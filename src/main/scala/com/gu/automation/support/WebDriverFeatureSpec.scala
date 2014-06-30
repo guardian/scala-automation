@@ -1,42 +1,25 @@
-package com.gu.automation.core
+package com.gu.automation.support
 
-import java.io._
+import java.io.{File, FileOutputStream}
 import java.util.UUID
 
-import com.gu.automation.support.{Config, TestLogging}
+import com.gu.automation.core.{WebDriverBase, WebDriverManagement}
 import org.joda.time.DateTime
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
-import org.scalatest._
+import org.scalatest.{ParallelTestExecution, Tag, fixture}
 import org.slf4j.MDC
 
-import scala.language.experimental.macros
 
+class WebDriverFeatureSpec extends fixture.FeatureSpec with WebDriverBase[WebDriver] with TestLogging with ParallelTestExecution with fixture.TestDataFixture {
 
-abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with ParallelTestExecution with fixture.TestDataFixture with TestLogging {
+  override implicit var driver: WebDriver = null
 
-  implicit var driver: T
-
-  def given[A](body: => A) = {
-    logger.setPhase("GIVEN")
-    new WhenOrThen(body)
-  }
-
-  class WhenOrThen[A](val input: A) {
-
-    def when[B](body: A => B): WhenOrThen[B] = {
-      logger.setPhase("WHEN")
-      new WhenOrThen(body(input))
-    }
-
-    def then[B](body: A => B): WhenOrThen[B] = {
-      logger.setPhase("THEN")
-      new WhenOrThen(body(input))
-    }
-
+  protected def startDriver(): WebDriver = {
+    WebDriverManagement.startWebDriver()
   }
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
-    scenario(specText, testTags:_*)({ td =>
+    scenario(specText, testTags: _*)({ td =>
       sys.props.put("teststash.url", "ws://10.252.93.148:8081/report")
       logger.info("[TEST START]") // starts websocket to T-Stash
       logger.info("Test Name: " + td.name)
@@ -57,8 +40,6 @@ abstract class BaseTest[T <: WebDriver] extends fixture.FeatureSpec with Paralle
       }
     })
   }
-
-  protected def startDriver(): T
 
   private def failWithScreenshot(testName: String, driver: WebDriver, e: Exception) = {
     logger.failure("Test failed")
