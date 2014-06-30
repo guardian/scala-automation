@@ -5,7 +5,7 @@ import com.gu.automation.support.TestLogger
 /**
  * Created by ipamer on 30/06/2014.
  */
-trait WhenOrThen {
+trait GivenWhenThen {
 
   def given[A](body: => A)(implicit logger: TestLogger) = {
     logger.setPhase("GIVEN")

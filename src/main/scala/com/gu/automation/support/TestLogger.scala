@@ -11,7 +11,7 @@ class TestLogger(val logger: Logger) extends com.typesafe.scalalogging.Logger {
 
   private var phase: String = "GIVEN"
 
-  private[automation] def setPhase(phase: String) {
+  def setPhase(phase: String) {
     this.phase = phase
   }
 
