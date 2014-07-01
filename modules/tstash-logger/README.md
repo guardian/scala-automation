@@ -1,5 +1,4 @@
 # teststash-logger
-----------------
 - To use this just edit your build.sbt as follows:
 ```
 libraryDependencies ++= Seq(
@@ -8,7 +7,9 @@ libraryDependencies ++= Seq(
 ```
 
 # Adding Test-Stash logging to your project
------------------------------------------
+- Define your project name in your project config:
+`"projectName" : "Test Project"`
+
 - In logback.xml add TstashLogger as an appender:
 ```
 ...
