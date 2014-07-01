@@ -8,7 +8,12 @@ libraryDependencies ++= Seq(
 
 # Adding Test-Stash logging to your project
 - Define your project name in your project config:
-`"projectName" : "Test Project"`
+```
+"projectName" : "Test Project"
+"plugin": {
+    "teststash.url" : "ws://10.252.93.148:8081/report"
+}
+```
 
 - In logback.xml add TstashLogger as an appender:
 ```
