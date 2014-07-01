@@ -11,7 +11,7 @@ libraryDependencies ++= Seq(
 ```
 "projectName" : "Test Project"
 "plugin": {
-    "teststash.url" : "ws://10.252.93.148:8081/report"
+    "teststash" : { "url" : "ws://10.252.93.148:8081/report" }
 }
 ```
 
