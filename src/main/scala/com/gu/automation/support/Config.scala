@@ -45,12 +45,18 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("testBaseUrl")
   }
 
-  def getLoginEmail(): String = {
-    getConfigValue("loginEmail")
+  def getLoginEmail(user: Option[String]): String = {
+    (user match {
+      case None => config
+      case Some(user) => config.getConfig(user)
+    }).getString("loginEmail")
   }
 
-  def getLoginPassword(): String = {
-    getConfigValue("loginPassword")
+  def getLoginPassword(user: Option[String]): String = {
+    (user match {
+      case None => config
+      case Some(user) => config.getConfig(user)
+    }).getString("loginPassword")
   }
 
   def getIdApiRoot(): String = {
