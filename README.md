@@ -18,15 +18,51 @@ Tests:    src/test/scala/com/gu/{project}/test
 Steps:    src/test/scala/com/gu/{project}/step
 PageObj:  src/test/scala/com/gu/{project}/page
 You can see examples of each in this repo under (src/test/scala/com/gu/example/)
-- Test configurations:
+
+## Features
+
+### Test configurations:
 The default configuration is supplied in: src/main/framework.conf
 If you need to override anything for your tests or add new defaults, add: src/test/resources/project.conf
 If you need some personal settings add local.conf.  This will be ignored by git so ideal for storing usernames and passwords.
 System properties override everything.
 
+### Logging:
+In your resources folder create a file named: logback.xml
+Put this content in the file (and edit it for your project needs):
+```
+<configuration>
+    <property name="application-name" value="automation-core" />
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d [%thread] %level %logger - %m%n</Pattern>
+        </layout>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <File>logs/${application-name}.log</File>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d %p %t %c - %m%n</Pattern>
+        </layout>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
+```
+
+### Before and After methods
+If you need to execute arbitrary code before or after your test suite or test method,
+add the following trait(s) to your class:
+- BeforeAndAfter: this will give you the methods before() and after() to override and they will be executed before and after every test execution.
+- BeforeAndAfterAll: this will give you the methods beforeAll() and afterAll() to override and they will be executed before and after your test suite.
+
 ## Examples
 
-### Simple
+### Test Environment Configuration
+- Simple:
 ```
 "testBaseUrl"           : "http://m.code.dev-theguardian.com/uk"
 "browser"               : "chrome" // firefox, chrome, ie
@@ -34,7 +70,7 @@ loginEmail : "test.user@guardian.co.uk"
 loginPassword : "asdf"
 idApiRoot: "https://idapi.code.dev-theguardian.com"
 ```
-### Complex
+- With Environments:
 ```
 "environment": "local"
 "local": {

@@ -3,6 +3,7 @@ package com.gu.automation.support
 import java.io.{File, FileReader, InputStreamReader, Reader}
 
 import com.typesafe.config.ConfigFactory
+import org.joda.time.DateTime
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -31,6 +32,14 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 
   protected def getConfigValue(key: String) = {
     config.getString(key)
+  }
+
+  def getProjectName(): String = {
+    getConfigValue("projectName")
+  }
+
+  def getTestSetStartTime(): DateTime = {
+    Config.startTime
   }
 
   def getBrowser(): String = {
@@ -67,11 +76,21 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     config.getConfig("user").getString(key)
   }
 
+  def getPluginValue(key: String, default: String = ""): String = {
+    if (config.hasPath(s"plugin.$key")) {
+      return config.getConfig("plugin").getString(key)
+    } else {
+      return default
+    }
+  }
+
 }
 
 object Config {
 
   def apply() = defaultLoader
+
+  private val startTime = DateTime.now
 
   private lazy val defaultLoader: Config = {
     val readers = getDefaultInject
