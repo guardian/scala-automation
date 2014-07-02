@@ -52,8 +52,9 @@ class WebDriverFeatureSpec extends fixture.FeatureSpec with WebDriverBase[WebDri
         case _ => throw new RuntimeException("Error getting screenshot")
       }
 
-      new File("target/test-reports").mkdirs()
-      val file = new FileOutputStream(s"logs/screenshots/${testName}.png")
+      val screenshotDir = "logs/screenshots"
+      new File(screenshotDir).mkdirs()
+      val file = new FileOutputStream(s"${screenshotDir}/${testName}.png")
       file.write(screenshotFile)
       file.close
     } catch {
