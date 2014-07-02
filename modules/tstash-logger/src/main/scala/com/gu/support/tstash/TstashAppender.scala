@@ -30,7 +30,13 @@ class TstashAppender extends UnsynchronizedAppenderBase[ILoggingEvent] {
   private def createWebSocket(eventObject: ILoggingEvent): Option[WebSocket] = {
     val asyncHttpClient = new AsyncHttpClient()
     val url = sys.props.getOrElseUpdate("teststash.url", "")
-    if (url == "") return None
+    if (url == "" ||
+      eventObject.getMDCPropertyMap.get("testName") == null ||
+      eventObject.getMDCPropertyMap.get("testDate") == null ||
+      eventObject.getMDCPropertyMap.get("setName") == null ||
+      eventObject.getMDCPropertyMap.get("setDate") == null) {
+      return None
+    }
     val websocket: WebSocket = asyncHttpClient.prepareGet(url)
       .addQueryParameter("testName", eventObject.getMDCPropertyMap.get("testName"))
       .addQueryParameter("testDate", eventObject.getMDCPropertyMap.get("testDate"))

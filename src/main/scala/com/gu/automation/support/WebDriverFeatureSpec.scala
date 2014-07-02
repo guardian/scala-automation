@@ -21,13 +21,13 @@ class WebDriverFeatureSpec extends fixture.FeatureSpec with WebDriverBase[WebDri
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
     scenario(specText, testTags: _*)({ td =>
       sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
-      logger.info("[TEST START]") // starts websocket to T-Stash
-      logger.info("Test Name: " + td.name)
       MDC.put("ID", UUID.randomUUID().toString)
       MDC.put("setName", Config().getProjectName())
       MDC.put("setDate", Config().getTestSetStartTime().getMillis.toString)
       MDC.put("testName", td.name)
       MDC.put("testDate", DateTime.now.getMillis.toString)
+      logger.info("[TEST START]") // starts websocket to T-Stash
+      logger.info("Test Name: " + td.name)
 
       driver = startDriver()
       try {
