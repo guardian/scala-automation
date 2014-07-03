@@ -1,13 +1,13 @@
 package com.gu.example
 
-import com.gu.automation.support.{TestLogger, LoggingIn, TestLogging}
+import com.gu.automation.support.TestLogger
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers._
 
 /**
  * Created by ipamer on 02/06/2014.
  */
-case class ExampleSteps(implicit driver: WebDriver, logger: TestLogger) extends LoggingIn {
+case class ExampleSteps(implicit driver: WebDriver, logger: TestLogger) /*extends LoggingIn*/ {
 
   def loggedIn() = {
     logger.step("I am logged in")

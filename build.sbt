@@ -18,7 +18,9 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % "1.2.1",
   "com.google.code.findbugs" % "jsr305" % "1.3.+", // workaround for a Scala compiler bug, triggered by guava
   "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
-  "ch.qos.logback" % "logback-classic" % "1.1.2"
+  "ch.qos.logback" % "logback-classic" % "1.1.2",
+  "joda-time" % "joda-time" % "2.3",
+  "org.joda" % "joda-convert" % "1.2"// workaround for a Scala compiler bug, triggered by joda-time
 )
 
 releaseSettings
