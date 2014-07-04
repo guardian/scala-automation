@@ -1,7 +1,6 @@
 package com.gu.example
 
-import com.gu.automation.core.GivenWhenThen
-import com.gu.automation.support.WebDriverFeatureSpec
+import com.gu.automation.core.{WebDriverFeatureSpec, GivenWhenThen}
 
 /**
  * Created by ipamer on 02/06/2014.

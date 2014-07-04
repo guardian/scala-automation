@@ -1,9 +1,9 @@
-package com.gu.automation.support
+package com.gu.automation.core
 
 import java.io.{File, FileOutputStream}
 import java.util.UUID
 
-import com.gu.automation.core.WebDriverBase
+import com.gu.automation.support.{Config, TestLogging}
 import org.joda.time.DateTime
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
 import org.scalatest.{ParallelTestExecution, Tag, fixture}

@@ -1,6 +1,6 @@
 package com.gu.automation
 
-import com.gu.automation.support.WebDriverFeatureSpec
+import com.gu.automation.core.WebDriverFeatureSpec
 
 /**
  * Created by ipamer on 19/06/2014.
