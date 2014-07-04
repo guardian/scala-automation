@@ -16,11 +16,12 @@ object WebDriverManagement extends TestLogging {
   val browser: String = Config().getBrowser()
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
 
-  def startWebDriver(): WebDriver = {
+  def startWebDriver(testName: String): WebDriver = {
     if (webDriverRemoteUrl == "") {
       return getLocalWebDriver()
     } else {
       val caps = getCapabilities()
+      caps.setCapability("name", testName) // saucelabs title
       val driver = new EventFiringWebDriver(new Augmenter().augment(new RemoteWebDriver(new URL(webDriverRemoteUrl), caps)))
           .register(new DriverEventListener())
       driver.manage.timeouts.implicitlyWait(30, TimeUnit.SECONDS)

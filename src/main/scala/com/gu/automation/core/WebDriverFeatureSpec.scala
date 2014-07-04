@@ -10,7 +10,7 @@ class WebDriverFeatureSpec extends BaseFeatureSpec[WebDriver] {
     override implicit var driver: WebDriver = null
 
     protected def startDriver(): WebDriver = {
-      WebDriverManagement.startWebDriver()
+      WebDriverManagement.startWebDriver(testName)
     }
 
 }
