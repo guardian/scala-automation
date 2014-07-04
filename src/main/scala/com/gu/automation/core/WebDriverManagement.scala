@@ -1,7 +1,6 @@
 package com.gu.automation.core
 
 import java.net.URL
-import java.util.concurrent.TimeUnit
 
 import com.gu.automation.support.{Config, TestLogging}
 import org.openqa.selenium.WebDriver
@@ -18,16 +17,15 @@ object WebDriverManagement extends TestLogging {
 
   def startWebDriver(testName: String): WebDriver = {
     if (webDriverRemoteUrl == "") {
-      return getLocalWebDriver()
+      getLocalWebDriver()
     } else {
       val caps = getCapabilities()
       caps.setCapability("name", testName) // saucelabs title
-      val driver = new EventFiringWebDriver(new Augmenter().augment(new RemoteWebDriver(new URL(webDriverRemoteUrl), caps)))
+      val remoteDriver = new EventFiringWebDriver(new Augmenter().augment(new RemoteWebDriver(new URL(webDriverRemoteUrl), caps)))
           .register(new DriverEventListener())
-      driver.manage.timeouts.implicitlyWait(30, TimeUnit.SECONDS)
-      val userAgent = driver.executeScript("return navigator.userAgent")
+      val userAgent = remoteDriver.executeScript("return navigator.userAgent")
       logger.info("Started browser: " + userAgent)
-      return driver
+      remoteDriver
     }
   }
 
