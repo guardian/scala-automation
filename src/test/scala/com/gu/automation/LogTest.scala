@@ -11,7 +11,7 @@ class LogTest extends WebDriverFeatureSpec {
 
     scenarioWeb("My first test") {
 
-      logger.step("ASDAAAA")
+      logger.step("Hello World.")
 
     }
 
