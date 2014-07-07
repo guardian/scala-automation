@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
   "org.joda" % "joda-convert" % "1.2"// workaround for a Scala compiler bug, triggered by joda-time
 )
 
-unmanagedSourceDirectories in Compile += baseDirectory.value / "examples"
+unmanagedSourceDirectories in Compile += baseDirectory.value / "src/examples/scala"
 
 releaseSettings
 
