@@ -8,12 +8,12 @@ import scala.collection.JavaConversions._
 /**
  * Created by jduffell on 04/07/2014.
  */
-class Element[X](val locator: By, find: By => X) {
+class Element[X](val locator: By, find: By => X, driver: WebDriver) {
 
   def get = find(locator)
 
   def waitGet = {
-    Wait().until(ExpectedConditions.presenceOfElementLocated(locator))
+    Wait()(driver).until(ExpectedConditions.presenceOfElementLocated(locator))
     find(locator)
   }
 
@@ -27,9 +27,9 @@ class Element[X](val locator: By, find: By => X) {
 }
 
 object Element {
-  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, driver.findElement)
+  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, driver.findElement, driver)
 }
 
 object Elements {
-  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, driver.findElements(_).toList)
+  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, driver.findElements(_).toList, driver)
 }

@@ -27,7 +27,7 @@ case class LoginPage(implicit driver: WebDriver) {
       case _ => throw new RuntimeException("can't find")
     }
 
-    userTextboxes2.safeGet.map(_.filter(_ == true).length) match {
+    userTextboxes2.safeGet.map(_.filter(_.isDisplayed == true).length) match {
       case Some(x) if x > 2 => // do something happy
       case _ => throw new RuntimeException("can't find")
     }
