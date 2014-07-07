@@ -18,9 +18,10 @@ case class LoginPage(implicit driver: WebDriver) {
 
   def login(user: String, password: String): LoginPage = {
     Wait().until(ExpectedConditions.elementToBeClickable(userTextbox.locator))
-    userTextbox.get.sendKeys(user)
-    passwordTextbox.get.sendKeys(password)
-    submitButton.get.click()
+    userTextbox.sendKeys(user)
+    passwordTextbox.sendKeys(password)
+    passwordTextbox.sendKeys(password)
+    submitButton.click()
 
     userTextbox.safeGet.map(_.isDisplayed) match {
       case Some(true) => // do something happy
