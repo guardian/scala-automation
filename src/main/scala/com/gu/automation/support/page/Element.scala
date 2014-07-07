@@ -1,7 +1,8 @@
 package com.gu.automation.support.page
 
-import org.openqa.selenium.{WebDriver, By}
 import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.{By, WebDriver}
+
 import scala.collection.JavaConversions._
 
 /**
