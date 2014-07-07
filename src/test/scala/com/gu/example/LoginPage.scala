@@ -1,7 +1,8 @@
 package com.gu.example
 
 import com.gu.automation.support.Config
-import com.gu.automation.support.page.{Element, Elements, Wait}
+import com.gu.automation.support.page.Element._
+import com.gu.automation.support.page.{Element, Wait}
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.{By, WebDriver}
 
@@ -10,11 +11,13 @@ import org.openqa.selenium.{By, WebDriver}
  */
 case class LoginPage(implicit driver: WebDriver) {
 
-  private def userTextbox = Element(By.id("user"))
-  private def passwordTextbox = Element(By.id("password"))
-  private def submitButton = Element(By.cssSelector(".form-field > button"))
+  private def pageRoot = Element(By.id("loginArea"))
 
-  private def userTextboxes2 = Elements(By.id("user"))
+  private def userTextbox = pageRoot.element(By.id("user"))
+  private def passwordTextbox = pageRoot.element(By.id("password"))
+  private def submitButton = pageRoot.element(By.cssSelector(".form-field > button"))
+
+  private def userTextboxes2 = pageRoot.elements(By.id("user"))
 
   def login(user: String, password: String): LoginPage = {
     Wait().until(ExpectedConditions.elementToBeClickable(userTextbox.locator))
@@ -28,9 +31,10 @@ case class LoginPage(implicit driver: WebDriver) {
       case _ => throw new RuntimeException("can't find")
     }
 
-    userTextboxes2.safeGet.map(_.filter(_.isDisplayed == true).length) match {
-      case Some(x) if x > 2 => // do something happy
-      case _ => throw new RuntimeException("can't find")
+    if (userTextboxes2.filter(_.isDisplayed == true).length > 2) {
+      // do something happy
+    } else {
+      throw new RuntimeException("can't find")
     }
 
     this

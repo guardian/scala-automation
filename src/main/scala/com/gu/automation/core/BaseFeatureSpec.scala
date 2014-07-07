@@ -6,11 +6,11 @@ import java.util.UUID
 import com.gu.automation.support.{Config, TestLogging}
 import org.joda.time.DateTime
 import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
-import org.scalatest.{ParallelTestExecution, Tag, fixture}
+import org.scalatest.{Tag, fixture}
 import org.slf4j.MDC
 
 
-abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with ParallelTestExecution with fixture.TestDataFixture {
+abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with fixture.TestDataFixture {
 
   protected var testName: String = null
 

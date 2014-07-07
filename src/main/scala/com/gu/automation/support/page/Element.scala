@@ -1,35 +1,42 @@
 package com.gu.automation.support.page
 
-import org.openqa.selenium.support.ui.ExpectedConditions
-import org.openqa.selenium.{WebElement, By, WebDriver}
+import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
+import org.openqa.selenium.{By, SearchContext, WebDriver}
 
 import scala.collection.JavaConversions._
 
 /**
  * Created by jduffell on 04/07/2014.
  */
-class Element[X](val locator: By, find: Element[X] => X, driver: WebDriver) {
+class Element(val locator: By, driver: WebDriver, searchContext: => SearchContext) {
+
+  def get = searchContext.findElement(locator)
 
   def waitGet = {
-    Wait()(driver).until(ExpectedConditions.presenceOfElementLocated(locator))
-    find(this)
+    new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(locator))
+    get
   }
 
   def safeGet =
     try {
-      Some(find(this))
+      Some(get)
     } catch {
       case e: NoSuchElementException => None
     }
 
+  // provide a way of getting an element within another element
+  def element(locator: By) = new Element(locator, driver, get)
+
+  def elements(locator: By) = get.findElements(locator).toList
 }
 
 object Element {
-  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, webElement, driver)
-  implicit def webElement(value: Element[WebElement])(implicit driver: WebDriver) = driver.findElement(value.locator)
+  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, driver, driver)
+  // provide all WebElement methods on our Element class
+  implicit def webElement(value: Element) = value.get
+
 }
 
 object Elements {
-  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, webElements, driver)
-  implicit def webElements(value: Element[List[WebElement]])(implicit driver: WebDriver) = driver.findElements(value.locator).toList
+  def apply(locator: By)(implicit driver: WebDriver) = driver.findElements(locator).toList
 }
