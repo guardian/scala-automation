@@ -12,12 +12,12 @@ libraryDependencies ++= Seq(
   "com.gu" %% "web-automation-core-scala" % "x.x.SEE.NOTE"
 )
 ```
-NOTE: You can find the latest version by looking [here](http://repo1.maven.org/maven2/com/gu/web-automation-core-scala_2.10/)
+NOTE: You can find the latest version by looking [here](http://repo1.maven.org/maven2/com/gu/scala-automation_2.10/)
 - All project source code have to be under src/test
 Tests:    src/test/scala/com/gu/{project}/test
 Steps:    src/test/scala/com/gu/{project}/step
 PageObj:  src/test/scala/com/gu/{project}/page
-You can see examples of each in this repo under (src/test/scala/com/gu/example/)
+You can see examples of each in this repo under (src/examples/scala/com/gu/example/)
 
 ## Features
 
