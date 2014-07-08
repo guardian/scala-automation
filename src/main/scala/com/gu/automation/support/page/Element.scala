@@ -6,14 +6,14 @@ import org.openqa.selenium.{WebElement, By, SearchContext, WebDriver}
 import scala.collection.JavaConversions._
 
 /**
- * Created by jduffell on 04/07/2014.
+ * Created by ipamer && jduffell on 04/07/2014.
  */
 class Element(val locator: By, driver: WebDriver, searchContext: => SearchContext) {
 
-  def get = searchContext.findElement(locator)
+  lazy val get = searchContext.findElement(locator)
 
-  def waitGet = {
-    new WebDriverWait(driver, 30).until(ExpectedConditions.presenceOfElementLocated(locator))
+  def waitGet(timeOutInSeconds: Long = 30) = {
+    new WebDriverWait(driver, timeOutInSeconds).until(ExpectedConditions.presenceOfElementLocated(locator))
     get
   }
 
@@ -24,18 +24,21 @@ class Element(val locator: By, driver: WebDriver, searchContext: => SearchContex
       case e: NoSuchElementException => None
     }
 
-  // provide a way of locating an element within another element
-  def element(locator: By) = new Element(locator, driver, get)
+}
 
-  def elements(locator: By) = get.findElements(locator).toList
+class FindContext(searchContext: => SearchContext) {
+  def element(locator: By)(implicit driver: WebDriver) = new Element(locator, driver, searchContext)
+  def elements(locator: By) = searchContext.findElements(locator).toList
 }
 
 object Element {
-  def apply(locator: By)(implicit driver: WebDriver) = new Element(locator, driver, driver)
-  // provide all WebElement methods on our Element class e.g. element.click()
-  implicit def webElement(value: Element): WebElement = value.get
+  def apply(locator: By)(implicit driver: WebDriver) = new FindContext(driver).element(locator)
+
+  implicit def webElement(element: Element): WebElement = element.get
+  implicit def augmentWebElement(webElement: => WebElement) = new FindContext(webElement)
+  implicit def augmentElement(element: Element) = augmentWebElement(webElement(element))
 }
 
 object Elements {
-  def apply(locator: By)(implicit driver: WebDriver): List[WebElement] = driver.findElements(locator).toList
+  def apply(locator: By)(implicit driver: WebDriver): List[WebElement] = new FindContext(driver).elements(locator)
 }
