@@ -13,7 +13,6 @@ class ExampleTests extends WebDriverFeatureSpec with GivenWhenThen {
 
     scenarioWeb("My first test") {
 
-
       given {
         ExampleSteps().loggedIn()
       }

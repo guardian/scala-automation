@@ -8,9 +8,12 @@ import scala.collection.JavaConversions._
 /**
  * Created by ipamer && jduffell on 04/07/2014.
  */
-class Element(val locator: By, driver: WebDriver, searchContext: => SearchContext) {
+protected class LazyElement(val locator: By, driver: WebDriver, searchContext: => SearchContext) extends Element {
 
-  lazy val get = searchContext.findElement(locator)
+  override lazy val get = {
+    println(s"$locator = $searchContext")
+    searchContext.findElement(locator)
+  }
 
   def waitGet(timeOutInSeconds: Long = 30) = {
     new WebDriverWait(driver, timeOutInSeconds).until(ExpectedConditions.presenceOfElementLocated(locator))
@@ -26,19 +29,32 @@ class Element(val locator: By, driver: WebDriver, searchContext: => SearchContex
 
 }
 
-class FindContext(searchContext: => SearchContext) {
-  def element(locator: By)(implicit driver: WebDriver) = new Element(locator, driver, searchContext)
-  def elements(locator: By) = searchContext.findElements(locator).toList
+protected class WrappedElement(webElement: WebElement) extends Element {
+  override val get = webElement
+  def waitGet(timeOutInSeconds: Long = 30) = get
+  def safeGet = Some(get)
+}
+
+abstract class Element {
+  protected def get: WebElement
+
+  def waitGet(timeOutInSeconds: Long = 30): WebElement
+  def safeGet: Option[WebElement]
+
+  def element(locator: By)(implicit driver: WebDriver) = Element.element(locator, driver, get)
+  def elements(locator: By) = Elements.elements(locator, get)
 }
 
 object Element {
-  def apply(locator: By)(implicit driver: WebDriver) = new FindContext(driver).element(locator)
+  def apply(locator: By)(implicit driver: WebDriver) = element(locator, driver, driver)
 
-  implicit def webElement(element: Element): WebElement = element.get
-  implicit def augmentWebElement(webElement: => WebElement) = new FindContext(webElement)
-  implicit def augmentElement(element: Element) = augmentWebElement(webElement(element))
+  protected[page] def element(locator: By, driver: WebDriver, searchContext: => SearchContext): Element = new LazyElement(locator, driver, searchContext)
+
+  implicit def elementToWebElement(element: Element): WebElement = element.get
 }
 
 object Elements {
-  def apply(locator: By)(implicit driver: WebDriver): List[WebElement] = new FindContext(driver).elements(locator)
+  def apply(locator: By)(implicit driver: WebDriver): List[Element] = elements(locator, driver)
+
+  protected[page] def elements(locator: By, searchContext: SearchContext): List[Element] = searchContext.findElements(locator).toList.map(new WrappedElement(_))
 }

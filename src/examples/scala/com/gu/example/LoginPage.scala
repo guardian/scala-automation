@@ -11,16 +11,16 @@ import org.openqa.selenium.{By, WebDriver}
  */
 case class LoginPage(implicit driver: WebDriver) {
 
-  private def pageRoot = Element(By.id("loginArea"))
+  private lazy val pageRoot = Element(By.xpath("/*"))
 
-  private def userTextbox = pageRoot.element(By.id("user"))
-  private def passwordTextbox = pageRoot.element(By.id("password"))
+  private def userTextbox = pageRoot.element(By.xpath(".//*"))
+  private def passwordTextbox = pageRoot.element(By.xpath("//*"))
   private def submitButton = pageRoot.element(By.cssSelector(".form-field > button"))
 
-  private def userTextboxes2 = pageRoot.elements(By.id("user"))
+  private def textboxes = pageRoot.elements(By.id("user"))
 
   def login(user: String, password: String): LoginPage = {
-    Wait().until(ExpectedConditions.elementToBeClickable(userTextbox.locator))
+    Wait().until(ExpectedConditions.elementToBeClickable(userTextbox))
     userTextbox.sendKeys(user)
     passwordTextbox.sendKeys(password)
     passwordTextbox.sendKeys(password)
@@ -31,13 +31,26 @@ case class LoginPage(implicit driver: WebDriver) {
       case _ => throw new RuntimeException("can't find")
     }
 
-    if (userTextboxes2.filter(_.isDisplayed == true).length > 2) {
+    if (textboxes.filter(_.isDisplayed == true).length > 2) {
       // do something happy
     } else {
       throw new RuntimeException("can't find")
     }
 
     this
+  }
+
+  def test() = {
+    if (userTextbox.safeGet != None && passwordTextbox.safeGet != None) {
+      true
+    }
+    pageRoot
+    userTextbox
+    println("============================")
+    userTextbox.isDisplayed
+    println("============================")
+    pageRoot.elements(By.xpath("/*"))
+    pageRoot.elements(By.xpath("/*"))(0)
   }
 
 }
