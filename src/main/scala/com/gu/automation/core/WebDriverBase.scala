@@ -7,8 +7,6 @@ import org.openqa.selenium.WebDriver
  */
 trait WebDriverBase[T <: WebDriver] {
 
-  implicit var driver: T
-
-  protected def startDriver(): T
+  protected def startDriver(testName: String): T
 
 }

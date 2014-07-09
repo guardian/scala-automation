@@ -1,6 +1,7 @@
 package com.gu.example
 
 import com.gu.automation.core.{GivenWhenThen, WebDriverFeatureSpec}
+import org.openqa.selenium.WebDriver
 
 /**
  * Created by ipamer on 02/06/2014.
@@ -11,7 +12,7 @@ class ExampleTests extends WebDriverFeatureSpec with GivenWhenThen {
 
   feature("My example feature") {
 
-    scenarioWeb("My first test") {
+    scenarioWeb("My first test") { implicit driver: WebDriver =>
 
       given {
         ExampleSteps().loggedIn()

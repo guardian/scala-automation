@@ -12,23 +12,20 @@ import org.slf4j.MDC
 
 abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with fixture.TestDataFixture {
 
-  protected var testName: String = null
-
-  protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: => Any) {
+  protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: WebDriver => Any) {
     scenario(specText, testTags: _*)({ td =>
-      testName = td.name
       sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
       MDC.put("ID", UUID.randomUUID().toString)
       MDC.put("setName", Config().getProjectName())
       MDC.put("setDate", Config().getTestSetStartTime().getMillis.toString)
-      MDC.put("testName", testName)
+      MDC.put("testName", td.name)
       MDC.put("testDate", DateTime.now.getMillis.toString)
       logger.info("[TEST START]") // starts websocket to T-Stash
-      logger.info("Test Name: " + testName)
+      logger.info("Test Name: " + td.name)
 
-      driver = startDriver()
+      val driver = startDriver(td.name)
       try {
-        testFun
+        testFun(driver)
       } catch {
         case e: Exception => failWithScreenshot(td.name, driver, e)
       } finally {
