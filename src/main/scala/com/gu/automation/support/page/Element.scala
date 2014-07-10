@@ -13,7 +13,7 @@ abstract class Element {
   def >>(locator: By) = new LazyElement(locator, get)
 }
 
-protected class LazyElement(val locator: By, val searchContext: => SearchContext) extends Element {
+protected class LazyElement(val locator: By, val searchContext: SearchContext) extends Element {
 
   override lazy val get = searchContext.findElement(locator)
 
