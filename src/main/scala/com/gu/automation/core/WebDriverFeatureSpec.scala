@@ -7,9 +7,7 @@ import org.openqa.selenium.WebDriver
  */
 class WebDriverFeatureSpec extends BaseFeatureSpec[WebDriver] {
 
-    override implicit var driver: WebDriver = null
-
-    protected def startDriver(): WebDriver = {
+    protected def startDriver(testName: String): WebDriver = {
       WebDriverManagement.startWebDriver(testName)
     }
 
