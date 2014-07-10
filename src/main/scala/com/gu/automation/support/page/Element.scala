@@ -26,7 +26,7 @@ protected class LazyElement(val locator: By, val searchContext: SearchContext) e
     try {
       Some(get)
     } catch {
-      case e: NoSuchElementException => None
+      case e: org.openqa.selenium.NoSuchElementException => None
     }
 
 }

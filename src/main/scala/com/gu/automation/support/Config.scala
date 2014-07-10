@@ -76,6 +76,10 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     config.getConfig("user").getString(key)
   }
 
+  def getCapability(key: String): String = {
+    config.getConfig("capabilities").getString(key)
+  }
+
   def getPluginValue(key: String, default: String = ""): String = {
     if (config.hasPath(s"plugin.$key")) {
       return config.getConfig("plugin").getString(key)
