@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
  */
 abstract class Element {
   protected def get: SearchContext
-  def >>(locator: By) = new LazyElement(locator, get)
+  def element(locator: By) = new LazyElement(locator, get)
 }
 
 protected class LazyElement(val locator: By, val searchContext: SearchContext) extends Element {

@@ -14,6 +14,7 @@ class ExampleTests extends WebDriverFeatureSpec with GivenWhenThen {
 
     scenarioWeb("My first test") { implicit driver: WebDriver =>
 
+//      LoginPage.goto().test()
       given {
         ExampleSteps().loggedIn()
       }

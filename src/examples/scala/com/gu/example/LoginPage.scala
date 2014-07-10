@@ -5,19 +5,22 @@ import com.gu.automation.support.page.Element._
 import com.gu.automation.support.page.{Element, Wait}
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.{By, WebDriver}
+import By._
 
 /**
  * Created by ipamer on 02/06/2014.
  */
 case class LoginPage(implicit driver: WebDriver) {
 
-  private lazy val root = driver >> By.xpath("/*")
+  implicit def asdf(testAttribute: String) = By.cssSelector(s"asdasd${testAttribute}sda")
 
-  private def userTextbox = root >> By.xpath(".//*") >> By.id("ss")
-  private def passwordTextbox = root >> By.xpath("//*")
-  private def submitButton = root >> By.cssSelector(".form-field > button")
+  private lazy val root = driver element cssSelector("/div[@rt='ad']")
 
-  private def textboxes = root >> By.id("user")
+  private def userTextbox = root.element(xpath("fish"))
+  private def passwordTextbox = root element xpath("./*")
+  private def submitButton = root element cssSelector(".form-field > button")
+
+  private def textboxes = root element id("user")
 
   def login(user: String, password: String): LoginPage = {
     Wait().until(ExpectedConditions.elementToBeClickable(userTextbox))
@@ -44,17 +47,21 @@ case class LoginPage(implicit driver: WebDriver) {
   }
 
   def test() = {
+    println("1============================")
     if (userTextbox.safeGet != None && passwordTextbox.safeGet != None) {
       true
     }
-    userTextbox.waitGet(30).click()
+    println("2============================")
+//    userTextbox.waitGet(30).click()
     userTextbox
-    println("============================")
+    println("3============================")
     userTextbox.isDisplayed
-    println("============================")
+    println("4============================")
 //    val x = root.waitGet(10).>>(By.id("dd"))
-//    root.elements(By.xpath("/*"))
-//    root.elements(By.xpath("/*"))(0)
+    root.element(By.xpath("/*"))
+    println("5============================")
+    root.element(By.xpath("/*"))(0)
+    println("6============================")
   }
 
 }
@@ -69,5 +76,5 @@ object LoginPage {
 }
 
 case class TextPage(root: Element) {
-  private def heading = root >> By.name("heading")
+  private def heading = root element By.name("heading")
 }
