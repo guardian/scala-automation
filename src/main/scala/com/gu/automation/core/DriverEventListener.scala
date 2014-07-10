@@ -26,19 +26,19 @@ class DriverEventListener() extends WebDriverEventListener with TestLogging {
   }
 
   def onException(throwable: Throwable, driver: WebDriver) {
-    logger.driver("Exception found: " + throwable.getClass.getName + ": message: " + throwable.getMessage + " time: " + end)
+    logDriver("Exception found: " + throwable.getClass.getName + ": message: " + throwable.getMessage + " time: " + end)
   }
 
   def afterNavigateBack(driver: WebDriver) {
-    logger.driver("Navigated back: " + end)
+    logDriver("Navigated back: " + end)
   }
 
   def afterChangeValueOf(element: WebElement, driver: WebDriver) {
-    logger.driver("Changed value of " + previousBy + ". Original value: '" + originalValue + "' new value: '" + element.getAttribute("value") + "' time: " + end)
+    logDriver("Changed value of " + previousBy + ". Original value: '" + originalValue + "' new value: '" + element.getAttribute("value") + "' time: " + end)
   }
 
   def afterScript(script: String, driver: WebDriver) {
-    logger.driver("Ran script: '" + script + "' time: " + end)
+    logDriver("Ran script: '" + script + "' time: " + end)
   }
 
   def beforeFindBy(by: By, element: WebElement, driver: WebDriver) {
@@ -56,15 +56,15 @@ class DriverEventListener() extends WebDriverEventListener with TestLogging {
   }
 
   def afterNavigateForward(driver: WebDriver) {
-    logger.driver("Navigated forward: " + end)
+    logDriver("Navigated forward: " + end)
   }
 
   def afterClickOn(element: WebElement, driver: WebDriver) {
-    logger.driver("Clicked on: " + previousBy.toString + " " + end)
+    logDriver("Clicked on: " + previousBy.toString + " " + end)
   }
 
   def afterFindBy(by: By, element: WebElement, driver: WebDriver) {
-    logger.driver("Found element: " + previousBy.toString + " " + end)
+    logDriver("Found element: " + previousBy.toString + " " + end)
   }
 
   def beforeNavigateBack(driver: WebDriver) {
@@ -76,11 +76,15 @@ class DriverEventListener() extends WebDriverEventListener with TestLogging {
   }
 
   def afterNavigateTo(url: String, driver: WebDriver) {
-    logger.driver("Navigated to: " + url + " " + end)
+    logDriver("Navigated to: " + url + " " + end)
   }
 
   def beforeNavigateTo(url: String, driver: WebDriver) {
     begin
+  }
+
+  private def logDriver(msg: String) {
+    logger.info("DRIVER: " + msg)
   }
 
 }
