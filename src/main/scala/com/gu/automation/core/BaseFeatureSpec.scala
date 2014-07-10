@@ -20,6 +20,7 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       MDC.put("setDate", Config().getTestSetStartTime().getMillis.toString)
       MDC.put("testName", td.name)
       MDC.put("testDate", DateTime.now.getMillis.toString)
+      MDC.put("phase", "STEP")
       logger.info("[TEST START]") // starts websocket to T-Stash
       logger.info("Test Name: " + td.name)
 
@@ -36,11 +37,11 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
   }
 
   private def failWithScreenshot(testName: String, driver: WebDriver, e: Exception) = {
-    logger.failure("Test failed")
+    logger.error("Test failed")
     try {
       val screenshotFile = driver match {
         case ts: TakesScreenshot => {
-          logger.failure("Test failed")
+          logger.error("Test failed")
           ts.getScreenshotAs(OutputType.BYTES)
         }
         case _ => throw new RuntimeException("Error getting screenshot")

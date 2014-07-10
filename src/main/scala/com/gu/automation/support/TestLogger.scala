@@ -1,7 +1,7 @@
 package com.gu.automation.support
 
 import com.typesafe.scalalogging.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.slf4j.{LoggerFactory, MDC}
 
 trait TestLogging {
   protected implicit lazy val logger: TestLogger = new TestLogger(Logger(LoggerFactory getLogger getClass.getName))
@@ -9,27 +9,13 @@ trait TestLogging {
 
 class TestLogger(val logger: Logger) extends com.typesafe.scalalogging.Logger {
 
-  private var phase: String = "GIVEN"
-
-  def setPhase(phase: String) {
-    this.phase = phase
-  }
-
   def step(str: String) {
-    info(phase + " " + str)
-    setPhase("AND")
+    info(MDC.get("phase") + " " + str)
+    MDC.put("phase", "AND")
   }
 
-  def assertion(msg: String) {
+  def assert(msg: String) {
     info("ASSERT: " + msg)
-  }
-
-  def failure(str: String) {
-    error(str)
-  }
-
-  def driver(msg: String) {
-    info("DRIVER: " + msg)
   }
 
   // Standard log interface
