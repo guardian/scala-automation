@@ -4,6 +4,7 @@ import java.io.{File, FileReader, InputStreamReader, Reader}
 
 import com.typesafe.config.ConfigFactory
 import org.joda.time.DateTime
+import scala.collection.JavaConversions._
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -26,8 +27,9 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 
     val specificEnvFallback = inFileFallback(environment)_
 
-    crossFileFallback(specificEnvFallback(localConf), specificEnvFallback(projectConf), specificEnvFallback(frameworkConfig))
+    val allFiles = crossFileFallback(specificEnvFallback(localConf), specificEnvFallback(projectConf), specificEnvFallback(frameworkConfig))
 
+    ConfigFactory.defaultOverrides().withFallback(allFiles)
   }
 
   protected def getConfigValue(key: String) = {
@@ -76,8 +78,13 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     config.getConfig("user").getString(key)
   }
 
-  def getCapability(key: String): String = {
-    config.getConfig("capabilities").getString(key)
+  def getCapabilities(): Option[List[(String, String)]] = {
+    if (config.hasPath("capabilities")) {
+      val caps = config.getConfig("capabilities")
+      Some(caps.entrySet().map(e => (e.getKey, caps.getString(e.getKey))).toList)
+    } else {
+      None
+    }
   }
 
   def getPluginValue(key: String, default: String = ""): String = {
