@@ -11,7 +11,6 @@ class TestLogger(val logger: Logger) extends com.typesafe.scalalogging.Logger {
 
   def step(str: String) {
     info(MDC.get("phase") + " " + str)
-    MDC.put("phase", "AND")
   }
 
   def assert(msg: String) {
