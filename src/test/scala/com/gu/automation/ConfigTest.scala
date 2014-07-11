@@ -3,6 +3,7 @@ package com.gu.automation
 import java.io.InputStreamReader
 
 import com.gu.automation.support.Config
+import com.typesafe.config.ConfigFactory
 import org.scalatest._
 
 /**
@@ -61,6 +62,7 @@ class ConfigTest extends FlatSpec with Matchers {
 
   "The Config" should "also override with system properties" in {
     System.setProperty("browser", "chrome")
+    ConfigFactory.invalidateCaches()
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
     configLoader.getBrowser() should be ("chrome")
   }
