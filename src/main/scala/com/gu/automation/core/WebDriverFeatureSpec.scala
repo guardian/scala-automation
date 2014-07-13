@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver
 class WebDriverFeatureSpec extends BaseFeatureSpec[WebDriver] {
 
     protected def startDriver(testName: String): WebDriver = {
-      WebDriverManagement.startWebDriver(testName)
+      WebDriverFactory.newInstance(getClass().getSimpleName() + "." + testName)
     }
 
 }
