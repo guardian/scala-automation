@@ -1,7 +1,10 @@
-package com.gu.example
+package com.gu.example.page
 
 import com.gu.automation.support.Config
-import com.gu.automation.support.page.{SafeGet, Wait}
+// import all of PageHelpers to get handy waiting methods
+import com.gu.automation.support.page.Element._
+import com.gu.example.page.TestIdLocator._
+// import all of By to neaten up the locators
 import org.openqa.selenium.By._
 import org.openqa.selenium.support.ui.ExpectedConditions._
 import org.openqa.selenium.{WebDriver, WebElement}
@@ -21,32 +24,16 @@ case class ExamplePage(implicit driver: WebDriver) {
    */
   private def root = driver.findElement(id("root"))
 
-
   /**
-   * this is an example how to have a default locator, for example if you always locate on a test-id
-   *
-   * On your project you would probably put this in a trait or object and import it into your page objects.
-   */
-  implicit def implicitRelativeLocator(testAttribute: String) = xpath(s".//*[@test-id='${testAttribute}']")
-
-  /**
-   * This example uses the above implicit locator
+   * This example uses the relative implicit locator
    */
   private def buttonUsingImplicitRelative = root findElement "first"
 
-
   /**
-   * this is an example how to have a default locator from the root, for example if you always locate on a unique test-id
-   *
-   * On your project you would probably put this in a trait or object and import it into your page objects.
-   */
-  implicit def implicitAbsoluteLocator(testAttribute: String)(implicit driver: WebDriver) = driver findElement xpath(s"//*[@test-id='${testAttribute}']")
-
-  /**
-   * This example uses the above implicit locator
+   * This example uses the absolute implicit locator
    *
    * Note that if you are caching by using lazy val, or validating the field when the page is created using val, they
-   * will only work if you state the type of the val as WebElement.
+   * will only work if you state the type of the val as WebElement - otherwise it will just fetch when it's needed.
    */
   private def buttonUsingImplicitAbsolute: WebElement = "sub"
 
@@ -62,23 +49,28 @@ case class ExamplePage(implicit driver: WebDriver) {
   private def rows = root findElements "row"
 
   def sendToExample(text: String) = {
-    Wait.explicitWait.until(elementToBeClickable(buttonUsingImplicitAbsolute))
-    textbox.sendKeys(text)
-    // click if it's there
-    SafeGet.elementOption(missing).map(_.click())
-    SafeGet.elementOption(second).map(_.click())
+    // this syntax is a bit clunky and could be improved in future - let me know if you use it and want better
+    explicitWait.until(elementToBeClickable(buttonUsingImplicitAbsolute))
 
-    if (SafeGet.isDisplayed(missing)) {
+    textbox.sendKeys(text)
+    // click only if it's there
+    elementOption(missing).map(_.click())
+    elementOption(second).map(_.click())
+
+    if (isDisplayed(missing)) {
       println("here - won't happen")
     } else {
       println("not here - as expected")
     }
 
-    println("rows: " + rows.count(_.isDisplayed == true))
+    println("rows: " + rows.count(_.isDisplayed))
 
     val textPages = rows.map(TextPage(_))
     println("modules: " + textPages)
 
+    waitGet(buttonUsingImplicitRelative, 30).click()
+
+    // return the resulting page object
     textPages
   }
 
@@ -100,11 +92,3 @@ object ExamplePage {
   }
 
 }
-
-/**
- * Should be in another file similar to the above, and root is passed in
- */
-case class TextPage(root: WebElement) {
-  private def heading = root findElement name("heading")
-}
-

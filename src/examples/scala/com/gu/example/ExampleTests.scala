@@ -16,16 +16,19 @@ class ExampleTests extends WebDriverFeatureSpec with GivenWhenThen {
 
   feature("My example feature") {
 
+    /**
+     * scenarioWeb handles starting and stopping the browser, you will have to declare an implicit driver as shown
+     */
     scenarioWeb("My first test") { implicit driver: WebDriver =>
 
       given {
         ExampleSteps().loggedIn()
       }
       .when {
-        _.goToTheEventsPage()
+        _.IGoToTheEventsPage()
       }
       .then {
-        _.seeAListOfEvents()
+        _.ISeeAListOfEvents()
       }
 //      .when {
 //        _.goToTheEventsPage()

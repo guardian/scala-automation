@@ -1,6 +1,7 @@
 package com.gu.example
 
 import com.gu.automation.support.TestLogging
+import com.gu.example.page.ExamplePage
 import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers._
 
@@ -12,25 +13,23 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging {
   def loggedIn() = {
     logger.step("I am logged in")
     /*
-    We use the API to log in and put the cookies into the browser
-    your local.conf needs to contain something like:
-
-      loginEmail : "test.user@guardian.co.uk"
-      loginPassword : "asdf"
-
+     * If you need to be logged in, use
+     * https://github.com/guardian/scala-automation-web-signin
+     * http://repo1.maven.org/maven2/com/gu/scala-automation-web-signin_2.10/
+     * for a quick and reliable method
      */
-//    val loginPage = logInToGUPage(LoginPage.goto)
+//    val examplePage = logInToGUPage(ExamplePage.goto)
     ExamplePage.goto
     this
   }
 
-  def goToTheEventsPage() = {
+  def IGoToTheEventsPage() = {
     logger.step("I go to the events page")
     ExamplePage().sendToExample("cheese")
     this
   }
 
-  def seeAListOfEvents() = {
+  def ISeeAListOfEvents() = {
     logger.step("I see a list of events")
     val result = ExamplePage().getFromExample
     result should be("cheese")
