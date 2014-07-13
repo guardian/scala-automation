@@ -20,19 +20,20 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging {
 
      */
 //    val loginPage = logInToGUPage(LoginPage.goto)
-//    loginPage//.doSomethingElse("asdf")
-    LoginPage.goto
+    ExamplePage.goto
     this
   }
 
   def goToTheEventsPage() = {
     logger.step("I go to the events page")
+    ExamplePage().sendToExample("cheese")
     this
   }
 
   def seeAListOfEvents() = {
     logger.step("I see a list of events")
-    "hello" should be("hello")
+    val result = ExamplePage().getFromExample
+    result should be("cheese")
     this
   }
 

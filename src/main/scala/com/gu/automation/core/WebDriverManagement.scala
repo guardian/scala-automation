@@ -1,7 +1,9 @@
 package com.gu.automation.core
 
 import java.net.URL
+import java.util.concurrent.TimeUnit._
 
+import com.gu.automation.support.page.WaitGet
 import com.gu.automation.support.{Config, TestLogging}
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -16,7 +18,7 @@ object WebDriverManagement extends TestLogging {
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
 
   def startWebDriver(testName: String): WebDriver = {
-    if (webDriverRemoteUrl == "") {
+    val driver = if (webDriverRemoteUrl == "") {
       getLocalWebDriver()
     } else {
       val caps = getCapabilities()
@@ -27,6 +29,8 @@ object WebDriverManagement extends TestLogging {
       logger.info("Started browser: " + userAgent)
       remoteDriver
     }
+    driver.manage().timeouts().implicitlyWait(WaitGet.ImplicitWait, SECONDS)
+    driver
   }
 
   private def getLocalWebDriver(): WebDriver = browser match {

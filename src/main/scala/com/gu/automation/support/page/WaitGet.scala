@@ -6,22 +6,10 @@ import org.openqa.selenium.WebDriver
 
 /**
  * Created by jduffell on 13/07/2014.
+ *
+ * Waits for the presence of an element for other than the default time, useful if something is likely to be slow to
+ * appear, or if something should be there already and you just want to check the presence.
  */
-object SafeDisplayed {
-
-}
-
-object SafeFindBoolean {
-  def apply(get: => Boolean): Boolean = {
-    try {
-      get
-    } catch {
-      case e: org.openqa.selenium.NoSuchElementException => false
-    }
-
-  }
-}
-
 object WaitGet {
 
   val ImplicitWait = 2
@@ -31,16 +19,5 @@ object WaitGet {
     val actual = locator
     driver.manage().timeouts().implicitlyWait(ImplicitWait, TimeUnit.SECONDS)
     actual
-  }
-}
-
-object SafeGet {
-
-  def apply[A](locator: => A): Option[A] = {
-    try {
-      Some(locator)
-    } catch {
-      case e: org.openqa.selenium.NoSuchElementException => None
-    }
   }
 }

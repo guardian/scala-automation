@@ -1,9 +1,9 @@
 package com.gu.example
 
 import com.gu.automation.support.Config
-import com.gu.automation.support.page.{SafeFindBoolean, SafeGet, WaitGet}
+import com.gu.automation.support.page.WaitGet
 import org.openqa.selenium.By._
-import org.openqa.selenium.{By, WebDriver, WebElement}
+import org.openqa.selenium.{By, WebDriver}
 
 /**
  * Created by ipamer on 02/06/2014.
@@ -41,17 +41,6 @@ case class LoginPage(implicit driver: WebDriver) {
 //    textboxes.map(TextPage(_))
 //    TextPage(userTextbox)
 //
-    if (SafeFindBoolean(submitButton.isDisplayed)) {
-      //happy
-    } else {
-      // sad
-    }
-    
-    SafeGet(root) match {
-      case None => ///eeek
-      case Some(x) => // happy days
-    }
-
     this
   }
 //  def waitGet(timeOutInSeconds: Long = 30)(implicit driver: WebDriver) = {
@@ -89,8 +78,3 @@ object LoginPage {
   }
 
 }
-
-case class TextPage(root: WebElement) {
-  private def heading = root findElement name("heading")
-}
-

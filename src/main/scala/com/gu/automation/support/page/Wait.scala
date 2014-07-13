@@ -5,9 +5,11 @@ import org.openqa.selenium.support.ui.WebDriverWait
 
 /**
  * Created by ipamer on 17/06/2014.
+ *
+ * Uses explicit wait to wait for something.
  */
 object Wait {
 
-  def apply()(implicit driver: WebDriver) = new WebDriverWait(driver, 30)
+  def explicitWait(implicit driver: WebDriver) = new WebDriverWait(driver, 30)
 
 }
