@@ -14,22 +14,22 @@ class ExampleTests extends WebDriverFeatureSpec with GivenWhenThen {
 
     scenarioWeb("My first test") { implicit driver: WebDriver =>
 
-//      LoginPage.goto().test()
-      given {
-        ExampleSteps().loggedIn()
-      }
-      .when {
-        _.goToTheEventsPage()
-      }
-      .then {
-        _.seeAListOfEvents()
-      }
-      .when {
-        _.goToTheEventsPage()
-      }
-      .then {
-        _.seeAListOfEvents()
-      }
+      LoginPage.goto().test()
+//      given {
+//        ExampleSteps().loggedIn()
+//      }
+//      .when {
+//        _.goToTheEventsPage()
+//      }
+//      .then {
+//        _.seeAListOfEvents()
+//      }
+//      .when {
+//        _.goToTheEventsPage()
+//      }
+//      .then {
+//        _.seeAListOfEvents()
+//      }
 
     }
 
