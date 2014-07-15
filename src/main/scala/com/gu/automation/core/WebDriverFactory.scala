@@ -10,10 +10,22 @@ import org.openqa.selenium.remote.{Augmenter, DesiredCapabilities, RemoteWebDriv
 import org.openqa.selenium.support.events.EventFiringWebDriver
 import org.openqa.selenium.{JavascriptExecutor, WebDriver}
 
-object WebDriverFactory extends TestLogging {
+trait WebDriverFactory extends TestLogging {
 
   val browser: String = Config().getBrowser()
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
+
+  /**
+   * This method is called after the driver has been created. Override this to augment it with special driver initialization
+   */
+  def augmentDriver(driver: WebDriver): WebDriver
+
+  /**
+   * This method is called after the Capabilities but before the webdriver has been created. Override this to augment it
+   * with special driver initialization
+   */
+  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): DesiredCapabilities
+
 
   def newInstance(testCaseName: String, extraCapabilities: List[(String,String)] = List()): WebDriver = {
     
@@ -32,19 +44,6 @@ object WebDriverFactory extends TestLogging {
     remoteDriver
   }
 
-  private def augmentDriver(driver: WebDriver): WebDriver = {
-    val augmentedDriver = new EventFiringWebDriver(new Augmenter().augment(driver))
-    augmentedDriver.manage().window().maximize()
-    augmentedDriver
-  }
-
-  private def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String,String)]): DesiredCapabilities = {
-    Config().getCapabilities().map(_.foreach(cap => capabilities.setCapability(cap._1, cap._2)))
-    extraCapabilities.foreach(cap => capabilities.setCapability(cap._1, cap._2))
-    capabilities.setCapability("name", testCaseName)
-    return capabilities
-  }
-
   private def createDriver(capabilities: DesiredCapabilities, driver: (DesiredCapabilities) => WebDriver): WebDriver = {
     if (webDriverRemoteUrl != "") {
       new RemoteWebDriver(new URL(webDriverRemoteUrl), capabilities)
@@ -52,5 +51,20 @@ object WebDriverFactory extends TestLogging {
       driver(capabilities)
     }
   }
+}
 
+object WebDriverFactory extends WebDriverFactory {
+
+  def augmentDriver(driver: WebDriver): WebDriver = {
+    val augmentedDriver = new EventFiringWebDriver(new Augmenter().augment(driver))
+    augmentedDriver.manage().window().maximize()
+    augmentedDriver
+  }
+
+  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): DesiredCapabilities = {
+    Config().getCapabilities().map(_.foreach(cap => capabilities.setCapability(cap._1, cap._2)))
+    extraCapabilities.foreach(cap => capabilities.setCapability(cap._1, cap._2))
+    capabilities.setCapability("name", testCaseName)
+    return capabilities
+  }
 }
