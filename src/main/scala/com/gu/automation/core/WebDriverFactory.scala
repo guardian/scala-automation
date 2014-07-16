@@ -1,7 +1,9 @@
 package com.gu.automation.core
 
 import java.net.URL
+import java.util.concurrent.TimeUnit._
 
+import com.gu.automation.support.page.WaitGet
 import com.gu.automation.support.{Config, TestLogging}
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
@@ -53,6 +55,7 @@ object WebDriverFactory extends TestLogging {
   private def augmentDriver(driver: WebDriver): WebDriver = {
     val augmentedDriver = new EventFiringWebDriver(new Augmenter().augment(driver))
     augmentedDriver.manage().window().maximize()
+    driver.manage().timeouts().implicitlyWait(WaitGet.ImplicitWait, SECONDS)
     augmentedDriver
   }
 
