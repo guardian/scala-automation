@@ -59,7 +59,7 @@ object WebDriverFactory extends TestLogging {
     capabilities.setCapability("name", testCaseName)
     sauceLabsPlatform.map(capabilities.setCapability("platform", _))
     browserVersion.map(capabilities.setCapability("version", _))
-    return capabilities
+    capabilities
   }
 
   private def createDriver(capabilities: DesiredCapabilities, driver: (DesiredCapabilities) => WebDriver): WebDriver = {
