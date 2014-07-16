@@ -33,18 +33,20 @@ object WebDriverFactory extends TestLogging {
    */
   def newInstance(testCaseName: String, extraCapabilities: List[(String,String)] = List()): WebDriver = {
     
-    val (driver, initialCapabilities): (DesiredCapabilities => WebDriver, DesiredCapabilities) = browser match {
-      case "firefox" => (new FirefoxDriver(_), DesiredCapabilities.firefox())
-      case "chrome" => (new ChromeDriver(_), DesiredCapabilities.chrome())
-      case "ie" => (new InternetExplorerDriver(_), DesiredCapabilities.internetExplorer())
+    val initialCapabilities = browser match {
+      case "firefox" => DesiredCapabilities.firefox()
+      case "chrome" => DesiredCapabilities.chrome()
+      case "ie" => DesiredCapabilities.internetExplorer()
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
     }
 
     val capabilities = augmentCapabilities(testCaseName, initialCapabilities, extraCapabilities)
-    val initialDriver = createDriver(capabilities, driver)
+    val initialDriver = createDriver(capabilities)
     val remoteDriver = augmentDriver(initialDriver)
+
     val userAgent = remoteDriver.asInstanceOf[JavascriptExecutor].executeScript("return navigator.userAgent")
     logger.info("Started browser: " + userAgent)
+
     remoteDriver
   }
 
@@ -55,18 +57,23 @@ object WebDriverFactory extends TestLogging {
   }
 
   private def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String,String)]): DesiredCapabilities = {
-    extraCapabilities.foreach(cap => capabilities.setCapability(cap._1, cap._2))
     capabilities.setCapability("name", testCaseName)
     sauceLabsPlatform.map(capabilities.setCapability("platform", _))
     browserVersion.map(capabilities.setCapability("version", _))
+    extraCapabilities.foreach(cap => capabilities.setCapability(cap._1, cap._2))
     capabilities
   }
 
-  private def createDriver(capabilities: DesiredCapabilities, driver: (DesiredCapabilities) => WebDriver): WebDriver = {
+  private def createDriver(capabilities: DesiredCapabilities): WebDriver = {
     if (webDriverRemoteUrl != "") {
       new RemoteWebDriver(new URL(webDriverRemoteUrl), capabilities)
     } else {
-      driver(capabilities)
+      browser match {
+        case "firefox" => new FirefoxDriver(capabilities)
+        case "chrome" => new ChromeDriver(capabilities)
+        case "ie" => new InternetExplorerDriver(capabilities)
+        case default => throw new RuntimeException(s"Browser: [$default] is not supported")
+      }
     }
   }
 
