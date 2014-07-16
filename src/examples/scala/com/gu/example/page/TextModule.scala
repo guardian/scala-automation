@@ -6,7 +6,9 @@ import org.openqa.selenium.WebElement
 /**
  * Created by jduffell on 13/07/2014.
  */
-case class TextPage(root: WebElement) {
+case class TextModule(root: WebElement) {
   private def heading = root findElement name("heading")
+
+  def getHeading = heading.getText
 }
 

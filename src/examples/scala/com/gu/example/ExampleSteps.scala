@@ -25,7 +25,14 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging {
 
   def IGoToTheEventsPage() = {
     logger.step("I go to the events page")
-    ExamplePage().sendToExample("cheese")
+    val page = ExamplePage()
+      page.waitFor
+    page.sendText("cheese")
+    page.safeGet
+    page.printWhetherPresentAndDisplayed
+    page.multiRowList
+    val modules = page.getModules
+    modules.map(_.getHeading).foreach(h => println(s"heading: $h"))
     this
   }
 

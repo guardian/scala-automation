@@ -10,9 +10,7 @@ import org.openqa.selenium.WebElement
  */
 trait SafeGet {
 
-  private def apply[B]
-  (get: WebElement => B, default: B)
-  (element: => WebElement): B = {
+  private def apply[B](get: WebElement => B, default: B)(element: => WebElement): B = {
     try {
       get(element)
     } catch {

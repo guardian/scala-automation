@@ -16,13 +16,15 @@ object TestIdLocator {
    *
    * On your project you would probably put this in a trait or object and import it into your page objects.
    */
-  implicit def implicitRelativeLocator(testAttribute: String) = xpath(s".//*[@test-id='${testAttribute}']")
+  implicit def implicitRelativeLocator(testAttribute: String) =
+    xpath(s"[test-id=$testAttribute]")
 
   /**
    * this is an example how to have a default locator from the root, for example if you always locate on a unique test-id
    *
    * On your project you would probably put this in a trait or object and import it into your page objects.
    */
-  implicit def implicitAbsoluteLocator(testAttribute: String)(implicit driver: WebDriver) = driver findElement xpath(s"//*[@test-id='${testAttribute}']")
+  implicit def implicitAbsoluteLocator(testAttribute: String)(implicit driver: WebDriver) =
+    driver findElement xpath(s"[test-id=$testAttribute]")
 
 }
