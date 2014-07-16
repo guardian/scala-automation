@@ -14,7 +14,23 @@ object WebDriverFactory extends TestLogging {
 
   val browser: String = Config().getBrowser()
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
+  val sauceLabsPlatform: Option[String] = Config().getSauceLabsPlatform()
+  val sauceLabsVersion: Option[String] = Config().getSauceLabsVersion()
 
+  /**
+   * startDriver in the test case base calls this method.
+   *
+   * If you wish to add capabilities e.g. browserVersion, pass in extraCapabilities to this.
+   *
+   * If you wish to edit the driver, e.g. change the size, call the methods once the driver is returned to startDriver
+   * or the test.
+   *
+   * If the required changes are common, we can add them to the WebDriverFactory.
+   *
+   * @param testCaseName passed to saucelabs for test naming
+   * @param extraCapabilities any other capabilities you need for your tests
+   * @return
+   */
   def newInstance(testCaseName: String, extraCapabilities: List[(String,String)] = List()): WebDriver = {
     
     val (driver, initialCapabilities): (DesiredCapabilities => WebDriver, DesiredCapabilities) = browser match {
@@ -39,9 +55,10 @@ object WebDriverFactory extends TestLogging {
   }
 
   private def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String,String)]): DesiredCapabilities = {
-    Config().getCapabilities().map(_.foreach(cap => capabilities.setCapability(cap._1, cap._2)))
     extraCapabilities.foreach(cap => capabilities.setCapability(cap._1, cap._2))
     capabilities.setCapability("name", testCaseName)
+    sauceLabsPlatform.map(capabilities.setCapability("platform", _))
+    sauceLabsVersion.map(capabilities.setCapability("version", _))
     return capabilities
   }
 

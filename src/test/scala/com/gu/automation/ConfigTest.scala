@@ -52,19 +52,17 @@ class ConfigTest extends FlatSpec with Matchers {
     configLoader.getUserValue("fourth") should be ("FrameworkGlobal")
   }
 
-  "The capabilities" should "be readable as a list" in {
-    val configLoader = new Config(None, None, Some(getReader("capabilities.conf")))
-    val caps = configLoader.getCapabilities()
-    println(s"they are: $caps")
-    caps.get should contain (("asdf", "qwer"))
-    caps.get should contain (("another", "hiya"))
-  }
-
   "The Config" should "also override with system properties" in {
     System.setProperty("browser", "chrome")
     ConfigFactory.invalidateCaches()
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
     configLoader.getBrowser() should be ("chrome")
+  }
+
+  "The Config" should "handle optional values" in {
+    val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
+    configLoader.getSauceLabsPlatform() should be (None)
+    configLoader.getSauceLabsVersion() should be (Some("12"))
   }
 
   // helper method
