@@ -5,6 +5,10 @@ import org.openqa.selenium.WebDriver
 
 /**
  * Created by ipamer on 02/06/2014.
+ *
+ * To run this test against example.html, just add a local.conf with something like the following line:
+ *
+ * "testBaseUrl"           : "file:///Users/jduffell/ws/scala-automation/src/examples/resources"
  */
 class ExampleTests extends WebDriverFeatureSpec with GivenWhenThen {
 
@@ -12,24 +16,26 @@ class ExampleTests extends WebDriverFeatureSpec with GivenWhenThen {
 
   feature("My example feature") {
 
+    /**
+     * scenarioWeb handles starting and stopping the browser, you will have to declare an implicit driver as shown
+     */
     scenarioWeb("My first test") { implicit driver: WebDriver =>
 
-//      LoginPage.goto().test()
       given {
         ExampleSteps().loggedIn()
       }
       .when {
-        _.goToTheEventsPage()
+        _.IGoToTheEventsPage()
       }
       .then {
-        _.seeAListOfEvents()
+        _.ISeeAListOfEvents()
       }
-      .when {
-        _.goToTheEventsPage()
-      }
-      .then {
-        _.seeAListOfEvents()
-      }
+//      .when {
+//        _.goToTheEventsPage()
+//      }
+//      .then {
+//        _.seeAListOfEvents()
+//      }
 
     }
 
