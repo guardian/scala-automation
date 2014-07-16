@@ -3,7 +3,6 @@ package com.gu.automation.support
 import java.io.{File, FileReader, InputStreamReader, Reader}
 
 import com.typesafe.config.ConfigFactory
-import org.joda.time.DateTime
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -52,8 +51,8 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getOption("sauceLabsPlatform")
   }
 
-  def getSauceLabsVersion(): Option[String] = {
-    getOption("sauceLabsVersion")
+  def getBrowserVersion(): Option[String] = {
+    getOption("browserVersion")
   }
 
   def getWebDriverRemoteUrl(): String = {

@@ -15,7 +15,7 @@ object WebDriverFactory extends TestLogging {
   val browser: String = Config().getBrowser()
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
   val sauceLabsPlatform: Option[String] = Config().getSauceLabsPlatform()
-  val sauceLabsVersion: Option[String] = Config().getSauceLabsVersion()
+  val browserVersion: Option[String] = Config().getBrowserVersion()
 
   /**
    * startDriver in the test case base calls this method.
@@ -58,7 +58,7 @@ object WebDriverFactory extends TestLogging {
     extraCapabilities.foreach(cap => capabilities.setCapability(cap._1, cap._2))
     capabilities.setCapability("name", testCaseName)
     sauceLabsPlatform.map(capabilities.setCapability("platform", _))
-    sauceLabsVersion.map(capabilities.setCapability("version", _))
+    browserVersion.map(capabilities.setCapability("version", _))
     return capabilities
   }
 
