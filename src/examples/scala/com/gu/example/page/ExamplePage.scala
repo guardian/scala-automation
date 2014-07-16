@@ -1,10 +1,8 @@
 package com.gu.example.page
 
-import com.gu.automation.support.Config
-// import all of PageHelpers to get handy waiting methods
 import com.gu.automation.support.page.Element._
+import com.gu.automation.support.page.PageCompanion
 import com.gu.example.page.TestIdLocator._
-// import all of By to neaten up the locators
 import org.openqa.selenium.By._
 import org.openqa.selenium.support.ui.ExpectedConditions._
 import org.openqa.selenium.{WebDriver, WebElement}
@@ -72,7 +70,7 @@ case class ExamplePage(implicit driver: WebDriver) {
   }
 
   def printWhetherPresentAndDisplayed = {
-    if (isPresentAndDisplayed(missing)) {
+    if (elementOption(missing).exists(_.isDisplayed)) {
       println("here - won't happen")
     } else {
       println("not here - as expected")
@@ -99,15 +97,12 @@ case class ExamplePage(implicit driver: WebDriver) {
 }
 
 /**
- * companion object just to let people go to the page.  This is optional, only needed if people need to do that.
+ * companion object just to let people go directly to the page.  This is optional, only needed if people need to do that.
  */
-object ExamplePage {
+object ExamplePage extends PageCompanion[ExamplePage] {
 
-  val url = "/example.html"
+  override val relativeUrl = "/example.html"
 
-  def goto()(implicit driver: WebDriver) = {
-    driver.get(Config().getTestBaseUrl() + url)
-    ExamplePage()
-  }
+  def makePage = ExamplePage()
 
 }

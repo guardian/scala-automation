@@ -10,21 +10,14 @@ import org.openqa.selenium.WebElement
  */
 trait SafeGet {
 
-  private def apply[B](get: WebElement => B, default: B)(element: => WebElement): B = {
+  def elementOption(element: => WebElement): Option[WebElement] = {
     try {
-      get(element)
+      Some(element)
     } catch {
-      case e: org.openqa.selenium.NoSuchElementException => default
+      case e: org.openqa.selenium.NoSuchElementException => None
     }
 
   }
 
-  private def boolean(get: WebElement => Boolean) = apply(get, false)_
-
-  def isPresentAndDisplayed = boolean(e=>e.isDisplayed)
-
-  def isPresent = boolean(e => true)
-
-  def elementOption = apply(e => Some(e), None)_
 }
 

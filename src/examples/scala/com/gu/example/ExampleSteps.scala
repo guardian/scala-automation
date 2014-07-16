@@ -19,7 +19,7 @@ case class ExampleSteps(implicit driver: WebDriver) extends TestLogging {
      * for a quick and reliable method
      */
 //    val examplePage = logInToGUPage(ExamplePage.goto)
-    ExamplePage.goto
+    ExamplePage.goto()
     this
   }
 
