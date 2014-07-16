@@ -3,8 +3,6 @@ package com.gu.automation.support
 import java.io.{File, FileReader, InputStreamReader, Reader}
 
 import com.typesafe.config.ConfigFactory
-import org.joda.time.DateTime
-import scala.collection.JavaConversions._
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -36,16 +34,25 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     config.getString(key)
   }
 
+  protected def getOption(key: String) = {
+    if (config.hasPath(key)) Some(config.getString(key))
+    else None
+  }
+
   def getProjectName(): String = {
     getConfigValue("projectName")
   }
 
-  def getTestSetStartTime(): DateTime = {
-    Config.startTime
-  }
-
   def getBrowser(): String = {
     getConfigValue("browser")
+  }
+
+  def getSauceLabsPlatform(): Option[String] = {
+    getOption("sauceLabsPlatform")
+  }
+
+  def getBrowserVersion(): Option[String] = {
+    getOption("browserVersion")
   }
 
   def getWebDriverRemoteUrl(): String = {
@@ -78,15 +85,6 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     config.getConfig("user").getString(key)
   }
 
-  def getCapabilities(): Option[List[(String, String)]] = {
-    if (config.hasPath("capabilities")) {
-      val caps = config.getConfig("capabilities")
-      Some(caps.entrySet().map(e => (e.getKey, caps.getString(e.getKey))).toList)
-    } else {
-      None
-    }
-  }
-
   def getPluginValue(key: String, default: String = ""): String = {
     if (config.hasPath(s"plugin.$key")) {
       return config.getConfig("plugin").getString(key)
@@ -100,8 +98,6 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 object Config {
 
   def apply() = defaultLoader
-
-  private val startTime = DateTime.now
 
   private lazy val defaultLoader: Config = {
     val readers = getDefaultInject

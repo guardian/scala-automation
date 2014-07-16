@@ -17,7 +17,7 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
       MDC.put("ID", UUID.randomUUID().toString)
       MDC.put("setName", Config().getProjectName())
-      MDC.put("setDate", Config().getTestSetStartTime().getMillis.toString)
+      MDC.put("setDate", BaseFeatureSpec.startTime.getMillis.toString)
       MDC.put("testName", td.name)
       MDC.put("testDate", DateTime.now.getMillis.toString)
       MDC.put("phase", "STEP")
@@ -57,5 +57,11 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
     }
     throw e
   }
+
+}
+
+object BaseFeatureSpec {
+
+  private val startTime = DateTime.now
 
 }
