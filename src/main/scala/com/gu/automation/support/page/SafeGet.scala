@@ -23,7 +23,7 @@ trait SafeGet {
 
   private def boolean(get: WebElement => Boolean) = apply(get, false)_
 
-  def isDisplayed = boolean(e=>e.isDisplayed)
+  def isPresentAndDisplayed = boolean(e=>e.isDisplayed)
 
   def isPresent = boolean(e => true)
 

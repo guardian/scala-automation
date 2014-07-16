@@ -56,8 +56,12 @@ case class ExamplePage(implicit driver: WebDriver) {
     // click only if it's there
     elementOption(missing).map(_.click())
     elementOption(second).map(_.click())
+    elementOption(missing) match {
+      case None => println("missing: not there")
+      case Some(x) => println(s"missing: found $x")
+    }
 
-    if (isDisplayed(missing)) {
+    if (isPresentAndDisplayed(missing)) {
       println("here - won't happen")
     } else {
       println("not here - as expected")

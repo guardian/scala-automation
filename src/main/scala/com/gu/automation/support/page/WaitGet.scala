@@ -12,12 +12,15 @@ import org.openqa.selenium.WebDriver
  */
 trait WaitGet {
 
-  val ImplicitWait = 2
-
   def waitGet[A](locator: => A, timeOutInSeconds: Int = 30)(implicit driver: WebDriver): A = {
     driver.manage().timeouts().implicitlyWait(timeOutInSeconds, TimeUnit.SECONDS)
     val actual = locator
-    driver.manage().timeouts().implicitlyWait(ImplicitWait, TimeUnit.SECONDS)
+    driver.manage().timeouts().implicitlyWait(WaitGet.ImplicitWait, TimeUnit.SECONDS)
     actual
   }
+}
+object WaitGet {
+
+  val ImplicitWait = 2
+
 }
