@@ -7,7 +7,7 @@ trait PageCompanion[A] {
 
   val relativeUrl: String = ""
 
-  protected def makePage: A
+  protected def makePage(implicit driver: WebDriver): A
 
   def goto(urlAppend: String = "")(implicit driver: WebDriver): A = {
     driver.get(Config().getTestBaseUrl() + relativeUrl + urlAppend)

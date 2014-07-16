@@ -103,6 +103,6 @@ object ExamplePage extends PageCompanion[ExamplePage] {
 
   override val relativeUrl = "/example.html"
 
-  def makePage = ExamplePage()
+  override def makePage(implicit driver: WebDriver) = ExamplePage()
 
 }
