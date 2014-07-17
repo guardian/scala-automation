@@ -6,7 +6,6 @@ import com.gu.automation.support.Config
 import com.typesafe.config.ConfigException
 
 /**
- * Created by jduffell on 10/06/2014.
  */
 class MobileConfig(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) extends Config(localFile, projectFile, frameworkFile) {
 

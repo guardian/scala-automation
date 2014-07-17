@@ -4,7 +4,6 @@ import com.gu.automation.support.TestLogger
 import org.slf4j.MDC
 
 /**
- * Created by ipamer on 30/06/2014.
  */
 trait GivenWhenThen {
 

@@ -7,7 +7,6 @@ import com.typesafe.config.ConfigFactory
 import org.scalatest._
 
 /**
- * Created by jduffell on 09/06/2014.
  */
 class ConfigTest extends FlatSpec with Matchers {
 

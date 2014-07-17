@@ -10,7 +10,6 @@ import org.openqa.selenium.{WebDriver, WebElement}
 import scala.collection.JavaConversions._
 
 /**
- * Created by jduffell on 13/07/2014.
  *
  * This is an example of a Page object.  It's a relatively complex example with many alternatives.  Please use the
  * simplest subset required for your project!

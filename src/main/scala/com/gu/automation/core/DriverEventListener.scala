@@ -5,7 +5,6 @@ import org.openqa.selenium.support.events.WebDriverEventListener
 import org.openqa.selenium.{By, WebDriver, WebElement}
 
 /**
- * Created by jao on 23/05/2014.
  */
 class DriverEventListener() extends WebDriverEventListener with TestLogging {
 

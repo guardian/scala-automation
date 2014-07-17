@@ -12,7 +12,7 @@ import org.slf4j.MDC
 
 abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with fixture.TestDataFixture {
 
-  protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: WebDriver => Any) {
+  protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: T => Any) {
     scenario(specText, testTags: _*)({ td =>
       sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
       MDC.put("ID", UUID.randomUUID().toString)

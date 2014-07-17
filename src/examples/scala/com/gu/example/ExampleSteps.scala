@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver
 import org.scalatest.Matchers._
 
 /**
- * Created by ipamer on 02/06/2014.
  */
 case class ExampleSteps(implicit driver: WebDriver) extends TestLogging {
 

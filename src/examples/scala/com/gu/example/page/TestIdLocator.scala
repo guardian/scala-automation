@@ -4,7 +4,6 @@ import org.openqa.selenium.By._
 import org.openqa.selenium.WebDriver
 
 /**
- * Created by jduffell on 13/07/2014.
  *
  * This example is for projects where you have a standard way of locating items, e.g. test-id and want the syntax to
  * be really simple so that people are encouraged to do it the standard way.
