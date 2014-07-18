@@ -7,9 +7,9 @@ import org.openqa.selenium.WebElement
  * Uses the normal implicit waits to return things about the element, returning the default value if the element
  * is not present at the end of the time.
  */
-trait SafeGet {
+object ElementOption {
 
-  def elementOption(element: => WebElement): Option[WebElement] = {
+  def apply(element: => WebElement): Option[WebElement] = {
     try {
       Some(element)
     } catch {
