@@ -6,6 +6,8 @@ import org.openqa.selenium.support.ui.WebDriverWait
 /**
  *
  * Uses explicit wait to wait for something.
+ *
+ * for example: ExplicitWait().until(elementToBeClickable(myWebElement))
  */
 object ExplicitWait {
 
