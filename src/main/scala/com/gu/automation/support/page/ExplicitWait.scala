@@ -7,8 +7,8 @@ import org.openqa.selenium.support.ui.WebDriverWait
  *
  * Uses explicit wait to wait for something.
  */
-trait Wait {
+object ExplicitWait {
 
-  def explicitWait(implicit driver: WebDriver) = new WebDriverWait(driver, 30)
+  def apply(timeout: Int = 30)(implicit driver: WebDriver) = new WebDriverWait(driver, timeout)
 
 }

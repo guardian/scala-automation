@@ -1,7 +1,6 @@
 package com.gu.example.page
 
-import com.gu.automation.support.page.Element._
-import com.gu.automation.support.page.PageCompanion
+import com.gu.automation.support.page._
 import com.gu.example.page.TestIdLocator._
 import org.openqa.selenium.By._
 import org.openqa.selenium.support.ui.ExpectedConditions._
@@ -47,9 +46,9 @@ case class ExamplePage(implicit driver: WebDriver) {
 
   def waitFor = {
     // this syntax is a bit clunky and could be improved in future - let me know if you use it and want better
-    explicitWait.until(elementToBeClickable(buttonUsingImplicitAbsolute))
+    ExplicitWait().until(elementToBeClickable(buttonUsingImplicitAbsolute))
 
-    waitGet(buttonUsingImplicitRelative, 30).click()
+    WaitGet(buttonUsingImplicitRelative, 30).click()
 
   }
 
@@ -59,9 +58,9 @@ case class ExamplePage(implicit driver: WebDriver) {
 
   def safeGet = {
     // click only if it's there
-    elementOption(missing).map(_.click())
-    elementOption(second).map(_.click())
-    elementOption(missing) match {
+    ElementOption(missing).map(_.click())
+    ElementOption(second).map(_.click())
+    ElementOption(missing) match {
       case None => println("missing: not there")
       case Some(x) => println(s"missing: found $x")
     }
@@ -69,7 +68,7 @@ case class ExamplePage(implicit driver: WebDriver) {
   }
 
   def printWhetherPresentAndDisplayed = {
-    if (elementOption(missing).exists(_.isDisplayed)) {
+    if (ElementOption(missing).exists(_.isDisplayed)) {
       println("here - won't happen")
     } else {
       println("not here - as expected")
