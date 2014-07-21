@@ -1,36 +1,29 @@
 package com.gu.automation.core
 
-import java.net.URL
-import java.util.concurrent.TimeUnit._
+import java.util.concurrent.TimeUnit.SECONDS
 
-import com.gu.automation.support.page.WaitGet
-import com.gu.automation.support.{ Config, TestLogging }
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.ie.InternetExplorerDriver
-import org.openqa.selenium.remote.{ Augmenter, DesiredCapabilities, RemoteWebDriver }
+import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.remote.Augmenter
+import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.openqa.selenium.{ JavascriptExecutor, WebDriver }
 
+import com.gu.automation.support.Config
+import com.gu.automation.support.TestLogging
+import com.gu.automation.support.page.WaitGet
+
+/**
+ * Purpose of this class is to contain common webdriver creation code and delegate to concrete classes for the rest by using the
+ * template method pattern
+ */
 abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory {
 
   val browser: String = Config().getBrowser()
-  
+
   def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): WebDriver
 
   /**
-   * startDriver in the test case base calls this method.
-   *
-   * If you wish to add capabilities e.g. browserVersion, pass in extraCapabilities to this.
-   *
-   * If you wish to edit the driver, e.g. change the size, call the methods once the driver is returned to startDriver
-   * or the test.
-   *
-   * If the required changes are common, we can add them to the WebDriverFactory.
-   *
-   * @param testCaseName passed to saucelabs for test naming
-   * @param extraCapabilities any other capabilities you need for your tests
-   * @return
+   * Does the common logic for creating a webdriver and delegates to environment specific classes for the specific parts.
    */
   def newInstance(testCaseName: String, extraCapabilities: List[(String, String)] = List()): WebDriver = {
     val initialCapabilities = commonCreateCapabilities
