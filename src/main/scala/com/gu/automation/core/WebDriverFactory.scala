@@ -1,17 +1,11 @@
 package com.gu.automation.core
 
-import java.net.URL
-import java.util.concurrent.TimeUnit._
-import com.gu.automation.support.page.WaitGet
-import com.gu.automation.support.{ Config, TestLogging }
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.ie.InternetExplorerDriver
-import org.openqa.selenium.remote.{ Augmenter, DesiredCapabilities, RemoteWebDriver }
-import org.openqa.selenium.support.events.EventFiringWebDriver
-import org.openqa.selenium.{ JavascriptExecutor, WebDriver }
+import org.openqa.selenium.WebDriver
+
+import com.gu.automation.core.webdriver.BrowserStackWebDriverFactory
 import com.gu.automation.core.webdriver.LocalWebDriverFactory
 import com.gu.automation.core.webdriver.SauceLabsWebDriverFactory
+import com.gu.automation.support.Config
 
 trait WebDriverFactory {
 
@@ -40,7 +34,7 @@ object WebDriverFactory extends WebDriverFactory {
     environment match {
       case "local" => LocalWebDriverFactory.newInstance(testCaseName, extraCapabilities)
       case "sauceLabs" => SauceLabsWebDriverFactory.newInstance(testCaseName, extraCapabilities)
-      case "browserStack" => SauceLabsWebDriverFactory.newInstance(testCaseName, extraCapabilities)
+      case "browserStack" => BrowserStackWebDriverFactory.newInstance(testCaseName, extraCapabilities)
       case default => LocalWebDriverFactory.newInstance(testCaseName, extraCapabilities)
     } 
   }

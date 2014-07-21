@@ -11,20 +11,12 @@ import com.gu.automation.support.Config
 
 object LocalWebDriverFactory extends ParentWebDriverFactory {
 
-  def createDriver(capabilities: DesiredCapabilities): WebDriver = {
+  override def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): WebDriver = {
     browser match {
       case "firefox" => new FirefoxDriver(capabilities)
       case "chrome" => new ChromeDriver(capabilities)
       case "ie" => new InternetExplorerDriver(capabilities)
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
     }
-  }
-
-  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): DesiredCapabilities = {
-    capabilities
-  }
-
-  def augmentDriver(driver: WebDriver): WebDriver = {
-    driver
   }
 }

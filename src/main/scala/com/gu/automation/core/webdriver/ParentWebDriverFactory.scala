@@ -16,10 +16,7 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
 
   val browser: String = Config().getBrowser()
   
-  def createDriver(capabilities: DesiredCapabilities): WebDriver
-  def augmentDriver(driver: WebDriver): WebDriver
-  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): DesiredCapabilities
-
+  def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): WebDriver
 
   /**
    * startDriver in the test case base calls this method.
@@ -37,10 +34,8 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
    */
   def newInstance(testCaseName: String, extraCapabilities: List[(String, String)] = List()): WebDriver = {
     val initialCapabilities = commonCreateCapabilities
-    val capabilities = augmentCapabilities(testCaseName, initialCapabilities, extraCapabilities)
-
-    val initialDriver = createDriver(capabilities)
-    val augmentedDriver = augmentDriver(commonAugmentDriver(initialDriver))
+    val initialDriver = createDriver(testCaseName, initialCapabilities, extraCapabilities)
+    val augmentedDriver = commonAugmentDriver(initialDriver)
 
     val userAgent = augmentedDriver.asInstanceOf[JavascriptExecutor].executeScript("return navigator.userAgent")
     logger.info("Started browser: " + userAgent)
