@@ -28,10 +28,10 @@ trait WebDriverFactory {
 
 object WebDriverFactory extends WebDriverFactory {
   
-  val environment: String = Config().getBrowserEnvironment
+  val browserEnvironment: String = Config().getBrowserEnvironment
   
   def newInstance(testCaseName: String, extraCapabilities: Map[String,String] = Map()): WebDriver = {
-    environment match {
+    browserEnvironment match {
       case "local" => LocalWebDriverFactory.newInstance(testCaseName, extraCapabilities)
       case "sauceLabs" => SauceLabsWebDriverFactory.newInstance(testCaseName, extraCapabilities)
       case "browserStack" => BrowserStackWebDriverFactory.newInstance(testCaseName, extraCapabilities)
