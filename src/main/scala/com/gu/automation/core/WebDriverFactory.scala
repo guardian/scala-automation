@@ -33,7 +33,7 @@ object WebDriverFactory extends TestLogging {
    * @param extraCapabilities any other capabilities you need for your tests
    * @return
    */
-  def newInstance(testCaseName: String, extraCapabilities: List[(String,String)] = List()): WebDriver = {
+  def newInstance(testCaseName: String, extraCapabilities: Map[String,String] = Map()): WebDriver = {
     
     val initialCapabilities = browser match {
       case "firefox" => DesiredCapabilities.firefox()
@@ -59,7 +59,7 @@ object WebDriverFactory extends TestLogging {
     augmentedDriver
   }
 
-  private def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String,String)]): DesiredCapabilities = {
+  private def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: Map[String,String]): DesiredCapabilities = {
     capabilities.setCapability("name", testCaseName)
     sauceLabsPlatform.map(capabilities.setCapability("platform", _))
     browserVersion.map(capabilities.setCapability("version", _))
