@@ -23,14 +23,14 @@ trait WebDriverFactory {
    * @param extraCapabilities any other capabilities you need for your tests
    * @return
    */
-  def newInstance(testCaseName: String, extraCapabilities: List[(String, String)] = List()): WebDriver
+  def newInstance(testCaseName: String, extraCapabilities: Map[String,String] = Map()): WebDriver
 }
 
 object WebDriverFactory extends WebDriverFactory {
   
   val environment: String = Config().getBrowserEnvironment
   
-  def newInstance(testCaseName: String, extraCapabilities: List[(String, String)] = List()): WebDriver = {
+  def newInstance(testCaseName: String, extraCapabilities: Map[String,String] = Map()): WebDriver = {
     environment match {
       case "local" => LocalWebDriverFactory.newInstance(testCaseName, extraCapabilities)
       case "sauceLabs" => SauceLabsWebDriverFactory.newInstance(testCaseName, extraCapabilities)

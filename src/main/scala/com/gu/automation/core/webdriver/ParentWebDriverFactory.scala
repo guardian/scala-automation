@@ -20,13 +20,13 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
 
   val browser: String = Config().getBrowser()
 
-  def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): WebDriver
+  def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: Map[String, String] = Map()): WebDriver
 
   /**
    * Does the common logic for creating a webdriver and delegates to environment specific classes for the specific parts.
    */
-  def newInstance(testCaseName: String, extraCapabilities: List[(String, String)] = List()): WebDriver = {
-    val initialCapabilities = commonCreateCapabilities
+  def newInstance(testCaseName: String, extraCapabilities: Map[String, String] = Map()): WebDriver = {
+    val initialCapabilities = commonCreateCapabilities(extraCapabilities)
     val initialDriver = createDriver(testCaseName, initialCapabilities, extraCapabilities)
     val augmentedDriver = commonAugmentDriver(initialDriver)
 
@@ -43,13 +43,14 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
     augmentedDriver
   }
 
-  private def commonCreateCapabilities: org.openqa.selenium.remote.DesiredCapabilities = {
+  private def commonCreateCapabilities(extraCapabilities: Map[String, String] = Map()): DesiredCapabilities = {
     val initialCapabilities = browser match {
       case "firefox" => DesiredCapabilities.firefox()
       case "chrome" => DesiredCapabilities.chrome()
       case "ie" => DesiredCapabilities.internetExplorer()
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
     }
+    extraCapabilities.foreach(cap => initialCapabilities.setCapability(cap._1, cap._2))
     initialCapabilities
   }
 }

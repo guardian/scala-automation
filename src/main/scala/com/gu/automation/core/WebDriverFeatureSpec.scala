@@ -16,8 +16,8 @@ class WebDriverFeatureSpec extends BaseFeatureSpec[WebDriver] {
    * @param testName
    * @return
    */
-    protected def startDriver(testName: String): WebDriver = {
-      WebDriverFactory.newInstance(getClass().getSimpleName() + "." + testName)
+    protected def startDriver(testName: String, extraCapabilities: Map[String, String] = Map()): WebDriver = {
+      WebDriverFactory.newInstance(getClass().getSimpleName() + "." + testName, extraCapabilities)
     }
 
 }

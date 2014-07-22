@@ -13,16 +13,15 @@ object SauceLabsWebDriverFactory extends ParentWebDriverFactory {
   val sauceLabsPlatform: Option[String] = Config().getSauceLabsPlatform()
   val browserVersion: Option[String] = Config().getBrowserVersion()
 
-  override def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): WebDriver = {
+  override def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: Map[String,String] = Map()): WebDriver = {
     augmentCapabilities(testCaseName, capabilities, extraCapabilities)
     new RemoteWebDriver(new URL(webDriverRemoteUrl), capabilities)
   }
 
-  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): DesiredCapabilities = {
+  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: Map[String,String] = Map()): DesiredCapabilities = {
     capabilities.setCapability("name", testCaseName)
     sauceLabsPlatform.foreach(capabilities.setCapability("platform", _))
     browserVersion.foreach(capabilities.setCapability("version", _))
-    extraCapabilities.foreach(cap => capabilities.setCapability(cap._1, cap._2))
     capabilities
   }
 }

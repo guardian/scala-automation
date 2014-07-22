@@ -11,7 +11,7 @@ import com.gu.automation.support.Config
 
 object LocalWebDriverFactory extends ParentWebDriverFactory {
 
-  override def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: List[(String, String)]): WebDriver = {
+  override def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: Map[String,String] = Map()): WebDriver = {
     browser match {
       case "firefox" => new FirefoxDriver(capabilities)
       case "chrome" => new ChromeDriver(capabilities)
