@@ -38,6 +38,10 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     if (config.hasPath(key)) Some(config.getString(key))
     else None
   }
+  
+  def getBrowserEnvironment(): String = {
+    getConfigValue("browserEnvironment")
+  }
 
   def getProjectName(): String = {
     getConfigValue("projectName")
