@@ -39,8 +39,8 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     else None
   }
   
-  def getEnvironment(): String = {
-    getConfigValue("environment")
+  def getBrowserEnvironment(): String = {
+    getConfigValue("browserEnvironment")
   }
 
   def getProjectName(): String = {

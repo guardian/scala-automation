@@ -28,7 +28,7 @@ trait WebDriverFactory {
 
 object WebDriverFactory extends WebDriverFactory {
   
-  val environment: String = Config().getEnvironment
+  val environment: String = Config().getBrowserEnvironment
   
   def newInstance(testCaseName: String, extraCapabilities: List[(String, String)] = List()): WebDriver = {
     environment match {
