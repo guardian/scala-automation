@@ -11,11 +11,9 @@ class CookieManagerTest extends WebDriverFeatureSpec with Matchers {
 
     scenario("check we can get the right cookie domains") { _ =>
 
-      val cookieManager = new CookieManager
-
-      cookieManager.getCookieDomain("http://www.theguardian.com/uk") should be(".theguardian.com")
-      cookieManager.getCookieDomain("https://www.theguardian.com/uk") should be(".theguardian.com")
-      cookieManager.getCookieDomain("https://m.code.dev-theguardian.com/") should be(".code.dev-theguardian.com")
+      CookieManager.getCookieDomain("http://www.theguardian.com/uk") should be(".theguardian.com")
+      CookieManager.getCookieDomain("https://www.theguardian.com/uk") should be(".theguardian.com")
+      CookieManager.getCookieDomain("https://m.code.dev-theguardian.com/") should be(".code.dev-theguardian.com")
     }
 
   }

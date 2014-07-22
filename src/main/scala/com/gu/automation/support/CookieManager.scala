@@ -7,7 +7,7 @@ object CookieManager {
   def getCookieDomain(url: String) =
     """http(s?)://([^.]*(\.))?([^/]+).*$""".r.replaceAllIn(url, "$3$4")
 
-  def addCookies(driver: WebDriver, cookies: Seq[(String, String)]) {
+  def addCookies(cookies: Seq[(String, String)])(implicit driver: WebDriver) {
     val baseUrl = Config().getTestBaseUrl()
     val loginDomain = getCookieDomain(baseUrl)
 
@@ -20,6 +20,10 @@ object CookieManager {
         val cookie = new Cookie(key, value, loginDomain, "/", null, isSecure, isSecure)
         driver.manage().addCookie(cookie)
     }
+  }
+
+  def addCookie(cookieName: String, cookieValue: String)(implicit driver: WebDriver){
+    addCookies(List((cookieName,cookieValue)))
   }
 
 }
