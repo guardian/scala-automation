@@ -2,7 +2,7 @@ package com.gu.automation.support
 
 import org.openqa.selenium.{Cookie, WebDriver}
 
-class CookieManager {
+object CookieManager {
 
   def getCookieDomain(url: String) =
     """http(s?)://([^.]*(\.))?([^/]+).*$""".r.replaceAllIn(url, "$3$4")
