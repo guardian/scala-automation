@@ -1,8 +1,7 @@
-package com.gu.automation
+package com.gu.automation.support
 
 import java.io.InputStreamReader
 
-import com.gu.automation.support.Config
 import com.typesafe.config.ConfigFactory
 import org.scalatest._
 
