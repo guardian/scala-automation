@@ -1,0 +1,24 @@
+h2 {
+    font-size: 16px
+}
+
+a:link {
+    text-decoration: none;
+    color: #0000FF
+}
+
+a:visited {
+    text-decoration: none;
+    color: #0000FF;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    text-decoration: underline;
+}
+.credit {
+    font-size: 12px;
+}
