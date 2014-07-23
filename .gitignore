@@ -2,6 +2,7 @@
 *.log
 logs/
 local.*
+docs/local.*
 
 # IntelliJ
 .idea/
