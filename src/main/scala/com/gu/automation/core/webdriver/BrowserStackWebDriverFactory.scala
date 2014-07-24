@@ -22,6 +22,7 @@ object BrowserStackWebDriverFactory extends ParentWebDriverFactory {
   }
 
   def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities): DesiredCapabilities = {
+    capabilities.setCapability("name", testCaseName)
     browserStackOS.foreach(capabilities.setCapability("os", _))
     browserStackOSVersion.foreach(capabilities.setCapability("os_version", _))
     browserVersion.foreach(capabilities.setCapability("browser_version", _))
