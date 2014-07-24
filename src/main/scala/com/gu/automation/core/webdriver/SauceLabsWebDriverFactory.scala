@@ -10,7 +10,7 @@ import com.gu.automation.core.ParentWebDriverFactory
 object SauceLabsWebDriverFactory extends ParentWebDriverFactory {
 
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
-  val sauceLabsPlatform: Option[String] = Config().getSauceLabsPlatform()
+  val sauceLabsPlatform: Option[String] = Config().getPlatform()
   val browserVersion: Option[String] = Config().getBrowserVersion()
 
   override def createDriver(testCaseName: String, capabilities: DesiredCapabilities): WebDriver = {

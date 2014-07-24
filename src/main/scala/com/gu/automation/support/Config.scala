@@ -51,8 +51,8 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("browser")
   }
 
-  def getSauceLabsPlatform(): Option[String] = {
-    getOption("sauceLabsPlatform")
+  def getPlatform(): Option[String] = {
+    getOption("platform")
   }
 
   def getBrowserVersion(): Option[String] = {
