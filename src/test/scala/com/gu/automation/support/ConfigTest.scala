@@ -59,7 +59,7 @@ class ConfigTest extends FlatSpec with Matchers {
 
   "The Config" should "handle optional values" in {
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
-    configLoader.getSauceLabsPlatform() should be (None)
+    configLoader.getPlatform() should be (None)
     configLoader.getBrowserVersion() should be (Some("12"))
   }
 
