@@ -1,6 +1,5 @@
 package com.gu.automation.core
 
-import java.io.{File, FileOutputStream}
 import java.util.UUID
 
 import com.gu.automation.support.{Config, TestLogging}
@@ -48,10 +47,10 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       }
 
       val screenshotDir = "logs/screenshots"
-      new File(screenshotDir).mkdirs()
-      val file = new FileOutputStream(s"${screenshotDir}/${testName}.png")
-      file.write(screenshotFile)
-      file.close
+//      new File(screenshotDir).mkdirs()
+//      val file = new FileOutputStream(s"${screenshotDir}/${testName}.png")
+//      file.write(screenshotFile)
+//      file.close
     } catch {
       case e: Exception => logger.step("Error taking screenshot.")
     }
