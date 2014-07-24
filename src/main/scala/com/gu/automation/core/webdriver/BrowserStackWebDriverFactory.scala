@@ -11,12 +11,12 @@ object BrowserStackWebDriverFactory extends ParentWebDriverFactory {
 
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
 
-  override def createDriver(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: Map[String, String] = Map()): WebDriver = {
-    augmentCapabilities(testCaseName, capabilities, extraCapabilities)
+  override def createDriver(testCaseName: String, capabilities: DesiredCapabilities): WebDriver = {
+    augmentCapabilities(testCaseName, capabilities)
     new RemoteWebDriver(new URL(webDriverRemoteUrl), capabilities)
   }
 
-  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities, extraCapabilities: Map[String, String] = Map()): DesiredCapabilities = {
+  def augmentCapabilities(testCaseName: String, capabilities: DesiredCapabilities): DesiredCapabilities = {
     //TODO
     capabilities
   }
