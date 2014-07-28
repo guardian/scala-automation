@@ -14,5 +14,5 @@ if not os.path.exists("local.tools/gitchangelog-2.1.3"):
 
 newEnv = os.environ.copy()
 newEnv["GITCHANGELOG_CONFIG_FILENAME"] = "gitchangelog.rc"
-with open("local.changelog.txt", "wb") as f:
+with open("local.changelog2.html", "wb") as f:
     subprocess.check_call(["python", "local.tools/gitchangelog-2.1.3/gitchangelog.py"], stdout=f, env=newEnv)
