@@ -13,7 +13,7 @@ if not os.path.exists("local.tools/gitchangelog-2.1.3"):
     tar.extractall("local.tools")
     tar.close()
 
-shutil.copyfile("html.tpl", "local.tools/gitchangelog-2.1.3/templates/mustache/html.tpl")
+shutil.copyfile("htmlTemplate.tpl", "local.tools/gitchangelog-2.1.3/templates/mustache/htmlTemplate.tpl")
 
 newEnv = os.environ.copy()
 newEnv["GITCHANGELOG_CONFIG_FILENAME"] = "gitchangelog.rc"
