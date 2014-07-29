@@ -2,8 +2,6 @@ package com.gu.automation.core
 
 import org.openqa.selenium.WebDriver
 
-/**
- */
 class WebDriverFeatureSpec extends BaseFeatureSpec[WebDriver] {
 
   /**
@@ -16,8 +14,8 @@ class WebDriverFeatureSpec extends BaseFeatureSpec[WebDriver] {
    * @param testName
    * @return
    */
-    override protected def startDriver(testName: String, extraCapabilities: Map[String, String] = Map()): WebDriver = {
-      WebDriverFactory.newInstance(getClass().getSimpleName() + "." + testName, extraCapabilities)
-    }
+  override protected def startDriver(testName: String, extraCapabilities: Map[String, String] = Map()): WebDriver = {
+    WebDriverFactory.newInstance(getClass().getSimpleName() + "." + testName, extraCapabilities)
+  }
 
 }
