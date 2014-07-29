@@ -44,19 +44,18 @@ case class ExamplePage(implicit driver: WebDriver) {
 
   private def rows = root findElements "row"
 
-  def waitFor = {
+  def waitForExample = {
     // this syntax is a bit clunky and could be improved in future - let me know if you use it and want better
     ExplicitWait().until(elementToBeClickable(buttonUsingImplicitAbsolute))
 
     WaitGet(buttonUsingImplicitRelative, 30).click()
-
   }
 
   def sendText(text: String) = {
     textbox.sendKeys(text)
   }
 
-  def safeGet = {
+  def safeGetExample = {
     // click only if it's there
     ElementOption(missing).map(_.click())
     ElementOption(second).map(_.click())
@@ -64,7 +63,6 @@ case class ExamplePage(implicit driver: WebDriver) {
       case None => println("missing: not there")
       case Some(x) => println(s"missing: found $x")
     }
-
   }
 
   def printWhetherPresentAndDisplayed = {
@@ -73,12 +71,10 @@ case class ExamplePage(implicit driver: WebDriver) {
     } else {
       println("not here - as expected")
     }
-
   }
 
   def multiRowList = {
     println("rows: " + rows.count(_.isDisplayed))
-
   }
 
   def getModules = {
