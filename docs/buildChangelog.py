@@ -4,6 +4,7 @@ import os
 import tarfile
 import urllib
 import subprocess
+import shutil
 
 if not os.path.exists("local.tools/gitchangelog-2.1.3"):
     os.mkdir("local.tools")
@@ -11,6 +12,8 @@ if not os.path.exists("local.tools/gitchangelog-2.1.3"):
     tar = tarfile.open("local.tools/gitchangelog-2.1.3.tar.gz")
     tar.extractall("local.tools")
     tar.close()
+
+shutil.copyfile("html.tpl", "local.tools/gitchangelog-2.1.3/templates/mustache/html.tpl")
 
 newEnv = os.environ.copy()
 newEnv["GITCHANGELOG_CONFIG_FILENAME"] = "gitchangelog.rc"
