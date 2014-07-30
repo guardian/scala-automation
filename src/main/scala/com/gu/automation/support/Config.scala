@@ -1,8 +1,8 @@
 package com.gu.automation.support
-
-import java.io.{File, FileReader, InputStreamReader, Reader}
-
+import scala.collection.JavaConversions._
+import java.io.{ File, FileReader, InputStreamReader, Reader }
 import com.typesafe.config.ConfigFactory
+import com.typesafe.config.ConfigList
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -38,7 +38,7 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     if (config.hasPath(key)) Some(config.getString(key))
     else None
   }
-  
+
   def getBrowserEnvironment(): String = {
     getConfigValue("browserEnvironment")
   }
@@ -51,14 +51,21 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("browser")
   }
 
+  def getBrowsers(): List[Browser] = {
+    val browsers = config.getConfigList("browsers") map { browserElement =>
+      Browser(browserElement.getString("name"), browserElement.getString("version"))
+    }
+    browsers.toList
+  }
+
   def getPlatform(): Option[String] = {
     getOption("platform")
   }
-  
+
   def getPlatformVersion(): Option[String] = {
     getOption("platformVersion")
   }
-  
+
   def getResolution(): Option[String] = {
     getOption("resolution")
   }
@@ -66,7 +73,7 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
   def getBrowserStackVisualLog(): Option[String] = {
     getOption("browserStackVisualLog")
   }
-    
+
   def getBrowserVersion(): Option[String] = {
     getOption("browserVersion")
   }
@@ -135,3 +142,5 @@ object Config {
   }
 
 }
+
+case class Browser(name: String, version: String)
