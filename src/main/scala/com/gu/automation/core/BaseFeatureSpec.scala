@@ -22,20 +22,23 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       MDC.put("phase", "STEP")
       logger.info("[TEST START]") // starts websocket to T-Stash
       logger.info("Test Name: " + td.name)
-      
-      Config().getBrowsers.foreach(browser =>{ 
-	      val driver = startDriver(td.name, browser)
-	      try {
-	        testFunction(driver)
-	      } catch {
-	        case e: Exception => failWithScreenshot(td.name, driver, e)
-	      } finally {
-	        logger.info("[TEST END]") // closes websocket to T-Stash
-	        driver.quit()
-	      }
+
+      Config().getBrowsers.foreach(browser => {
+        val driver = startDriver(td.name, browser)
+        executeTestWithScreenshotOnException(testFunction, driver, td.name)
       })
+    })
+  }
+
+  private def executeTestWithScreenshotOnException[T <: WebDriver](testFunction: T => Any, driver: T, testName: String) = {
+    try {
+      testFunction(driver)
+    } catch {
+      case e: Exception => failWithScreenshot(testName, driver, e)
+    } finally {
+      logger.info("[TEST END]") // closes websocket to T-Stash
+      driver.quit()
     }
-    )
   }
 
   private def failWithScreenshot(testName: String, driver: WebDriver, e: Exception) = {
