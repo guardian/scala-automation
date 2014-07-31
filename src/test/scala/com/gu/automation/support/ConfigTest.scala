@@ -53,10 +53,10 @@ class ConfigTest extends FlatSpec with Matchers {
   }
 
   "The Config" should "also override with system properties" in {
-    System.setProperty("browser", "chrome")
+    System.setProperty("testBaseUrl", "http://www.google.com")
     ConfigFactory.invalidateCaches()
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
-    configLoader.getBrowser() should be ("chrome")
+    configLoader.getTestBaseUrl() should be ("http://www.google.com")
   }
 
   "The Config" should "handle optional values" in {

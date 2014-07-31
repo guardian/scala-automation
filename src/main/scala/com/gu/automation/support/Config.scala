@@ -47,10 +47,6 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("projectName")
   }
 
-  def getBrowser(): String = {
-    getConfigValue("browser")
-  }
-
   def getBrowsers(): List[Browser] = {
     val browsers = config.getConfigList("browsers") map { browserElement =>
       Browser(browserElement.getString("name"), browserElement.getString("version"))
