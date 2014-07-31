@@ -3,6 +3,7 @@ import scala.collection.JavaConversions._
 import java.io.{ File, FileReader, InputStreamReader, Reader }
 import com.typesafe.config.ConfigFactory
 import com.typesafe.config.ConfigList
+import org.apache.commons.lang3.math.NumberUtils._
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -49,7 +50,7 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 
   def getBrowsers(): List[Browser] = {
     val browsers = config.getConfigList("browsers") map { browserElement =>
-      Browser(browserElement.getString("name"), browserElement.getString("version"))
+      Browser(browserElement.getString("name"), Option(browserElement.getString("version")).filter(isNumber))
     }
     browsers.toList
   }
@@ -135,4 +136,4 @@ object Config {
 
 }
 
-case class Browser(name: String, version: String)
+case class Browser(name: String, version: Option[String])

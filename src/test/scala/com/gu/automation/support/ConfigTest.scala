@@ -63,10 +63,10 @@ class ConfigTest extends FlatSpec with Matchers {
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
     configLoader.getPlatform() should be (None)
   }
-  
+
   "The Config" should "handle list of browser objects" in {
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
-    configLoader.getBrowsers should be (List(Browser("firefox","30"), Browser("chrome","35")))
+    configLoader.getBrowsers should be(List(Browser("firefox", Option("30")), Browser("chrome", Option("35"))))
   }
 
   // helper method

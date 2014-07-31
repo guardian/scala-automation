@@ -22,7 +22,7 @@ object SauceLabsWebDriverFactory extends ParentWebDriverFactory {
   def augmentCapabilities(testCaseName: String, targetBrowser: Browser, capabilities: DesiredCapabilities): DesiredCapabilities = {
     capabilities.setCapability("name", testCaseName)
     sauceLabsPlatform.foreach(capabilities.setCapability("platform", _))
-    Option(targetBrowser.version).filter(isNumber).foreach(capabilities.setCapability("version", _))
+    targetBrowser.version.foreach(capabilities.setCapability("version", _))
     capabilities
   }
 }

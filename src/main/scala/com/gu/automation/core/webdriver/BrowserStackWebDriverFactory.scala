@@ -27,7 +27,7 @@ object BrowserStackWebDriverFactory extends ParentWebDriverFactory {
     capabilities.setCapability("name", testCaseName)
     browserStackOS.foreach(capabilities.setCapability("os", _))
     browserStackOSVersion.foreach(capabilities.setCapability("os_version", _))
-    Option(targetBrowser.version).filter(isNumber).foreach(capabilities.setCapability("browser_version", _))
+    targetBrowser.version.foreach(capabilities.setCapability("browser_version", _))
     resolution.foreach(capabilities.setCapability("resolution", _))
     browserStackVisualLog.foreach(capabilities.setCapability("browserstack.debug", _))
     capabilities
