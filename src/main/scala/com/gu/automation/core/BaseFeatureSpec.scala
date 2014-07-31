@@ -2,28 +2,28 @@ package com.gu.automation.core
 
 import java.util.UUID
 
-import com.gu.automation.support.{Config, TestLogging}
+import com.gu.automation.support.{ Config, TestLogging }
 import org.joda.time.DateTime
-import org.openqa.selenium.{OutputType, TakesScreenshot, WebDriver}
-import org.scalatest.{Tag, fixture}
+import org.openqa.selenium.{ OutputType, TakesScreenshot, WebDriver }
+import org.scalatest.{ Tag, fixture }
 import org.slf4j.MDC
-
 
 abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with fixture.TestDataFixture {
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFunction: T => Any) {
-    scenario(specText, testTags: _*)({ td =>
-      sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
-      MDC.put("ID", UUID.randomUUID().toString)
-      MDC.put("setName", Config().getProjectName())
-      MDC.put("setDate", BaseFeatureSpec.startTime.getMillis.toString)
-      MDC.put("testName", td.name)
-      MDC.put("testDate", DateTime.now.getMillis.toString)
-      MDC.put("phase", "STEP")
-      logger.info("[TEST START]") // starts websocket to T-Stash
-      logger.info("Test Name: " + td.name)
+    Config().getBrowsers.foreach(browser => {
+      val browserEnhancedSpecText = s"$specText on $browser"
+      scenario(browserEnhancedSpecText, testTags: _*)({ td =>
+        sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
+        MDC.put("ID", UUID.randomUUID().toString)
+        MDC.put("setName", Config().getProjectName())
+        MDC.put("setDate", BaseFeatureSpec.startTime.getMillis.toString)
+        MDC.put("testName", td.name)
+        MDC.put("testDate", DateTime.now.getMillis.toString)
+        MDC.put("phase", "STEP")
+        logger.info("[TEST START]") // starts websocket to T-Stash
+        logger.info("Test Name: " + td.name)
 
-      Config().getBrowsers.foreach(browser => {
         val driver = startDriver(td.name, browser)
         executeTestWithScreenshotOnException(testFunction, driver, td.name)
       })
@@ -53,10 +53,10 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       }
 
       val screenshotDir = "logs/screenshots"
-//      new File(screenshotDir).mkdirs()
-//      val file = new FileOutputStream(s"${screenshotDir}/${testName}.png")
-//      file.write(screenshotFile)
-//      file.close
+      //      new File(screenshotDir).mkdirs()
+      //      val file = new FileOutputStream(s"${screenshotDir}/${testName}.png")
+      //      file.write(screenshotFile)
+      //      file.close
     } catch {
       case e: Exception => logger.step("Error taking screenshot.")
     }
