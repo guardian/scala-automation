@@ -11,7 +11,7 @@ import org.slf4j.MDC
 
 abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with fixture.TestDataFixture {
 
-  protected def scenarioWeb(specText: String, testTags: Tag*)(testFun: T => Any) {
+  protected def scenarioWeb(specText: String, testTags: Tag*)(testFunction: T => Any) {
     scenario(specText, testTags: _*)({ td =>
       sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
       MDC.put("ID", UUID.randomUUID().toString)
@@ -22,17 +22,20 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       MDC.put("phase", "STEP")
       logger.info("[TEST START]") // starts websocket to T-Stash
       logger.info("Test Name: " + td.name)
-
-      val driver = startDriver(td.name)
-      try {
-        testFun(driver)
-      } catch {
-        case e: Exception => failWithScreenshot(td.name, driver, e)
-      } finally {
-        logger.info("[TEST END]") // closes websocket to T-Stash
-        driver.quit()
-      }
-    })
+      
+      Config().getBrowsers.foreach(browser =>{ 
+	      val driver = startDriver(td.name, browser)
+	      try {
+	        testFunction(driver)
+	      } catch {
+	        case e: Exception => failWithScreenshot(td.name, driver, e)
+	      } finally {
+	        logger.info("[TEST END]") // closes websocket to T-Stash
+	        driver.quit()
+	      }
+      })
+    }
+    )
   }
 
   private def failWithScreenshot(testName: String, driver: WebDriver, e: Exception) = {

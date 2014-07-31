@@ -1,11 +1,11 @@
 package com.gu.automation.core
 
 import org.openqa.selenium.WebDriver
-
 import com.gu.automation.core.webdriver.BrowserStackWebDriverFactory
 import com.gu.automation.core.webdriver.LocalWebDriverFactory
 import com.gu.automation.core.webdriver.SauceLabsWebDriverFactory
 import com.gu.automation.support.Config
+import com.gu.automation.support.Browser
 
 trait WebDriverFactory {
 
@@ -23,19 +23,19 @@ trait WebDriverFactory {
    * @param extraCapabilities any other capabilities you need for your tests
    * @return
    */
-  def newInstance(testCaseName: String, extraCapabilities: Map[String,String] = Map()): WebDriver
+  def newInstance(testCaseName: String, targetBrowser: Browser, extraCapabilities: Map[String,String] = Map()): WebDriver
 }
 
 object WebDriverFactory extends WebDriverFactory {
   
   val browserEnvironment: String = Config().getBrowserEnvironment
   
-  def newInstance(testCaseName: String, extraCapabilities: Map[String,String] = Map()): WebDriver = {
+  def newInstance(testCaseName: String, targetBrowser: Browser, extraCapabilities: Map[String,String] = Map()): WebDriver = {
     browserEnvironment match {
-      case "local" => LocalWebDriverFactory.newInstance(testCaseName, extraCapabilities)
-      case "sauceLabs" => SauceLabsWebDriverFactory.newInstance(testCaseName, extraCapabilities)
-      case "browserStack" => BrowserStackWebDriverFactory.newInstance(testCaseName, extraCapabilities)
-      case default => LocalWebDriverFactory.newInstance(testCaseName, extraCapabilities)
+      case "local" => LocalWebDriverFactory.newInstance(testCaseName, targetBrowser, extraCapabilities)
+      case "sauceLabs" => SauceLabsWebDriverFactory.newInstance(testCaseName, targetBrowser, extraCapabilities)
+      case "browserStack" => BrowserStackWebDriverFactory.newInstance(testCaseName, targetBrowser, extraCapabilities)
+      case default => LocalWebDriverFactory.newInstance(testCaseName, targetBrowser, extraCapabilities)
     } 
   }
 }

@@ -74,10 +74,6 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getOption("browserStackVisualLog")
   }
 
-  def getBrowserVersion(): Option[String] = {
-    getOption("browserVersion")
-  }
-
   def getWebDriverRemoteUrl(): String = {
     getConfigValue("webDriverRemoteUrl")
   }

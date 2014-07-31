@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.Augmenter
 import org.openqa.selenium.remote.DesiredCapabilities
 import org.openqa.selenium.support.events.EventFiringWebDriver
 
-import com.gu.automation.support.Config
+import com.gu.automation.support.Browser
 import com.gu.automation.support.TestLogging
 import com.gu.automation.support.page.WaitGet
 
@@ -18,16 +18,14 @@ import com.gu.automation.support.page.WaitGet
  */
 abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory {
 
-  val browser: String = Config().getBrowser()
-
-  def createDriver(testCaseName: String, capabilities: DesiredCapabilities): WebDriver
+  def createDriver(testCaseName: String, targetBrowser:Browser, capabilities: DesiredCapabilities): WebDriver
 
   /**
    * Does the common logic for creating a webdriver and delegates to environment specific classes for the specific parts.
    */
-  def newInstance(testCaseName: String, extraCapabilities: Map[String, String] = Map()): WebDriver = {
-    val initialCapabilities = commonCreateCapabilities(extraCapabilities)
-    val initialDriver = createDriver(testCaseName, initialCapabilities)
+  def newInstance(testCaseName: String, targetBrowser: Browser, extraCapabilities: Map[String, String] = Map()): WebDriver = {
+    val initialCapabilities = commonCreateCapabilities(targetBrowser, extraCapabilities)
+    val initialDriver = createDriver(testCaseName, targetBrowser, initialCapabilities)
     val augmentedDriver = commonAugmentDriver(initialDriver)
 
     val userAgent = augmentedDriver.asInstanceOf[JavascriptExecutor].executeScript("return navigator.userAgent")
@@ -43,8 +41,8 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
     augmentedDriver
   }
 
-  private def commonCreateCapabilities(extraCapabilities: Map[String, String] = Map()): DesiredCapabilities = {
-    val initialCapabilities = browser match {
+  private def commonCreateCapabilities(targetBrowser: Browser, extraCapabilities: Map[String, String] = Map()): DesiredCapabilities = {
+    val initialCapabilities = targetBrowser.name match {
       case "firefox" => DesiredCapabilities.firefox()
       case "chrome" => DesiredCapabilities.chrome()
       case "ie" => DesiredCapabilities.internetExplorer()
