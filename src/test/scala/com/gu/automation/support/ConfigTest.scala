@@ -2,8 +2,10 @@ package com.gu.automation.support
 
 import java.io.InputStreamReader
 
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
+
 import com.typesafe.config.ConfigFactory
-import org.scalatest._
 
 /**
  */
@@ -51,16 +53,20 @@ class ConfigTest extends FlatSpec with Matchers {
   }
 
   "The Config" should "also override with system properties" in {
-    System.setProperty("browser", "chrome")
+    System.setProperty("testBaseUrl", "http://www.google.com")
     ConfigFactory.invalidateCaches()
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
-    configLoader.getBrowser() should be ("chrome")
+    configLoader.getTestBaseUrl() should be ("http://www.google.com")
   }
 
   "The Config" should "handle optional values" in {
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
     configLoader.getPlatform() should be (None)
-    configLoader.getBrowserVersion() should be (Some("12"))
+  }
+
+  "The Config" should "handle list of browser objects" in {
+    val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
+    configLoader.getBrowsers should be(List(Browser("firefox", Some("30")), Browser("chrome", Some("35"))))
   }
 
   // helper method
