@@ -1,10 +1,10 @@
 package com.gu.automation.support
-import scala.collection.JavaConversions._
-import java.io.{ File, FileReader, InputStreamReader, Reader }
+import java.io.{File, FileReader, InputStreamReader, Reader}
+
 import com.typesafe.config.ConfigFactory
-import com.typesafe.config.ConfigList
 import org.apache.commons.lang3.math.NumberUtils._
-import org.apache.commons.lang3.StringUtils
+
+import scala.collection.JavaConversions._
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
