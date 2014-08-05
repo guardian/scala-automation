@@ -12,7 +12,7 @@ class ConfigTest extends FlatSpec with Matchers with BeforeAndAfterEach {
   
   override def afterEach() ={
     System.clearProperty("testBaseUrl")
-    System.clearProperty(Config.LocalConfOverrideSysPropKey)
+    System.clearProperty("local.conf.loc")
     ConfigFactory.invalidateCaches()
   }
 
@@ -64,13 +64,9 @@ class ConfigTest extends FlatSpec with Matchers with BeforeAndAfterEach {
     configLoader.getTestBaseUrl() should be ("http://www.google.com")
   }
 
-  "The Config" should "be able to load the default local.conf" in {
-    Config.getLocalConfFile("src/test/default.conf").getName should be("default.conf")
-  }
-
-  "The Config" should "be able to use a custom override local.conf" in {
-    System.setProperty(Config.LocalConfOverrideSysPropKey, "src/test/systemOverride.conf")
-    Config.getLocalConfFile().getName should be("systemOverride.conf")
+  "The Config" should "be able to load a custom override local.conf" in {
+    System.setProperty("local.conf.loc", "src/test/systemOverride.conf")
+    Config.resolveLocalConfFile().getName should be("systemOverride.conf")
   }
 
   "The Config" should "handle optional values" in {

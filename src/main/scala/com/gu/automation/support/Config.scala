@@ -113,8 +113,6 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 }
 
 object Config {
-  
-  val LocalConfOverrideSysPropKey = "local.conf.loc"
 
   def apply() = defaultLoader
 
@@ -124,7 +122,7 @@ object Config {
   }
 
   def getDefaultInject = {
-    val local = getLocalConfFile()
+    val local = resolveLocalConfFile()
     val localOption =
       if (local.exists) Some(new FileReader(local))
       else None
@@ -137,8 +135,8 @@ object Config {
     else Some(new InputStreamReader(resource))
   }
 
-  def getLocalConfFile(defaultLocalConf: String = "local.conf"): java.io.File = {
-    val localConfLocation = sys.props.getOrElse(LocalConfOverrideSysPropKey, defaultLocalConf)
+  def resolveLocalConfFile(): java.io.File = {
+    val localConfLocation = sys.props.getOrElse("local.conf.loc", "local.conf")
     new File(s"$localConfLocation")
   }
 
