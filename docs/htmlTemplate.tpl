@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <script language="javascript" type="text/javascript" src="changelog.js"></script>
 </head>
+
 <h1>{{title}}</h1>
 {{#title_chars}}={{/title_chars}}
 
