@@ -6194,6 +6194,11 @@ button.close {
   }
 }
 
+h2{
+    font-size: 22px;
+    text-decoration: underline;
+}
+
 .commit {
     color: #353C40;
     font-size: 18px;
