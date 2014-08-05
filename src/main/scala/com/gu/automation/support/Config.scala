@@ -1,9 +1,10 @@
 package com.gu.automation.support
-import scala.collection.JavaConversions._
-import java.io.{ File, FileReader, InputStreamReader, Reader }
+import java.io.{File, FileReader, InputStreamReader, Reader}
+
 import com.typesafe.config.ConfigFactory
-import com.typesafe.config.ConfigList
 import org.apache.commons.lang3.math.NumberUtils._
+
+import scala.collection.JavaConversions._
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -121,7 +122,7 @@ object Config {
   }
 
   def getDefaultInject = {
-    val local = new File("local.conf")
+    val local = resolveLocalConfFile()
     val localOption =
       if (local.exists) Some(new FileReader(local))
       else None
@@ -132,6 +133,11 @@ object Config {
     val resource = this.getClass.getClassLoader.getResourceAsStream(leafName)
     if (resource == null) None
     else Some(new InputStreamReader(resource))
+  }
+
+  def resolveLocalConfFile(): java.io.File = {
+    val localConfLocation = sys.props.getOrElse("local.conf.loc", "local.conf")
+    new File(s"$localConfLocation")
   }
 
 }

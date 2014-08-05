@@ -1,15 +1,20 @@
 package com.gu.automation.support
 
 import java.io.InputStreamReader
-
 import org.scalatest.FlatSpec
 import org.scalatest.Matchers
-
 import com.typesafe.config.ConfigFactory
+import org.scalatest.BeforeAndAfterEach
 
 /**
  */
-class ConfigTest extends FlatSpec with Matchers {
+class ConfigTest extends FlatSpec with Matchers with BeforeAndAfterEach {
+  
+  override def afterEach() ={
+    System.clearProperty("testBaseUrl")
+    System.clearProperty("local.conf.loc")
+    ConfigFactory.invalidateCaches()
+  }
 
   "The Config" should "get a default value from the framework.conf without a local file" in {
     val configLoader = new Config(None, Some(getReader("project1.conf")), Some(getReader("framework1.conf")))
@@ -57,6 +62,11 @@ class ConfigTest extends FlatSpec with Matchers {
     ConfigFactory.invalidateCaches()
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
     configLoader.getTestBaseUrl() should be ("http://www.google.com")
+  }
+
+  "The Config" should "be able to load a custom override local.conf" in {
+    System.setProperty("local.conf.loc", "src/test/systemOverride.conf")
+    Config.resolveLocalConfFile().getName should be("systemOverride.conf")
   }
 
   "The Config" should "handle optional values" in {
