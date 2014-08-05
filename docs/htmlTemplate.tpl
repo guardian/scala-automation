@@ -20,9 +20,9 @@
 {{#label_chars}}~{{/label_chars}}
 
 <h2>Commits</h2>
-{{#commits}}<br />
-<p class="commit_h2">{{subject}}</span>
-[{{author}}] {{date}}</p>
+{{#commits}}
+<p class="commit">{{subject}}
+<span class="author">[{{author}}] {{date}}</span></p>
 
 
 {{#body}}

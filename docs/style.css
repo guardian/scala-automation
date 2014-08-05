@@ -6194,7 +6194,14 @@ button.close {
   }
 }
 
-.commit_h2 {
-    color: #69787F;
+.commit {
+    color: #353C40;
     font-size: 18px;
+}
+
+.author {
+    color: #69787F;
+    font-size: 14px;
+    font-style: italic;
+
 }
