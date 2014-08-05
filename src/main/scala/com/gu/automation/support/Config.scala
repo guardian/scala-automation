@@ -4,6 +4,7 @@ import java.io.{ File, FileReader, InputStreamReader, Reader }
 import com.typesafe.config.ConfigFactory
 import com.typesafe.config.ConfigList
 import org.apache.commons.lang3.math.NumberUtils._
+import org.apache.commons.lang3.StringUtils
 
 class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFile: Option[Reader]) {
 
@@ -112,6 +113,8 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 }
 
 object Config {
+  
+  val LocalConfOverrideSysPropKey = "local.conf.override"
 
   def apply() = defaultLoader
 
@@ -121,7 +124,7 @@ object Config {
   }
 
   def getDefaultInject = {
-    val local = new File("local.conf")
+    val local = getLocalConfFile()
     val localOption =
       if (local.exists) Some(new FileReader(local))
       else None
@@ -132,6 +135,10 @@ object Config {
     val resource = this.getClass.getClassLoader.getResourceAsStream(leafName)
     if (resource == null) None
     else Some(new InputStreamReader(resource))
+  }
+  
+  def getLocalConfFile(defaultLocalConf:String = "local.conf"): java.io.File = {
+    new File(s"${sys.props.getOrElse(LocalConfOverrideSysPropKey, defaultLocalConf)}")
   }
 
 }
