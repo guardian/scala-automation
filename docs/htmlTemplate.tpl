@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>ChangeLog - {{title}}</title>
-    <link rel="stylesheet" type="text/css" href="reset.css"/>
+    <link rel="stylesheet" type="text/css" href="html5reset-1.6.1.css"/>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <div id="container">
