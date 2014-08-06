@@ -26,7 +26,7 @@
         <h2>Commits</h2>
         {{#commits}}
         <p class="commit">{{subject}}
-        <span class="author">[{{author}}] [{{commit.date}}]</span></p>
+        <span class="author">[{{author}} - {{dateTime}}]</span></p>
     </div>
 </div>
 
