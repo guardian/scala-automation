@@ -10,16 +10,9 @@
 
     <h1>ChangeLog</h1>
     <p>Here is a list of changes for the project.  The latest version is the first one in the list.  Always try to keep up to date.</p>
-    {{#title_chars}}={{/title_chars}}  -->
-
+    {{#title_chars}}={{/title_chars}}
     {{#versions}}
-    {{label}}
-    {{#label_chars}}-{{/label_chars}}
-
-    <h2>Sections</h2>
     {{#sections}}
-    <strong>{{label}}</strong>
-    {{#label_chars}}~{{/label_chars}}
 
     <div id="commits">
 
