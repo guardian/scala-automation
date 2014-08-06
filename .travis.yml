@@ -1,1 +1,6 @@
 language: scala
+
+after_script:
+  - cd docs
+  - sh buildChangelog.sh
+  - python buildChangelog.py
