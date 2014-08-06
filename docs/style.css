@@ -25,14 +25,14 @@ h1, h2, h3 {
 h1{
     font-size: 3em;
     font-weight: bold;
-    color: #000;
+    color: #081A8A;
 }
 h2{
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 2em;
 
-    color: #666;
+    color: #657E8A;
 }
 h3{
     font-size: 1em;
@@ -64,7 +64,7 @@ p {
 }
 footer {
     padding: 10px 15px;
-    background-color: #f5f5f5;
+    background-color: #96AEFF;
     border-top: 1px solid #ddd;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
