@@ -3,27 +3,35 @@
 <head>
     <meta charset="utf-8">
     <title>ChangeLog - {{title}}</title>
+    <link rel="stylesheet" type="text/css" href="reset.css"/>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
+<div id="container">
 
-<h1>{{title}}</h1>
-{{#title_chars}}={{/title_chars}}
+    <h1>Change log</h1>
+    <p>Here is a list of changes for the project.  The latest version is the first one in the list.  Always try to keep up to date.</p>
+    {{#title_chars}}={{/title_chars}}  -->
 
-{{#versions}}
-{{label}}
-{{#label_chars}}-{{/label_chars}}
+    {{#versions}}
+    {{label}}
+    {{#label_chars}}-{{/label_chars}}
 
-<h2>Sections</h2>
-{{#sections}}
-<strong>{{label}}</strong>
-{{#label_chars}}~{{/label_chars}}
+    <h2>Sections</h2>
+    {{#sections}}
+    <strong>{{label}}</strong>
+    {{#label_chars}}~{{/label_chars}}
 
-<h2>Commits</h2>
-{{#commits}}
-<p class="commit">{{subject}}
-<span class="author">[{{author}}]</span></p>
+    <div id="commits">
 
-
+        <h2>Commits</h2>
+        {{#commits}}
+        <p class="commit">{{subject}}
+        <span class="author">[{{author}}] [{{commit.date}}]</span></p>
+    </div>
+</div>
+<footer class="modal-footer">
+    <p>&copy;2014 Guardian News and Media Limited or its affiliated companies. All rights reserved.</p>
+</footer>
 {{#body}}
 {{body_indented}}
 {{/body}}
