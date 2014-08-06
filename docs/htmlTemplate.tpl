@@ -8,7 +8,7 @@
 </head>
 <div id="container">
 
-    <h1>Change log</h1>
+    <h1>ChangeLog</h1>
     <p>Here is a list of changes for the project.  The latest version is the first one in the list.  Always try to keep up to date.</p>
     {{#title_chars}}={{/title_chars}}  -->
 
@@ -29,9 +29,7 @@
         <span class="author">[{{author}}] [{{commit.date}}]</span></p>
     </div>
 </div>
-<footer class="modal-footer">
-    <p>&copy;2014 Guardian News and Media Limited or its affiliated companies. All rights reserved.</p>
-</footer>
+
 {{#body}}
 {{body_indented}}
 {{/body}}
@@ -39,5 +37,8 @@
 {{/commits}}
 {{/sections}}
 {{/versions}}
+<footer>
+    <p>&copy;2014 Guardian News and Media Limited or its affiliated companies. All rights reserved.</p>
+</footer>
 </html>
 
