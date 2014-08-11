@@ -94,6 +94,10 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     }).getString("loginPassword")
   }
 
+  def isAutoAcceptSSLCert(): Boolean = {
+    config.getBoolean("autoAcceptSSLCert")
+  }
+
   def getIdApiRoot(): String = {
     getConfigValue("idApiRoot")
   }
