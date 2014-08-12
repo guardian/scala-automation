@@ -80,14 +80,14 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("testBaseUrl")
   }
 
-  def getLoginEmail(user: Option[String]): String = {
+  def getLoginEmail(user: Option[String] = None): String = {
     (user match {
       case None => config
       case Some(user) => config.getConfig(user)
     }).getString("loginEmail")
   }
 
-  def getLoginPassword(user: Option[String]): String = {
+  def getLoginPassword(user: Option[String] = None): String = {
     (user match {
       case None => config
       case Some(user) => config.getConfig(user)
