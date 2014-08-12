@@ -1,13 +1,8 @@
 language: scala
 
-before_install: "git clone -b travis `git config --get remote.origin.url` target/travis"
-
 script: sbt travis
 
 after_script:
   - cd docs
   - sh buildChangelog.sh
   - python buildChangelog.py
-
-after_success:
- - if [[ "$TRAVIS_BRANCH" = "master" ]]; then sbt publishSigned; fi
