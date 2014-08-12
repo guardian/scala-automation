@@ -1,6 +1,5 @@
+import com.typesafe.sbt.git.ConsoleGitRunner
 import sbt.Keys._
-import sbtrelease._
-import ReleaseStateTransformations._
 
 name := "scala-automation"
 
@@ -24,8 +23,6 @@ libraryDependencies ++= Seq(
 )
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src/examples/scala"
-
-releaseSettings
 
 sonatypeSettings
 
@@ -54,22 +51,66 @@ pomExtra := (
 
 licenses := Seq("Apache V2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
-ReleaseKeys.crossBuild := true
+//ReleaseKeys.crossBuild := true
 
-ReleaseKeys.releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  runClean,// new
-  runTest,
-  setReleaseVersion,
-  commitReleaseVersion,
-  tagRelease,
-  ReleaseStep( // instead of publishArtifacts
-    action = state => Project.extract(state).runTask(PgpKeys.publishSigned, state)._1,
-    enableCrossBuild = true
-  ),
-  setNextVersion,
-  commitNextVersion,
-  ReleaseStep(state => Project.extract(state).runTask(SonatypeKeys.sonatypeReleaseAll, state)._1),// new
-  pushChanges
-)
+
+lazy val shipIt = taskKey[Unit]("ship it to the maven central")
+
+shipIt := { }
+
+//shipIt <<= shipIt.dependsOn(PgpKeys.publishSigned, SonatypeKeys.sonatypeReleaseAll)
+shipIt <<= shipIt.dependsOn(publishLocal)
+
+// if it's master publish a snapshot TODO, if it's a tag publish a release, otherwise just run test
+val dynamic = Def.taskDyn {
+  if (buildingNewVersion.value)
+    Def.task {
+      val log = streams.value.log
+      log.info("shipIt")
+      shipIt.value
+    }
+  else {
+    Def.task {
+      val log = streams.value.log
+      log.info("test")
+      (test in Test).value
+    }
+  }
+}
+
+// the version is the latest tag starting with v, however if it's not the current commit then add -SNAPSHOT on the end
+version in ThisBuild := {
+  val version = latestGitTag.value.substring(1)
+  val versionStem = if (version.contains("-")) version.substring(0, version.indexOf("-")) else version
+  versionStem + (if (buildingNewVersion.value) "" else "-SNAPSHOT")
+}
+
+lazy val travis = taskKey[Unit]("travis task")
+
+travis := {
+  val log = streams.value.log
+  log.info(">>> log some values")
+  log.info(s"gitCurrentBranch: ${git.gitCurrentBranch.value}")
+  log.info(s"gitCurrentTags: ${git.gitCurrentTags.value}")
+  //println(s"branch: ${git.branch.value}")
+  log.info(s"gitHeadCommit: ${git.gitHeadCommit.value}")
+  //  println(s"versionProperty: ${git.versionProperty.value}")
+  log.info(s"version value: ${version.value}")
+  log.info(s"latestGitTag: ${latestGitTag.value}")
+  log.info(s"buildingNewVersion: ${buildingNewVersion.value}")
+  log.info("<<< finished logging some values")
+  dynamic.value
+}
+
+// the latestGitTag is used to find out what version to publish as
+lazy val latestGitTag = settingKey[String]("either v1.0 or v1.0-1-2fdd54b depends if it's on the tag")
+
+latestGitTag := {
+  ConsoleGitRunner("describe", "--match","t[0-9]*","HEAD")(file("."))
+}
+
+lazy val buildingNewVersion = settingKey[Boolean]("whether we're building a new version to ship")
+
+buildingNewVersion := {
+  git.gitCurrentTags.value.contains(latestGitTag.value)
+}
