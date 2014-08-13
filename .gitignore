@@ -4,6 +4,8 @@ logs/
 local.*
 docs/local.*
 
+*.gpg
+
 # IntelliJ
 .idea/
 .idea_modules/

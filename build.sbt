@@ -5,7 +5,7 @@ import complete.DefaultParsers._
 
 name := "scala-automation"
 
-organization := "com.gu"
+organization := "com.gu.tmp"
 
 scalaVersion := "2.10.3"
 
@@ -53,15 +53,17 @@ pomExtra := (
 
 licenses := Seq("Apache V2" -> url("http://www.apache.org/licenses/LICENSE-2.0.html"))
 
-//ReleaseKeys.crossBuild := true
+pgpSecretRing := file("secring.gpg")
+
+pgpPublicRing := file("pubring.gpg")
 
 
 lazy val shipIt = taskKey[Unit]("ship it to the maven central")
 
 shipIt := { }
 
-//shipIt <<= shipIt.dependsOn(PgpKeys.publishSigned, SonatypeKeys.sonatypeReleaseAll)
-shipIt <<= shipIt.dependsOn(publishLocal)
+shipIt <<= shipIt.dependsOn(PgpKeys.publishSigned, SonatypeKeys.sonatypeReleaseAll)
+//shipIt <<= shipIt.dependsOn(publishLocal)
 
 // if it's master publish a snapshot TODO, if it's a tag publish a release, otherwise just run test
 val dynamic = Def.taskDyn {
@@ -93,7 +95,7 @@ travis := {
   val args: Seq[String] = spaceDelimited("<arg>").parsed
   val log = streams.value.log
   log.info(">>> log some values")
-  log.info(s"args: ${args.mkString(" ")}")
+  val password = args(0)
   log.info(s"gitCurrentBranch: ${git.gitCurrentBranch.value}")
   log.info(s"gitCurrentTags: ${git.gitCurrentTags.value}")
   //println(s"branch: ${git.branch.value}")
@@ -103,6 +105,11 @@ travis := {
   log.info(s"latestGitTag: ${latestGitTag.value}")
   log.info(s"buildingNewVersion: ${buildingNewVersion.value}")
   log.info("<<< finished logging some values")
+  credentials += Credentials("Sonatype Nexus Repository Manager",
+    "oss.sonatype.org",
+    "guardian.build",
+    password)
+  pgpPassphrase := Some(password.toCharArray)
   dynamic.value
 }
 

@@ -1,12 +1,14 @@
 language: scala
-#
 script: sbt "travis $SONATYPE_PASSWORD"
-#
 after_script:
 - cd docs
 - sh buildChangelog.sh
 - python buildChangelog.py
-#
 env:
   global:
     secure: ZfrNyF4y2/AkBui6OgJ7mj+hL7QhONQ/53djhTJF8cpm9kI78+96ak2DR3OXx3Usq/igBX2ivtyaEnmYjQ0fe4x9gFJRsLLPofGnGLY7DdFhRnH6UP1A+GMfED/sF7we3/ejNrthParpQ1gp8+qMJ1i4ylg7MTGhjy0n3yB68xY=
+before_install:
+- openssl aes-256-cbc -K $encrypted_aa57d71e2d4b_key -iv $encrypted_aa57d71e2d4b_iv
+  -in pubring.gpg.enc -out pubring.gpg -d
+- openssl aes-256-cbc -K $encrypted_aa57d71e2d4b_key -iv $encrypted_aa57d71e2d4b_iv
+  -in secring.gpg.enc -out secring.gpg -d
