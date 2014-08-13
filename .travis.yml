@@ -1,5 +1,5 @@
 language: scala
-script: sbt "travis $SONATYPE_PASSWORD"
+script: sbt travis
 after_script:
 - cd docs
 - sh buildChangelog.sh
