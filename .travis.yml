@@ -1,8 +1,12 @@
 language: scala
-
-script: sbt travis
-
+#
+script: sbt "travis $SONATYPE_PASSWORD"
+#
 after_script:
-  - cd docs
-  - sh buildChangelog.sh
-  - python buildChangelog.py
+- cd docs
+- sh buildChangelog.sh
+- python buildChangelog.py
+#
+env:
+  global:
+    secure: ZfrNyF4y2/AkBui6OgJ7mj+hL7QhONQ/53djhTJF8cpm9kI78+96ak2DR3OXx3Usq/igBX2ivtyaEnmYjQ0fe4x9gFJRsLLPofGnGLY7DdFhRnH6UP1A+GMfED/sF7we3/ejNrthParpQ1gp8+qMJ1i4ylg7MTGhjy0n3yB68xY=

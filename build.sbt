@@ -1,5 +1,7 @@
 import com.typesafe.sbt.git.ConsoleGitRunner
 import sbt.Keys._
+import sbt._
+import complete.DefaultParsers._
 
 name := "scala-automation"
 
@@ -85,11 +87,13 @@ version in ThisBuild := {
   versionStem + (if (buildingNewVersion.value) "" else "-SNAPSHOT")
 }
 
-lazy val travis = taskKey[Unit]("travis task")
+lazy val travis = inputKey[Unit]("travis task")
 
 travis := {
+  val args: Seq[String] = spaceDelimited("<arg>").parsed
   val log = streams.value.log
   log.info(">>> log some values")
+  log.info(s"args: ${args.mkString(" ")}")
   log.info(s"gitCurrentBranch: ${git.gitCurrentBranch.value}")
   log.info(s"gitCurrentTags: ${git.gitCurrentTags.value}")
   //println(s"branch: ${git.branch.value}")
