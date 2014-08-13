@@ -102,10 +102,6 @@ travis := {
   log.info(s"latestGitTag: ${latestGitTag.value}")
   log.info(s"buildingNewVersion: ${buildingNewVersion.value}")
   log.info("<<< finished logging some values")
-  credentials += Credentials("Sonatype Nexus Repository Manager",
-    "oss.sonatype.org",
-    "guardian.build",
-    password.value)
   dynamic.value
 }
 
@@ -123,6 +119,11 @@ lazy val buildingNewVersion = settingKey[Boolean]("whether we're building a new 
 buildingNewVersion := {
   git.gitCurrentTags.value.contains(latestGitTag.value)
 }
+
+credentials += Credentials("Sonatype Nexus Repository Manager",
+  "oss.sonatype.org",
+  "guardian.build",
+  password.value)
 
 lazy val password = settingKey[String]("the password")
 
