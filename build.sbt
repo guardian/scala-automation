@@ -93,7 +93,6 @@ lazy val travis = taskKey[Unit]("travis task")
 travis := {
   val log = streams.value.log
   log.info(">>> log some values")
-  val password = System.getenv("SONATYPE_PASSWORD")
   log.info(s"gitCurrentBranch: ${git.gitCurrentBranch.value}")
   log.info(s"gitCurrentTags: ${git.gitCurrentTags.value}")
   //println(s"branch: ${git.branch.value}")
@@ -106,10 +105,11 @@ travis := {
   credentials += Credentials("Sonatype Nexus Repository Manager",
     "oss.sonatype.org",
     "guardian.build",
-    password)
-  pgpPassphrase := Some(password.toCharArray)
+    password.value)
   dynamic.value
 }
+
+pgpPassphrase := Some(password.value.toCharArray)
 
 // the latestGitTag is used to find out what version to publish as
 lazy val latestGitTag = settingKey[String]("either v1.0 or v1.0-1-2fdd54b depends if it's on the tag")
@@ -122,4 +122,10 @@ lazy val buildingNewVersion = settingKey[Boolean]("whether we're building a new 
 
 buildingNewVersion := {
   git.gitCurrentTags.value.contains(latestGitTag.value)
+}
+
+lazy val password = settingKey[String]("the password")
+
+password := {
+  System.getenv("SONATYPE_PASSWORD")
 }
