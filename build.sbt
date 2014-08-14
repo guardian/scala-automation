@@ -4,7 +4,7 @@ import sbt._
 
 name := "scala-automation"
 
-organization := "com.gu.tmp"
+organization := "com.gu"
 
 scalaVersion := "2.10.3"
 
@@ -57,13 +57,7 @@ pgpSecretRing := file("secring.gpg")
 pgpPublicRing := file("pubring.gpg")
 
 
-lazy val shipIt = taskKey[Unit]("ship it to the maven central")
-
-shipIt <<= shipIt.dependsOn(SonatypeKeys.sonatypeReleaseAll)
-
 SonatypeKeys.sonatypeReleaseAll <<= SonatypeKeys.sonatypeReleaseAll.dependsOn(PgpKeys.publishSigned)
-
-shipIt := {SonatypeKeys.sonatypeReleaseAll.value}
 
 // if it's master publish a snapshot TODO, if it's a tag publish a release, otherwise just run test
 val dynamic = Def.taskDyn {
@@ -71,7 +65,8 @@ val dynamic = Def.taskDyn {
     Def.task {
       val log = streams.value.log
       log.info("shipIt")
-      shipIt.value
+      SonatypeKeys.sonatypeReleaseAll.value
+      ()
     }
   else {
     Def.task {
@@ -112,7 +107,7 @@ pgpPassphrase := Some(password.value.toCharArray)
 lazy val latestGitTag = settingKey[String]("either v1.0 or v1.0-1-2fdd54b depends if it's on the tag")
 
 latestGitTag := {
-  ConsoleGitRunner("describe", "--match","t[0-9]*","HEAD")(file("."))
+  ConsoleGitRunner("describe", "--match","v[0-9]*","HEAD")(file("."))
 }
 
 lazy val buildingNewVersion = settingKey[Boolean]("whether we're building a new version to ship")
@@ -129,5 +124,7 @@ credentials += Credentials("Sonatype Nexus Repository Manager",
 lazy val password = settingKey[String]("the password")
 
 password := {
-  System.getenv("SONATYPE_PASSWORD")
+  val password = System.getenv("SONATYPE_PASSWORD")
+  if (password == null) ""
+  else password
 }
