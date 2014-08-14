@@ -57,9 +57,12 @@ pgpSecretRing := file("secring.gpg")
 pgpPublicRing := file("pubring.gpg")
 
 
-lazy val shipIt = taskKey[Unit]("ship it to the maven central").dependsOn(
-  SonatypeKeys.sonatypeReleaseAll.dependsOn(PgpKeys.publishSigned))
+lazy val shipIt = taskKey[Unit]("ship it to the maven central")
 
+shipIt <<= shipIt.dependsOn(
+  SonatypeKeys.sonatypeReleaseAll)
+
+SonatypeKeys.sonatypeReleaseAll <<= SonatypeKeys.sonatypeReleaseAll.dependsOn(PgpKeys.publishSigned)
 
 // if it's master publish a snapshot TODO, if it's a tag publish a release, otherwise just run test
 val dynamic = Def.taskDyn {
