@@ -4,12 +4,10 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.remote.Augmenter
-import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.remote.{CapabilityType, Augmenter, DesiredCapabilities}
 import org.openqa.selenium.support.events.EventFiringWebDriver
 
-import com.gu.automation.support.Browser
-import com.gu.automation.support.TestLogging
+import com.gu.automation.support.{Config, Browser, TestLogging}
 import com.gu.automation.support.page.WaitGet
 
 /**
@@ -18,7 +16,7 @@ import com.gu.automation.support.page.WaitGet
  */
 abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory {
 
-  def createDriver(testCaseName: String, targetBrowser:Browser, capabilities: DesiredCapabilities): WebDriver
+  def createDriver(testCaseName: String, targetBrowser: Browser, capabilities: DesiredCapabilities): WebDriver
 
   /**
    * Does the common logic for creating a webdriver and delegates to environment specific classes for the specific parts.
@@ -49,6 +47,7 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
     }
     extraCapabilities.foreach(cap => initialCapabilities.setCapability(cap._1, cap._2))
+    if (Config().isAutoAcceptSSLCert()) initialCapabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true)
     initialCapabilities
   }
 }

@@ -74,6 +74,12 @@ class ConfigTest extends FlatSpec with Matchers with BeforeAndAfterEach {
     configLoader.getPlatform() should be (None)
   }
 
+  "The Config" should "load default login data" in {
+    val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
+    configLoader.getLoginEmail() should be ("test@guardian.co.uk")
+    configLoader.getLoginPassword() should be ("testpwd")
+  }
+
   "The Config" should "handle list of browser objects" in {
     val configLoader = new Config(None, None, Some(getReader("framework1.conf")))
     configLoader.getBrowsers should be(List(Browser("firefox", Some("30")), Browser("chrome", Some("35"))))
