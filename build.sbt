@@ -8,10 +8,6 @@ organization := "com.gu"
 
 scalaVersion := "2.10.3"
 
-resolvers ++= Seq(
-  "Guardian GitHub Releases" at "http://guardian.github.io/maven/repo-releases"
-)
-
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.0",
   "org.seleniumhq.selenium" % "selenium-java" % "2.42.0",
@@ -27,7 +23,7 @@ unmanagedSourceDirectories in Compile += baseDirectory.value / "src/examples/sca
 
 sonatypeSettings
 
-description := "Scala client for the Guardian's Content API"
+description := "Core Scala Automation project"
 
 scmInfo := Some(ScmInfo(
   url("https://github.com/guardian/scala-automation"),
@@ -58,6 +54,8 @@ pgpPublicRing := file("pubring.gpg")
 
 
 SonatypeKeys.sonatypeReleaseAll <<= SonatypeKeys.sonatypeReleaseAll.dependsOn(PgpKeys.publishSigned)
+
+PgpKeys.publishSigned <<= PgpKeys.publishSigned.dependsOn(test in Test)
 
 // if it's master publish a snapshot TODO, if it's a tag publish a release, otherwise just run test
 val dynamic = Def.taskDyn {
@@ -113,7 +111,8 @@ latestGitTag := {
 lazy val buildingNewVersion = settingKey[Boolean]("whether we're building a new version to ship")
 
 buildingNewVersion := {
-  git.gitCurrentTags.value.contains(latestGitTag.value)
+  val tagsOnHead = git.gitCurrentTags.value
+  tagsOnHead.contains(latestGitTag.value)
 }
 
 credentials += Credentials("Sonatype Nexus Repository Manager",
