@@ -30,6 +30,7 @@ object BrowserStackWebDriverFactory extends ParentWebDriverFactory {
     targetBrowser.version.foreach(capabilities.setCapability("browser_version", _))
     resolution.foreach(capabilities.setCapability("resolution", _))
     browserStackVisualLog.foreach(capabilities.setCapability("browserstack.debug", _))
+    capabilities.setCapability("browserstack.local", s"${Config().isBrowserStackLocal()}")
     capabilities
   }
 }
