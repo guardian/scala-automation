@@ -98,6 +98,10 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     config.getBoolean("autoAcceptSSLCert")
   }
 
+  def isBrowserStackLocal(): Boolean = {
+    config.getBoolean("browserStackLocal")
+  }
+
   def getIdApiRoot(): String = {
     getConfigValue("idApiRoot")
   }
