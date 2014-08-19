@@ -1,0 +1,96 @@
+/*
+    Title: Changelog style
+    Author: Gwyn Lockett
+*/
+html {
+    font-family: sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+body {
+    margin-left: 20px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+
+}
+h1, h2, h3 {
+    font-family: inherit;
+    font-weight: normal;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+h1{
+    font-size: 3em;
+    font-weight: bold;
+    color: #081A8A;
+}
+h2{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 2em;
+
+    color: #657E8A;
+}
+h3{
+    font-size: 1em;
+    color: #666;
+}
+a {
+    color: #428bca;
+    text-decoration: none;
+}
+a:hover,
+a:focus {
+    color: #2a6496;
+    text-decoration: underline;
+}
+a:focus {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+p {
+    margin: 0 0 10px;
+}
+footer {
+    padding: 10px 15px;
+    background-color: #96AEFF;
+    border-top: 1px solid #ddd;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    margin-left: -20px;
+}
+
+.text-left {
+    text-align: left;
+}
+.text-right {
+    text-align: right;
+}
+.container {
+    width: 1170px;
+
+}
+
+.commit {
+    color: #333;
+    font-size: 18px;
+}
+
+.author {
+    color: #69787F;
+    font-size: 14px;
+    font-style: italic;
+
+}
+
