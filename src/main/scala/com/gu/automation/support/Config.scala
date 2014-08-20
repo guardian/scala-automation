@@ -51,7 +51,8 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
 
   def getBrowsers(): List[Browser] = {
     val browsers = config.getConfigList("browsers") map { browserElement =>
-      Browser(browserElement.getString("name"), Option(browserElement.getString("version")).filter(isNumber))
+      val version = if (browserElement.hasPath("version")) Some(browserElement.getString("version")).filter(isNumber) else None
+      Browser(browserElement.getString("name"), version)
     }
     browsers.toList
   }
@@ -60,12 +61,16 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getOption("platform")
   }
 
-  def getPlatformVersion(): Option[String] = {
-    getOption("platformVersion")
-  }
-
   def getResolution(): Option[String] = {
     getOption("resolution")
+  }
+
+  def getBrowserStackOS(): Option[String] = {
+    getOption("browserStackOS")
+  }
+
+  def getBrowserStackOSVersion(): Option[String] = {
+    getOption("browserStackOSVersion")
   }
 
   def getBrowserStackVisualLog(): Option[String] = {
