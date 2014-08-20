@@ -25,14 +25,14 @@ object ChangeLogBuild extends Build {
 
     def separator: Parser[String] = "~"
 
-    def versionTag: Parser[Option[String]] = ("tag: ".r.? ~ "[^),]+".r) ^^ {
-      case Some("tag: ") ~ tag => if (tag.startsWith("v")) Some(tag) else None
+    def versionTag: Parser[Option[String]] = "tag: ".r.? ~ "[^),]+".r ^^ {
+      case Some(_) ~ tag if (tag.startsWith("v")) => Some(tag)
       case _ => None
     }
 
     def version: Parser[Option[String]] = ("(" ~> rep1sep(versionTag, ", ") <~ ")") ^^ {
       hasTags: List[Option[String]] =>
-        val tagsList = hasTags.filter(_.isDefined).map(_.get)
+        val tagsList = hasTags.flatten
         if (tagsList.isEmpty) None
         else Some(tagsList.mkString(", "))
     }
@@ -57,8 +57,6 @@ object ChangeLogBuild extends Build {
 
   def doChangeLog = {
     val log = {"""git log --tags --format=%d~%cD~%aN~%s~%b~!~""" !!}
-
-    println(s"log: $log")
 
     val records = LogParser.parse(log)
     val htmlLines = records.right.map(_ map {

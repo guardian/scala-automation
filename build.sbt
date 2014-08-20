@@ -1,6 +1,7 @@
 import com.typesafe.sbt.git.ConsoleGitRunner
 import sbt.Keys._
 import sbt._
+import S3._
 
 name := "scala-automation"
 
@@ -99,6 +100,10 @@ travis := {
   dynamic.value
 }
 
+//travis <<= travis.dependsOn(s3-upload)
+
+//s3-upload <<= s3-upload.dependsOn(changeLog)
+
 pgpPassphrase := Some(password.value.toCharArray)
 
 // the latestGitTag is used to find out what version to publish as
@@ -127,3 +132,11 @@ password := {
   if (password == null) ""
   else password
 }
+
+s3Settings
+
+mappings in upload := Seq((new java.io.File("docs/local.changelog.html"),"changelog.html"),(new java.io.File("docs/changelog.css"),"changelog.css"))
+
+host in upload := "scala-automation.s3-website-eu-west-1.amazonaws.com"
+
+credentials += Credentials(Path.userHome / ".s3credentials")
