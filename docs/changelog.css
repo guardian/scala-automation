@@ -1,5 +1,5 @@
 h2 {
-    font-size: 16px
+    font-size: 20px
 }
 
 a:link {
@@ -21,4 +21,10 @@ a:active {
 }
 .credit {
     font-size: 12px;
+}
+.version {
+    background-color: #eeeeee;
+}
+.pullReq {
+    padding-left: 1em;
 }
