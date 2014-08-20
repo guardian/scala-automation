@@ -85,6 +85,11 @@ class ConfigTest extends FlatSpec with Matchers with BeforeAndAfterEach {
     configLoader.getBrowsers should be(List(Browser("firefox", Some("30")), Browser("chrome", Some("35"))))
   }
 
+  "The Config" should "handle browser with no version" in {
+    val configLoader = new Config(None, None, Some(getReader("browserNoVersion.conf")))
+    configLoader.getBrowsers should be(List(Browser("firefox", None)))
+  }
+
   // helper method
   def getReader(leafName: String) = {
     val stream = this.getClass.getResourceAsStream(leafName)
