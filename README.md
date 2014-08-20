@@ -62,7 +62,7 @@ add the following trait(s) to your class:
 ## Examples
 
 ### Test Environment Configuration
-- for a guaranteed up to date list read [the Config reader class](../blob/master/src/main/scala/com/gu/automation/support/Config.scala)
+- for a guaranteed up to date list read [the Config reader class](src/main/scala/com/gu/automation/support/Config.scala)
 - Simple:
 ```
 "testBaseUrl"           : "http://m.code.dev-theguardian.com/uk"
