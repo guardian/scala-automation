@@ -2,7 +2,7 @@
 
 ## Creating a new Test project
 - Create a new folder for your project so you can add it to github
-- Create a file named "project.sbt" in your project root with the following content (keep new lines, replace name):
+- Create a file named "build.sbt" in your project root with the following content (keep new lines, replace name):
 ```
 name := "My project tests"
 
@@ -62,6 +62,7 @@ add the following trait(s) to your class:
 ## Examples
 
 ### Test Environment Configuration
+- for a guaranteed up to date list read [the Config reader class](../blob/master/src/main/scala/com/gu/automation/support/Config.scala)
 - Simple:
 ```
 "testBaseUrl"           : "http://m.code.dev-theguardian.com/uk"
@@ -75,11 +76,11 @@ idApiRoot: "https://idapi.code.dev-theguardian.com"
 ```
 "environment": "local"
 "local": {
-    "browser"               : "firefox"
+    "browsers"               : [{name:"firefox"}]
     "testBaseUrl"           : "http://localhost:8080"
 }
 "integration": {
-    "browser"               : "chrome"
+    "browsers"               : [{name:"chrome"}]
     "webDriverRemoteUrl"    : "http://remotehub:4444/wd/hub"
     "testBaseUrl"           : "http://www.theguardian.com"
 }
