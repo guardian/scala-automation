@@ -60,12 +60,16 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getOption("platform")
   }
 
-  def getPlatformVersion(): Option[String] = {
-    getOption("platformVersion")
-  }
-
   def getResolution(): Option[String] = {
     getOption("resolution")
+  }
+
+  def getBrowserStackOS(): Option[String] = {
+    getOption("browserStackOS")
+  }
+
+  def getBrowserStackOSVersion(): Option[String] = {
+    getOption("browserStackOSVersion")
   }
 
   def getBrowserStackVisualLog(): Option[String] = {

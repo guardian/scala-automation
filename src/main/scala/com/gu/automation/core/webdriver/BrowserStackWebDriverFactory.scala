@@ -1,20 +1,17 @@
 package com.gu.automation.core.webdriver
 
 import java.net.URL
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.remote.DesiredCapabilities
-import org.openqa.selenium.remote.RemoteWebDriver
+
 import com.gu.automation.core.ParentWebDriverFactory
-import com.gu.automation.support.Browser
-import com.gu.automation.support.Config
-import org.apache.commons.lang3.StringUtils
-import org.apache.commons.lang3.math.NumberUtils._
+import com.gu.automation.support.{Browser, Config}
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
 
 object BrowserStackWebDriverFactory extends ParentWebDriverFactory {
 
   val webDriverRemoteUrl: String = Config().getWebDriverRemoteUrl()
-  val browserStackOS: Option[String] = Config().getPlatform()
-  val browserStackOSVersion: Option[String] = Config().getPlatformVersion()
+  val browserStackOS: Option[String] = Config().getBrowserStackOS()
+  val browserStackOSVersion: Option[String] = Config().getBrowserStackOSVersion()
   val resolution: Option[String] = Config().getResolution()
   val browserStackVisualLog: Option[String] = Config().getBrowserStackVisualLog()
 
