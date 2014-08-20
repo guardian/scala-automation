@@ -65,7 +65,8 @@ add the following trait(s) to your class:
 - Simple:
 ```
 "testBaseUrl"           : "http://m.code.dev-theguardian.com/uk"
-"browser"               : "chrome" // firefox, chrome, ie
+browserEnvironment: "local" // or sauceLabs or browserStack
+"browsers"               : [{name: "chrome"}] // firefox, chrome, ie and you can also add version in the {} braces
 loginEmail : "test.user@guardian.co.uk"
 loginPassword : "asdf"
 idApiRoot: "https://idapi.code.dev-theguardian.com"
