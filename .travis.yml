@@ -1,9 +1,5 @@
 language: scala
 script: sbt travis
-after_script:
-- cd docs
-- sh buildChangelog.sh
-- python buildChangelog.py
 before_install:
 - openssl aes-256-cbc -pass pass:secring-$SONATYPE_PASSWORD -in secring.gpg.enc -out secring.gpg -d
 - openssl aes-256-cbc -pass pass:pubring-$SONATYPE_PASSWORD -in pubring.gpg.enc -out pubring.gpg -d

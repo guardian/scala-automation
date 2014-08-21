@@ -100,9 +100,9 @@ travis := {
   dynamic.value
 }
 
-//travis <<= travis.dependsOn(s3-upload)
+travis <<= travis.dependsOn(upload)
 
-//s3-upload <<= s3-upload.dependsOn(changeLog)
+upload <<= upload.dependsOn(changeLog)
 
 pgpPassphrase := Some(password.value.toCharArray)
 
@@ -137,6 +137,6 @@ s3Settings
 
 mappings in upload := Seq((new java.io.File("docs/local.changelog.html"),"changelog.html"),(new java.io.File("docs/changelog.css"),"changelog.css"))
 
-host in upload := "scala-automation.s3-website-eu-west-1.amazonaws.com"
+host in upload := "scala-automation.s3.amazonaws.com"
 
-credentials += Credentials(Path.userHome / ".s3credentials")
+credentials += Credentials(new File("local.s3credentials.properties"))
