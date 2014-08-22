@@ -137,6 +137,6 @@ host in upload := "scala-automation.s3.amazonaws.com"
 
 credentials += Credentials(new File("local.s3credentials.properties"))
 
-travis <<= travis.dependsOn(upload)
+SonatypeKeys.sonatypeReleaseAll <<= SonatypeKeys.sonatypeReleaseAll.dependsOn(upload)
 
 upload <<= upload.dependsOn(changeLog)
