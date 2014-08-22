@@ -1,6 +1,7 @@
 import com.typesafe.sbt.git.ConsoleGitRunner
 import sbt.Keys._
 import sbt._
+import S3._
 
 name := "scala-automation"
 
@@ -127,3 +128,15 @@ password := {
   if (password == null) ""
   else password
 }
+
+s3Settings
+
+mappings in upload := Seq((new java.io.File("docs/local.changelog.html"),"changelog.html"),(new java.io.File("docs/changelog.css"),"changelog.css"))
+
+host in upload := "scala-automation.s3.amazonaws.com"
+
+credentials += Credentials(new File("local.s3credentials.properties"))
+
+SonatypeKeys.sonatypeReleaseAll <<= SonatypeKeys.sonatypeReleaseAll.dependsOn(upload)
+
+upload <<= upload.dependsOn(changeLog)
