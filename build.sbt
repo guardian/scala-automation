@@ -100,10 +100,6 @@ travis := {
   dynamic.value
 }
 
-travis <<= travis.dependsOn(upload)
-
-upload <<= upload.dependsOn(changeLog)
-
 pgpPassphrase := Some(password.value.toCharArray)
 
 // the latestGitTag is used to find out what version to publish as
@@ -140,3 +136,7 @@ mappings in upload := Seq((new java.io.File("docs/local.changelog.html"),"change
 host in upload := "scala-automation.s3.amazonaws.com"
 
 credentials += Credentials(new File("local.s3credentials.properties"))
+
+travis <<= travis.dependsOn(upload)
+
+upload <<= upload.dependsOn(changeLog)

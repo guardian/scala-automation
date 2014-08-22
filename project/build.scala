@@ -1,3 +1,4 @@
+import sbt.Keys.TaskStreams
 import sbt._
 
 import scala.util.parsing.combinator.RegexParsers
@@ -8,7 +9,7 @@ object ChangeLogBuild extends Build {
 
   override lazy val settings = super.settings ++
     Seq(
-      changeLog := doChangeLog
+      changeLog := doChangeLog(Keys.streams.value)
     )
 
   case class Record(tags: Option[String], date: String, user: String, subject: Either[Int,String], body: String)
@@ -55,10 +56,12 @@ object ChangeLogBuild extends Build {
 
   }
 
-  def doChangeLog = {
-    val log = {"""git log --tags --format=%d~%cD~%aN~%s~%b~!~""" !!}
+  def doChangeLog(streams: TaskStreams) = {
+    val log = streams.log
+    log.info("generating changelog")
+    val gitLog = {"""git log --tags --format=%d~%cD~%aN~%s~%b~!~""" !!}
 
-    val records = LogParser.parse(log)
+    val records = LogParser.parse(gitLog)
     val htmlLines = records.right.map(_ map {
       case Record(tags, date, user, subject, body) =>
         val subjectDesc =
@@ -75,5 +78,7 @@ object ChangeLogBuild extends Build {
     if (finalResult.isLeft) {
       throw new RuntimeException("changelog parsing failed: " + finalResult.left.get)
     }
+
+    log.info("generated changelog.html")
   }
 }
