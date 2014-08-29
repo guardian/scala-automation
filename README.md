@@ -16,19 +16,23 @@ libraryDependencies ++= Seq(
 )
 ```
 NOTE: You can find the latest version by looking [here](http://repo1.maven.org/maven2/com/gu/scala-automation_2.10/)
-- All project source code have to be under src/test
-Tests:    src/test/scala/com/gu/{project}/test
-Steps:    src/test/scala/com/gu/{project}/step
-PageObj:  src/test/scala/com/gu/{project}/page
-You can see examples of each in this repo under (src/examples/scala/com/gu/example/)
+
+* All project source code have to be under src/test
+* Tests:    src/test/scala/com/gu/{project}/test
+* Steps:    src/test/scala/com/gu/{project}/step
+* PageObj:  src/test/scala/com/gu/{project}/page
+
+You can see examples of each in this repo under [src/examples/scala/com/gu/example/](src/examples/scala/com/gu/example/)
 
 ## Features
 
 ### Test configurations:
-The default configuration is supplied in: src/main/framework.conf
-If you need to override anything for your tests or add new defaults, add: src/test/resources/project.conf
-If you need some personal settings add local.conf.  This will be ignored by git so ideal for storing usernames and passwords.
-System properties override everything.
+The default configuration is supplied, by the framework, in: ```src/main/framework.conf```
+If you need to override anything for your tests or add new defaults, add: ```src/test/resources/project.conf```, in your test project.
+If you need some personal settings add ```local.conf``` at the root of your test project.  This should be ignored by Git, so make sure to add it in the suitable .gitignore, and is ideal for storing sensitive data such as usernames and passwords.
+Finally properties defined as a System property overrides all the above property declarations.
+
+Would you want to put your local.conf in a location which you define yourself, you should provide a System property ```local.conf.loc``` with the value for the path of your local.conf. It is important that this is done before the framework is initialized so one way would be to add it as a jvm arg when running the test.
 
 ### Logging:
 In your resources folder create a file named: logback.xml
@@ -75,6 +79,8 @@ loginEmail : "test.user@guardian.co.uk"
 loginPassword : "asdf"
 idApiRoot: "https://idapi.code.dev-theguardian.com"
 ```
+For more information about the loginEmail, loginPassword and idApiRoot please see [Scala Automation Web SignIn](https://github.com/guardian/scala-automation-web-signin)
+
 - With Environments:
 ```
 "environment": "local"
@@ -88,3 +94,4 @@ idApiRoot: "https://idapi.code.dev-theguardian.com"
     "testBaseUrl"           : "http://www.theguardian.com"
 }
 ```
+What the properties, under the different environment objects do, is to override the properties defined in the root. So for example, in the above case, the browsers in the root will be overridden with firefox.
