@@ -44,21 +44,15 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
   private def failWithScreenshot(testName: String, driver: WebDriver, e: Exception) = {
     logger.error("Test failed")
     try {
-      val screenshotFile = driver match {
+      driver match {
         case ts: TakesScreenshot => {
-          logger.error("Test failed")
-          ts.getScreenshotAs(OutputType.BYTES)
+          logger.info(s"[FAILED]${e.getMessage}")
+          logger.info("[SCREENSHOT]", ts.getScreenshotAs(OutputType.BYTES))
         }
-        case _ => throw new RuntimeException("Error getting screenshot")
+        case _ => throw new RuntimeException("Driver can't take screen shots.")
       }
-
-      val screenshotDir = "logs/screenshots"
-      //      new File(screenshotDir).mkdirs()
-      //      val file = new FileOutputStream(s"${screenshotDir}/${testName}.png")
-      //      file.write(screenshotFile)
-      //      file.close
     } catch {
-      case e: Exception => logger.step("Error taking screenshot.")
+      case e: Exception => logger.error("Error taking screen shot.")
     }
     throw e
   }
