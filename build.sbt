@@ -11,7 +11,7 @@ scalaVersion := "2.10.3"
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.0",
-  "org.seleniumhq.selenium" % "selenium-java" % "2.42.0",
+  "org.seleniumhq.selenium" % "selenium-java" % "2.42.2",
   "com.typesafe" % "config" % "1.2.1",
   "com.google.code.findbugs" % "jsr305" % "1.3.+", // workaround for a Scala compiler bug, triggered by guava
   "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
