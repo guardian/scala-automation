@@ -1,7 +1,9 @@
 #  Scala Automation Core Module
 
-## Wiki documentation
-This file contains the basics, but for background information and HOWTOs please go to [the wiki](https://sites.google.com/a/guardian.co.uk/qa/scala-automation)
+## Links
+- [![Build Status](https://travis-ci.org/guardian/scala-automation.svg?branch=master)](https://travis-ci.org/guardian/scala-automation) on branch master
+- [Version History](http://scala-automation.s3-website-eu-west-1.amazonaws.com/changelog.html)
+- [Project wiki - background information](https://sites.google.com/a/guardian.co.uk/qa/scala-automation)
 
 ## Creating a new Test project
 - Create a new folder for your project so you can add it to github
