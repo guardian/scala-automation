@@ -1,9 +1,9 @@
 language: scala
-script: sbt travis
+script: sbt testAndOptionallyShip
 before_install:
-- openssl aes-256-cbc -pass pass:secring-$SONATYPE_PASSWORD -in secring.gpg.enc -out secring.gpg -d
-- openssl aes-256-cbc -pass pass:pubring-$SONATYPE_PASSWORD -in pubring.gpg.enc -out pubring.gpg -d
-- openssl aes-256-cbc -pass pass:$SONATYPE_PASSWORD -in s3credentials.properties.enc -out local.s3credentials.properties -d
+- openssl aes-256-cbc -pass pass:secring-$SONATYPE_PASSWORD -in secring.gpg.enc -out local.secring.gpg -d
+- openssl aes-256-cbc -pass pass:pubring-$SONATYPE_PASSWORD -in pubring.gpg.enc -out local.pubring.gpg -d
+- openssl aes-256-cbc -pass pass:$SONATYPE_PASSWORD -in credentials.sbt.enc -out local.credentials.sbt -d
 env:
   global:
     secure: Z8G6iRMeZj8xT2nI5UhVJkdZW0YModjqVuHuPNX17hGmvmhXSw7X/93fyq3k08M4MIy69Bj1JKE9tFJGTu0cH7/TO05F8WDYea2UsqJEqSPD10On0/hUR4f+YIveMjy07Uc8j/PgmQg1VgM/F3tGwMZN1qSgnfnQOwHvui/fKoA=
