@@ -14,7 +14,7 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
     Config().getBrowsers.foreach(browser => {
       val browserEnhancedSpecText = s"$specText on $browser"
       scenario(browserEnhancedSpecText, testTags: _*)({ td =>
-        if (td.tags.contains("ignore")) {
+        if (td.tags.contains("Ignore")) {
           ignoreTest(td.name)
         } else {
           sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
