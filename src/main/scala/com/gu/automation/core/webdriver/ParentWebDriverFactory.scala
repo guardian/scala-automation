@@ -44,6 +44,7 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
       case "firefox" => DesiredCapabilities.firefox()
       case "chrome" => DesiredCapabilities.chrome()
       case "ie" => DesiredCapabilities.internetExplorer()
+      case "phantomjs" => DesiredCapabilities.phantomjs()
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
     }
     extraCapabilities.foreach(cap => initialCapabilities.setCapability(cap._1, cap._2))
