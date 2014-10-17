@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities
 import com.gu.automation.core.ParentWebDriverFactory
 import com.gu.automation.support.Config
 import com.gu.automation.support.Browser
+import org.openqa.selenium.phantomjs.PhantomJSDriver
 
 object LocalWebDriverFactory extends ParentWebDriverFactory {
 
@@ -16,6 +17,7 @@ object LocalWebDriverFactory extends ParentWebDriverFactory {
       case "firefox" => new FirefoxDriver(capabilities)
       case "chrome" => new ChromeDriver(capabilities)
       case "ie" => new InternetExplorerDriver(capabilities)
+      case "phantomjs" => new PhantomJSDriver(capabilities)
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
     }
   }

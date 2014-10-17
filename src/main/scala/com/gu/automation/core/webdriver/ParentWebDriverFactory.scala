@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.remote.{CapabilityType, Augmenter, DesiredCapabilities}
 import org.openqa.selenium.support.events.EventFiringWebDriver
+import org.openqa.selenium.phantomjs.PhantomJSDriverService
 
 import com.gu.automation.support.{Config, Browser, TestLogging}
 import com.gu.automation.support.page.WaitGet
@@ -44,6 +45,12 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
       case "firefox" => DesiredCapabilities.firefox()
       case "chrome" => DesiredCapabilities.chrome()
       case "ie" => DesiredCapabilities.internetExplorer()
+      case "phantomjs" => {
+        val caps = DesiredCapabilities.phantomjs()
+        caps.setJavascriptEnabled(true)
+        caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--web-security=no", "--ignore-ssl-errors=yes"))
+        caps
+      }
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
     }
     extraCapabilities.foreach(cap => initialCapabilities.setCapability(cap._1, cap._2))
