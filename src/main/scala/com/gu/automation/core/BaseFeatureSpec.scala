@@ -14,18 +14,22 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
     Config().getBrowsers.foreach(browser => {
       val browserEnhancedSpecText = s"$specText on $browser"
       scenario(browserEnhancedSpecText, testTags: _*)({ td =>
-        sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
-        MDC.put("ID", UUID.randomUUID().toString)
-        MDC.put("setName", Config().getProjectName())
-        MDC.put("setDate", BaseFeatureSpec.startTime.getMillis.toString)
-        MDC.put("testName", td.name)
-        MDC.put("testDate", DateTime.now.getMillis.toString)
-        MDC.put("phase", "STEP")
-        logger.info("[TEST START]") // starts websocket to T-Stash
-        logger.info("Test Name: " + td.name)
+        if (td.tags.contains("Ignore")) {
+          ignoreTest(td.name)
+        } else {
+          sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
+          MDC.put("ID", UUID.randomUUID().toString)
+          MDC.put("setName", Config().getProjectName())
+          MDC.put("setDate", BaseFeatureSpec.startTime.getMillis.toString)
+          MDC.put("testName", td.name)
+          MDC.put("testDate", DateTime.now.getMillis.toString)
+          MDC.put("phase", "STEP")
+          logger.info("[TEST START]") // starts websocket to T-Stash
+          logger.info("Test Name: " + td.name)
 
-        val driver = startDriver(td.name, browser)
-        executeTestWithScreenshotOnException(testFunction, driver, td.name)
+          val driver = startDriver(td.name, browser)
+          executeTestWithScreenshotOnException(testFunction, driver, td.name)
+        }
       })
     })
   }
@@ -55,6 +59,10 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       case e: Exception => logger.error("Error taking screen shot.")
     }
     throw e
+  }
+
+  private def ignoreTest(testName: String) = {
+    logger.info(s"Test ignored: $testName")
   }
 
 }
