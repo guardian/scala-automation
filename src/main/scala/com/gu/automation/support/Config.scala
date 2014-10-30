@@ -104,6 +104,14 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getOptionalUserContainer(user).getString("username")
   }
 
+  def getPrintSubscriptionCode(user: Option[String] = None): String = {
+    getOptionalUserContainer(user).getString("printSubscriptionCode")
+  }
+
+  def getPrintSubscriptionPostCode(user: Option[String] = None): String = {
+    getOptionalUserContainer(user).getString("printSubscriptionPostCode")
+  }
+
   def isAutoAcceptSSLCert(): Boolean = {
     config.getBoolean("autoAcceptSSLCert")
   }
