@@ -21,7 +21,6 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
         MDC.put("testName", td.name)
         MDC.put("testDate", DateTime.now.getMillis.toString)
         MDC.put("phase", "STEP")
-        logger.info("[TEST START]") // starts websocket to T-Stash
         logger.info("Test Name: " + td.name)
 
         val driver = startDriver(td.name, browser)
@@ -36,7 +35,6 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
     } catch {
       case e: Exception => failWithScreenshot(testName, driver, e)
     } finally {
-      logger.info("[TEST END]") // closes websocket to T-Stash
       driver.quit()
     }
   }
