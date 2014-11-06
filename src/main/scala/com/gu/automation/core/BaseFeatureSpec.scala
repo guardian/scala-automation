@@ -45,7 +45,7 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
       driver match {
         case ts: TakesScreenshot => {
           logger.info(s"[FAILED]${e.getMessage}")
-          logger.info("[SCREENSHOT]", ts.getScreenshotAs(OutputType.BYTES))
+          logger.info("[SCREENSHOT]", ts.getScreenshotAs(OutputType.FILE))
         }
         case _ => throw new RuntimeException("Driver can't take screen shots.")
       }
