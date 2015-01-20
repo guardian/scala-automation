@@ -1,6 +1,8 @@
 package com.gu.automation.core
 
 import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import java.nio.file.{Paths, Files}
 import java.util.UUID
 
 import com.gu.automation.support.{ Config, TestLogging }
@@ -25,7 +27,8 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
         MDC.put("testDate", DateTime.now.getMillis.toString)
         MDC.put("phase", "STEP")
         val tstashName = URLEncoder.encode(setName, "UTF-8")
-        println(s"http://54.77.196.196:9000/setLookup?setName=$tstashName&setDate=$setDate")
+        val tstashURL = s"http://54.77.196.196:9000/setLookup?setName=$tstashName&setDate=$setDate"
+        logger.info(s"[URL]$tstashURL")
         logger.info("Test Name: " + td.name)
 
         val driver = startDriver(td.name, browser)
