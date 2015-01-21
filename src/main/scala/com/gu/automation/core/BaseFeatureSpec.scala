@@ -1,5 +1,8 @@
 package com.gu.automation.core
 
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
+import java.nio.file.{Paths, Files}
 import java.util.UUID
 
 import com.gu.automation.support.{ Config, TestLogging }
@@ -14,13 +17,19 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
     Config().getBrowsers.foreach(browser => {
       val browserEnhancedSpecText = s"$specText on $browser"
       scenario(browserEnhancedSpecText, testTags: _*)({ td =>
-        sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
+        val tstashBaseURL = Config().getPluginValue("teststash.url")
+        sys.props.put("teststash.url", tstashBaseURL)
+        val setName = Config().getProjectName()
+        val setDate = BaseFeatureSpec.startTime.getMillis.toString
         MDC.put("ID", UUID.randomUUID().toString)
-        MDC.put("setName", Config().getProjectName())
-        MDC.put("setDate", BaseFeatureSpec.startTime.getMillis.toString)
+        MDC.put("setName", setName)
+        MDC.put("setDate", setDate)
         MDC.put("testName", td.name)
         MDC.put("testDate", DateTime.now.getMillis.toString)
         MDC.put("phase", "STEP")
+        val tstashName = URLEncoder.encode(setName, "UTF-8")
+        val tstashURL = s"$tstashBaseURL/setLookup?setName=$tstashName&setDate=$setDate"
+        logger.info(s"[URL]$tstashURL")
         logger.info("Test Name: " + td.name)
 
         val driver = startDriver(td.name, browser)
