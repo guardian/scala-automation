@@ -17,7 +17,8 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
     Config().getBrowsers.foreach(browser => {
       val browserEnhancedSpecText = s"$specText on $browser"
       scenario(browserEnhancedSpecText, testTags: _*)({ td =>
-        sys.props.put("teststash.url", Config().getPluginValue("teststash.url"))
+        val tstashBaseURL = Config().getPluginValue("teststash.url")
+        sys.props.put("teststash.url", tstashBaseURL)
         val setName = Config().getProjectName()
         val setDate = BaseFeatureSpec.startTime.getMillis.toString
         MDC.put("ID", UUID.randomUUID().toString)
@@ -27,7 +28,7 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
         MDC.put("testDate", DateTime.now.getMillis.toString)
         MDC.put("phase", "STEP")
         val tstashName = URLEncoder.encode(setName, "UTF-8")
-        val tstashURL = s"http://54.77.196.196:9000/setLookup?setName=$tstashName&setDate=$setDate"
+        val tstashURL = s"$tstashBaseURL/setLookup?setName=$tstashName&setDate=$setDate"
         logger.info(s"[URL]$tstashURL")
         logger.info("Test Name: " + td.name)
 
