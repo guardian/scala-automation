@@ -2,7 +2,7 @@
 
 ## Links
 - [![Build Status](https://travis-ci.org/guardian/scala-automation.svg?branch=master)](https://travis-ci.org/guardian/scala-automation) on branch master
-- [Version History](http://scala-automation.s3-website-eu-west-1.amazonaws.com/changelog.html)
+- [Version History](http://scala-automation.s3-website-eu-west-1.amazonaws.com/scala-automation-changelog.html)
 - [Project wiki - background information](https://sites.google.com/a/guardian.co.uk/qa/scala-automation)
 
 ## Creating a new Test project
