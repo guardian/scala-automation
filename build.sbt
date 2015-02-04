@@ -11,7 +11,7 @@ scalaVersion := "2.10.3"
 lazy val root = (project in file(".")).enablePlugins(ShipAutoPlugin)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest_2.10" % "2.2.4",
+  "org.scalatest" %% "scalatest" % "2.2.4",
   "org.seleniumhq.selenium" % "selenium-java" % "2.44.0",
   "com.typesafe" % "config" % "1.2.1",
   "com.google.code.findbugs" % "jsr305" % "1.3.+", // workaround for a Scala compiler bug, triggered by guava
