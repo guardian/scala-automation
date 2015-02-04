@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.1.2",
   "joda-time" % "joda-time" % "2.7",
   "org.joda" % "joda-convert" % "1.7", // workaround for a Scala compiler bug, triggered by joda-time
-  "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.2.0"
+  "com.codeborne" % "phantomjsdriver" % "1.2.1"
 )
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src/examples/scala"
