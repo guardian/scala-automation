@@ -11,15 +11,15 @@ scalaVersion := "2.10.3"
 lazy val root = (project in file(".")).enablePlugins(ShipAutoPlugin)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.0",
-  "org.seleniumhq.selenium" % "selenium-java" % "2.43.1",
+  "org.scalatest" %% "scalatest" % "2.2.4",
+  "org.seleniumhq.selenium" % "selenium-java" % "2.44.0",
   "com.typesafe" % "config" % "1.2.1",
   "com.google.code.findbugs" % "jsr305" % "1.3.+", // workaround for a Scala compiler bug, triggered by guava
   "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
   "ch.qos.logback" % "logback-classic" % "1.1.2",
-  "joda-time" % "joda-time" % "2.3",
-  "org.joda" % "joda-convert" % "1.2", // workaround for a Scala compiler bug, triggered by joda-time
-  "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0"
+  "joda-time" % "joda-time" % "2.7",
+  "org.joda" % "joda-convert" % "1.7", // workaround for a Scala compiler bug, triggered by joda-time
+  "com.codeborne" % "phantomjsdriver" % "1.2.1"
 )
 
 unmanagedSourceDirectories in Compile += baseDirectory.value / "src/examples/scala"
