@@ -8,10 +8,12 @@ import java.util.UUID
 import com.gu.automation.support.{ Config, TestLogging }
 import org.joda.time.DateTime
 import org.openqa.selenium.{ OutputType, TakesScreenshot, WebDriver }
+import org.scalatest.time.{Minutes, Span}
 import org.scalatest.{ Tag, fixture }
 import org.slf4j.MDC
+import org.scalatest.Retries
 
-abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with fixture.TestDataFixture {
+abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with WebDriverBase[T] with TestLogging with fixture.TestDataFixture with Retries{
 
   protected def scenarioWeb(specText: String, testTags: Tag*)(testFunction: T => Any) {
     Config().getBrowsers.foreach(browser => {
@@ -36,6 +38,13 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
         executeTestWithScreenshotOnException(testFunction, driver, td.name)
       })
     })
+  }
+
+  override def withFixture(test: NoArgTest) = {
+    if (isRetryable(test))
+      withRetryOnFailure (Span(1, Minutes))(super.withFixture(test))
+    else
+      super.withFixture(test)
   }
 
   private def executeTestWithScreenshotOnException[T <: WebDriver](testFunction: T => Any, driver: T, testName: String) = {
