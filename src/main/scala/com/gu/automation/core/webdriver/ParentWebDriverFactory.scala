@@ -48,7 +48,7 @@ abstract class ParentWebDriverFactory extends TestLogging with WebDriverFactory 
       case "phantomjs" => {
         val caps = DesiredCapabilities.phantomjs()
         caps.setJavascriptEnabled(true)
-        caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--web-security=no", "--ignore-ssl-errors=yes"))
+        caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, Array("--web-security=false", "--ignore-ssl-errors=true", "--ssl-protocol=any"))
         caps
       }
       case default => throw new RuntimeException(s"Browser: [$default] is not supported")
