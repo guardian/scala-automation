@@ -85,6 +85,10 @@ class Config(localFile: Option[Reader], projectFile: Option[Reader], frameworkFi
     getConfigValue("testBaseUrl")
   }
 
+  def getTestRunId(): Option[String] = {
+    getOption("testRunId")
+  }
+
   private def getOptionalUserContainer(user: Option[String]): com.typesafe.config.Config = {
     (user match {
       case None => config
