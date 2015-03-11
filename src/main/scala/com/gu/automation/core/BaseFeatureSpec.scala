@@ -30,7 +30,7 @@ abstract class BaseFeatureSpec[T <: WebDriver] extends fixture.FeatureSpec with 
         MDC.put("testDate", DateTime.now.getMillis.toString)
         MDC.put("phase", "STEP")
         val tstashName = URLEncoder.encode(setName, "UTF-8")
-        val testRunId = Config().getTestRunId()
+        val testRunId = Config().getTestRunId().getOrElse("")
         val tstashURL = s"$tstashBaseURL/setLookup?setName=$tstashName&setDate=$setDate"
         logger.info(s"[StartInfo]$tstashURL $testRunId")
         logger.info("Test Name: " + td.name)
