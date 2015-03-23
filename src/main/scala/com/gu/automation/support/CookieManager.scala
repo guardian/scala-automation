@@ -26,4 +26,12 @@ object CookieManager {
     addCookies(List((cookieName,cookieValue)))
   }
 
+  def getCookie(cookieName: String)(implicit driver: WebDriver): Cookie = {
+    driver.manage().getCookieNamed(cookieName)
+  }
+
+  def removeCookie(cookieName: String)(implicit driver: WebDriver) = {
+    driver.manage().deleteCookieNamed(cookieName)
+  }
+
 }
