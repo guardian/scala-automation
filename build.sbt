@@ -12,7 +12,7 @@ lazy val root = (project in file(".")).enablePlugins(ShipAutoPlugin)
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.4",
-  "org.seleniumhq.selenium" % "selenium-java" % "2.44.0",
+  "org.seleniumhq.selenium" % "selenium-java" % "2.45.0",
   "com.typesafe" % "config" % "1.2.1",
   "com.google.code.findbugs" % "jsr305" % "1.3.+", // workaround for a Scala compiler bug, triggered by guava
   "com.typesafe.scala-logging" %% "scala-logging-slf4j" % "2.1.2",
