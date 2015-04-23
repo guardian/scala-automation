@@ -97,3 +97,13 @@ For more information about the loginEmail, loginPassword and idApiRoot please se
 }
 ```
 What the properties, under the different environment objects do, is to override the properties defined in the root. So for example, in the above case, the browsers in the root will be overridden with firefox.
+
+## Headless web testing with PhantomJS
+
+It is possible to run headless web tests using PhantomJS. In order to do this, you will need to have the phantomjs binary installed in your $PATH.
+Once this is done, you just need to add
+```
+"browsers" : [{"name": "phantomjs"}]
+```
+to your configuration file.
+
